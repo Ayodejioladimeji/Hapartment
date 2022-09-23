@@ -4,6 +4,8 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 
+// const key = process.env.MAIL_KEY;
+
 // initialize express
 const app = express();
 
@@ -35,7 +37,7 @@ mongoose.connect(
 );
 
 // port
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 6000;
 
 // listen to port
 app.listen(PORT, () => {
