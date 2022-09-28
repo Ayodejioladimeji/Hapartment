@@ -1,4 +1,10 @@
 
 
+
 node_modules
 .env
+mail.js
+
+index.html
+
+sendMails.js

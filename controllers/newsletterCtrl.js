@@ -1,12 +1,19 @@
 const Newsletter = require("../models/newsletterModal");
 const mailchimp = require("@mailchimp/mailchimp_marketing");
-const sendEmail = require("./sendMail");
+const sendEmail = require("./sendMails");
 
 const newsletterCtrl = {
   newsletter: async (req, res) => {
     try {
-      const { email } = req.body;
+      const { email, fullname } = req.body;
 
+      if (!email || !fullname) {
+        return res
+          .status(400)
+          .json({ msg: "Please provide your fullname and email address" });
+      }
+
+      // Check if user email exist already in the database
       const check = await Newsletter.findOne({ email });
       if (check)
         return res.status(400).json({
@@ -15,47 +22,40 @@ const newsletterCtrl = {
 
       // mailchimp
       mailchimp.setConfig({
-        apiKey: "ed704bd6fe7c1e6ba419ba0be27eadd6-us8",
-        server: "us8",
+        apiKey: process.env.MAILCHIMP_API_KEY,
+        server: process.env.MAILCHIMP_API_SERVER,
       });
 
-      // fetching all members from mailchimp to check for existing members
-      const { members } = await mailchimp.lists.getListMembersInfo(
-        "2488e96dd4"
-      );
-
-      // get the email of each members
-      let getEmail;
-      members.forEach(async (item) => {
-        if (item.email_address === email) {
-          getEmail = item.email_address;
-        }
-      });
-
-      // check if email exists here...
-      if (getEmail) {
-        return res.status(400).json({
-          msg: "Thank you, You have already subscribed to our waitlist.",
-        });
-      }
+      // splitting the fullname
+      const name = fullname.split(" ");
 
       // Creating a new member here
-      await mailchimp.lists.addListMember("2488e96dd4", {
+      await mailchimp.lists.addListMember(process.env.MAILCHIMP_ID, {
         email_address: email,
         status: "subscribed",
+        merge_fields: {
+          FNAME: name[0],
+          LNAME: name[1],
+        },
       });
 
       // Create an Instance
       const newUser = new Newsletter({
+        fullname,
         email,
       });
 
       //   Save to the database
       await newUser.save();
-      // sendEmail(email);
+
+      sendEmail(email, name[0]);
 
       return res.json({ msg: "Thank you for Joining our waitlist", newUser });
     } catch (err) {
+      if (err.message === "Bad Request") {
+        return res.status(400).json({ msg: "You already joined our waitlist" });
+      }
+
       return res.status(500).json({ msg: err.message });
     }
   },
@@ -64,12 +64,13 @@ const newsletterCtrl = {
     try {
       // mailchimp
       mailchimp.setConfig({
-        apiKey: "ed704bd6fe7c1e6ba419ba0be27eadd6-us8",
-        server: "us8",
+        apiKey: process.env.MAILCHIMP_API_KEY,
+        server: process.env.MAILCHIMP_API_SERVER,
       });
 
-      const response = await mailchimp.lists.getListMembersInfo("2488e96dd4");
-      console.log(response.members);
+      const response = await mailchimp.lists.getListMembersInfo(
+        process.env.MAILCHIMP_ID
+      );
 
       res.json({ msg: "Data fetched successfully", response });
     } catch (err) {
