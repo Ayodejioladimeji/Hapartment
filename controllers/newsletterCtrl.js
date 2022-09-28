@@ -48,6 +48,7 @@ const newsletterCtrl = {
       //   Save to the database
       await newUser.save();
 
+      // Send email to user
       sendEmail(email, name[0]);
 
       return res.json({ msg: "Thank you for Joining our waitlist", newUser });
