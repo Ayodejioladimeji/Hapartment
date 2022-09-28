@@ -4,8 +4,6 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 
-// const key = process.env.MAIL_KEY;
-
 // initialize express
 const app = express();
 
