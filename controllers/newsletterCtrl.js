@@ -1,6 +1,6 @@
 const Newsletter = require("../models/newsletterModal");
 const mailchimp = require("@mailchimp/mailchimp_marketing");
-const sendEmail = require("./sendMails");
+const sendMails = require("../mails/sendMails");
 
 const newsletterCtrl = {
   newsletter: async (req, res) => {
@@ -49,7 +49,7 @@ const newsletterCtrl = {
       await newUser.save();
 
       // Send email to user
-      sendEmail(email, name[0]);
+      sendMails(email, name[0]);
 
       return res.json({ msg: "Thank you for Joining our waitlist", newUser });
     } catch (err) {
