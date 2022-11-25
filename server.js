@@ -14,7 +14,8 @@ app.use(cors());
 
 // routes
 
-app.use("/api", require("./routes/newsletterRouter"));
+app.use("/api/v1", require("./routes/newsletterRouter"));
+app.use("/api/v1", require("./routes/userRouter"));
 
 app.get("/", (req, res) => {
   res.json({ Text: "Welcome to our websites" });
