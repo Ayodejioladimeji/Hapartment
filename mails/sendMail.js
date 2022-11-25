@@ -1,0 +1,302 @@
+const nodemailer = require("nodemailer");
+const { google } = require("googleapis");
+const { OAuth2 } = google.auth;
+const OAUTH_PLAYGROUND = "https://developers.google.com/oauthplayground";
+
+//
+const {
+  MAILING_SERVICE_CLIENT_ID,
+  MAILING_SERVICE_CLIENT_SECRET,
+  MAILING_SERVICE_REFRESH_TOKEN,
+  SENDER_EMAIL_ADDRESS,
+} = process.env;
+
+const oauth2Client = new OAuth2(
+  MAILING_SERVICE_CLIENT_ID,
+  MAILING_SERVICE_CLIENT_SECRET,
+  MAILING_SERVICE_REFRESH_TOKEN,
+  OAUTH_PLAYGROUND
+);
+
+// send mail
+const sendMail = (to, fullname) => {
+  oauth2Client.setCredentials({
+    refresh_token: MAILING_SERVICE_REFRESH_TOKEN,
+  });
+
+  const accessToken = oauth2Client.getAccessToken();
+  const smtpTransport = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      type: "OAuth2",
+      user: SENDER_EMAIL_ADDRESS,
+      clientId: MAILING_SERVICE_CLIENT_ID,
+      clientSecret: MAILING_SERVICE_CLIENT_SECRET,
+      refreshToken: MAILING_SERVICE_REFRESH_TOKEN,
+      accessToken,
+    },
+  });
+
+  const mailOptions = {
+    from: "layobright11@gmail.com",
+    to: to,
+    subject: "Welcome to Hapartment",
+    html: `
+      <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <style type="text/css">
+      @import url("https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Inter:wght@400;500;600;700&family=Nunito+Sans:wght@400;600;700;800&family=Roboto:wght@300;500;700;900&display=swap");
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: "arial";
+      }
+
+      .major-container {
+        width: 100%;
+        padding: 30px 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .main-container {
+        width: 100%;
+        background: #fff;
+        padding: 0 0 20px 0;
+        border: 2px solid #449342;
+      }
+
+      .nav {
+        width: 100%;
+      }
+
+      .nav img {
+        width: 100%;
+      }
+
+      /* mainbody */
+      .main-body {
+        margin-top: 10px;
+        padding: 20px;
+        height: 100%;
+      }
+
+      .main-body h3 {
+        font-size: 22px;
+        font-weight: 700;
+        color: #1a083e;
+        font-family: "Roboto";
+      }
+
+      .main-body h2 {
+        font-size: 20px;
+        margin-top: 20px;
+      }
+
+      .main-body p {
+        font-size: 16px;
+        line-height: 25px;
+        font-family: "arial";
+        margin: 10px 0;
+      }
+
+      .main-body small {
+        font-size: 16px;
+      }
+
+      .main-body h1 {
+        margin: 40px 0;
+      }
+
+      .main-images img {
+        width: 100%;
+        height: 300px;
+        border: 2px solid #449342;
+        object-fit: cover;
+      }
+
+      .main-body .thanks {
+        text-align: left;
+        display: block;
+        margin-bottom: 40px;
+        font-size: 14px;
+        margin-top: 50px;
+        line-height: 25px;
+      }
+
+      .main-body span {
+        display: block;
+        margin-top: 20px;
+        color: #7e7e7e;
+        font-size: 14px;
+        line-height: 25px;
+        text-align: center;
+      }
+
+      .main-body span strong {
+        color: #1a083e;
+      }
+
+      .social-icons {
+        margin: 40px auto 20px auto;
+        text-align: center;
+      }
+
+      .social-icons a {
+        text-decoration: none;
+      }
+
+      .social-icons a img {
+        width: 25px;
+        height: 25px;
+        margin-right: 5px;
+      }
+
+      .main-body .copyrights {
+        font-size: 13px;
+        color: #7e7e7e;
+        text-align: center;
+        display: block;
+      }
+
+      /* The responsiveness section */
+      @media (min-width: 768px) {
+        .main-container {
+          width: 700px;
+        }
+      }
+
+      @media (max-width: 500px) {
+        .nav {
+          margin-bottom: 0px;
+        }
+
+        .main-body {
+          padding: 0px 10px;
+        }
+
+        .main-body h3 {
+          font-size: 18px;
+        }
+
+        .main-body h2 {
+          font-size: 15px;
+        }
+
+        .main-body p {
+          font-size: 14px;
+        }
+
+        .main-body span {
+          font-size: 12px;
+        }
+
+        .main-images img {
+          height: 170px;
+        }
+
+        .main-body .copyrights {
+          font-size: 12px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="major-container" style="width: 100%">
+      <div class="main-container" style="margin: 0 auto">
+        <nav class="nav">
+          <img
+            style="width: 100%"
+            src="https://res.cloudinary.com/devsource/image/upload/v1664196560/hapartment/Facebook_cover_-_2_3_cm03oa.png"
+          />
+        </nav>
+
+        <div class="main-body">
+          <h2>Hi ${fullname},</h2>
+          <br />
+          <p>
+            Thank you for your interest in our product, We’re thrilled to have
+            you on board.
+          </p>
+
+          <p>
+            You will be the first to be notified when we launch, which will be
+            very soon.
+          </p>
+
+          <div class="main-images">
+            <img
+              src="https://res.cloudinary.com/devsource/image/upload/v1664194285/hapartment/62_wjqjtf.jpg"
+              alt=""
+            />
+          </div>
+
+          <p>
+            We’ll be sending you important news and updates about Hapartment,
+            we’ll also send you exclusive deals on new available homes in your
+            location and apartments for rent.
+          </p>
+
+          <small class="thanks"
+            >Regards,<br />
+            <b>Hapartment team</b>
+          </small>
+
+          <hr />
+
+          <span
+            >If you have any questions, concerns or feedback, kindly reach us on
+            <strong>support@hapartment.org</strong> or chat us across all our
+            social media handles.
+          </span>
+
+          <div class="social-icons">
+            <a href="https://www.facebook.com" target="_blank"
+              ><img
+                src="https://res.cloudinary.com/devsource/image/upload/v1663903291/hapartment/facebook-square-brands_nsdfa6.png"
+                alt=""
+              />
+            </a>
+            <a href="https://www.instagram.com/" target="_blank"
+              ><img
+                src="https://res.cloudinary.com/devsource/image/upload/v1663903291/hapartment/instagram-square-brands_1_hljzgv.png"
+                alt=""
+              />
+            </a>
+            <a href="" target="_blank"
+              ><img
+                src="https://res.cloudinary.com/devsource/image/upload/v1663903291/hapartment/twitter-square-brands_gkupmf.png"
+                alt=""
+              />
+            </a>
+          </div>
+
+          <small class="copyrights">
+            © 2022 hapartment. All Rights Reserved.
+          </small>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+    `,
+  };
+
+  smtpTransport.sendMail(mailOptions, (err, infor) => {
+    if (err) return err;
+    return infor;
+  });
+};
+
+module.exports = sendMail;
