@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const { validationResult } = require("express-validator");
 const bcrypt = require("bcrypt");
 const { strictRemoveComma } = require("comma-separator");
-const registerMail = require("../mails/sendMail");
+const registerMail = require("../mails/registerMail");
 const forgotPasswordMail = require("../mails/forgotPasswordMail");
 
 //
