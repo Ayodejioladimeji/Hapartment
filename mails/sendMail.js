@@ -9,7 +9,6 @@ const {
   MAILING_SERVICE_CLIENT_SECRET,
   MAILING_SERVICE_REFRESH_TOKEN,
   SENDER_EMAIL_ADDRESS,
-  SENDER_EMAIL,
 } = process.env;
 
 const oauth2Client = new OAuth2(
@@ -19,8 +18,8 @@ const oauth2Client = new OAuth2(
   OAUTH_PLAYGROUND
 );
 
-// send register mail
-const registerMail = (to, fullname, code) => {
+// send mail
+const sendMail = (to, fullname) => {
   oauth2Client.setCredentials({
     refresh_token: MAILING_SERVICE_REFRESH_TOKEN,
   });
@@ -39,7 +38,7 @@ const registerMail = (to, fullname, code) => {
   });
 
   const mailOptions = {
-    from: SENDER_EMAIL,
+    from: "layobright11@gmail.com",
     to: to,
     subject: "Welcome to Hapartment",
     html: `
@@ -88,19 +87,9 @@ const registerMail = (to, fullname, code) => {
 
       /* mainbody */
       .main-body {
+        margin-top: 10px;
         padding: 20px;
         height: 100%;
-      }
-
-      .heading {
-        color: green;
-        text-align: center;
-        margin-bottom: 50px;
-      }
-
-      .code {
-        text-align: center;
-        color: green;
       }
 
       .main-body h3 {
@@ -128,6 +117,13 @@ const registerMail = (to, fullname, code) => {
 
       .main-body h1 {
         margin: 40px 0;
+      }
+
+      .main-images img {
+        width: 100%;
+        height: 300px;
+        border: 2px solid #449342;
+        object-fit: cover;
       }
 
       .main-body .thanks {
@@ -227,15 +223,23 @@ const registerMail = (to, fullname, code) => {
         </nav>
 
         <div class="main-body">
-          <h2 class="heading">Your registration was successful</h2>
-
           <h2>Hi ${fullname},</h2>
           <br />
-          <p>Thank you for signing up on hapartment</p>
+          <p>
+            Thank you for your interest in our product, We’re thrilled to have
+            you on board.
+          </p>
 
-          <div class="content">
-            <p>Please verify your email address with this one time password</p>
-            <h1 class="code">${code}</h1>
+          <p>
+            You will be the first to be notified when we launch, which will be
+            very soon.
+          </p>
+
+          <div class="main-images">
+            <img
+              src="https://res.cloudinary.com/devsource/image/upload/v1664194285/hapartment/62_wjqjtf.jpg"
+              alt=""
+            />
           </div>
 
           <p>
@@ -286,7 +290,6 @@ const registerMail = (to, fullname, code) => {
     </div>
   </body>
 </html>
-
     `,
   };
 
@@ -296,4 +299,4 @@ const registerMail = (to, fullname, code) => {
   });
 };
 
-module.exports = registerMail;
+module.exports = sendMail;

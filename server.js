@@ -36,7 +36,7 @@ mongoose.connect(
 );
 
 // port
-const PORT = process.env.PORT || 6000;
+const PORT = process.env.PORT || 8000;
 
 // listen to port
 app.listen(PORT, () => {
