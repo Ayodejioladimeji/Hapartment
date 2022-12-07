@@ -5,6 +5,7 @@ const bcrypt = require("bcrypt");
 const { strictRemoveComma } = require("comma-separator");
 const registerMail = require("../mails/registerMail");
 const forgotPasswordMail = require("../mails/forgotPasswordMail");
+const resendCodeMail = require("../mails/resendCodeMail");
 
 //
 
@@ -44,7 +45,7 @@ const userCtrl = {
         fullname,
         email,
         username,
-        userType: "agent",
+        userType,
         password: passwordHash,
         code,
       };
@@ -81,7 +82,7 @@ const userCtrl = {
 
       // Check the code provided by the user
       if (strictRemoveComma(auth_code) !== strictRemoveComma(code)) {
-        return res.status(401).json({ msg: "Invalid code" });
+        return res.status(401).json({ msg: "PLease provide a valid code" });
       }
 
       // check if the user already exists in the database
@@ -106,6 +107,49 @@ const userCtrl = {
           .status(401)
           .json({ msg: "One Time Code expired, register again" });
       }
+      return res.status(500).json({ msg: error.message });
+    }
+  },
+
+  // Resend code to the user
+  resend: async (req, res) => {
+    try {
+      const { activationtoken } = req.body;
+
+      // Generate the one-time verication code
+
+      const code = Math.floor(Math.random() * (9999 - 1000) + 1000).toString();
+
+      // validate the activation token received
+      const user = jwt.verify(
+        activationtoken,
+        process.env.ACTIVATION_TOKEN_SECRET
+      );
+
+      const { fullname, email, username, userType, password } = user;
+
+      // create user object
+      const newUser = {
+        fullname,
+        email,
+        username,
+        userType,
+        password,
+        code,
+      };
+
+      // Create activation token to save the userdata till they are verified
+      const activation_token = createActivationToken(newUser);
+
+      // send email to the newly registered user
+      resendCodeMail(email, fullname, code);
+
+      // send feedback to the client side
+      res.json({
+        msg: "Code sent!, please check your mail to activate your account",
+        activation_token,
+      });
+    } catch (error) {
       return res.status(500).json({ msg: error.message });
     }
   },
@@ -220,7 +264,7 @@ const userCtrl = {
 // Activation token
 const createActivationToken = (payload) => {
   return jwt.sign(payload, process.env.ACTIVATION_TOKEN_SECRET, {
-    expiresIn: "10m",
+    expiresIn: "15m",
   });
 };
 
