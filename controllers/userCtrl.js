@@ -266,6 +266,34 @@ const userCtrl = {
       return res.status(500).json({ msg: error.message });
     }
   },
+
+  // change your password
+  changePassword: async (req, res) => {
+    try {
+      const { account_password, new_password } = req.body;
+
+      const user = await User.findOne({ email: req.user.email });
+      if (!user) return res.status(400).json({ msg: "User not found" });
+
+      // check if the password matched
+      const isMatch = await bcrypt.compare(account_password, user.password);
+      if (!isMatch)
+        return res.status(400).json({ msg: "Account password is incorrect" });
+
+      const passwordHash = await bcrypt.hash(new_password, 12);
+
+      await User.findOneAndUpdate(
+        { id: req.user.id },
+        {
+          password: passwordHash,
+        }
+      );
+
+      res.json({ msg: "Password successfully changed!" });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
 };
 
 // ===========================

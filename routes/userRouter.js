@@ -18,6 +18,7 @@ router.post("/resend", userCtrl.resend);
 router.post("/login", userCtrl.login);
 router.post("/forgotpassword", userCtrl.forgotPassword);
 router.post("/resetpassword", userCtrl.resetPassword);
+router.post("/changepassword", auth, userCtrl.changePassword);
 
 // get
 router.get("/user", auth, userCtrl.getUser);
