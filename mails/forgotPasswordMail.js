@@ -9,6 +9,7 @@ const {
   MAILING_SERVICE_CLIENT_SECRET,
   MAILING_SERVICE_REFRESH_TOKEN,
   SENDER_EMAIL_ADDRESS,
+  SENDER_EMAIL,
 } = process.env;
 
 const oauth2Client = new OAuth2(
@@ -38,7 +39,7 @@ const forgotPasswordMail = (to, code) => {
   });
 
   const mailOptions = {
-    from: SENDER_EMAIL_ADDRESS,
+    from: SENDER_EMAIL,
     to: to,
     subject: "Forgot Password",
     html: `

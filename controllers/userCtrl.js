@@ -45,7 +45,7 @@ const userCtrl = {
         fullname,
         email,
         username,
-        userType,
+        userType: "agent",
         password: passwordHash,
         code,
       };
@@ -105,7 +105,7 @@ const userCtrl = {
       if (error.message === "jwt expired") {
         return res
           .status(401)
-          .json({ msg: "One Time Code expired, register again" });
+          .json({ msg: "Session expired, Resend code again" });
       }
       return res.status(500).json({ msg: error.message });
     }
@@ -144,7 +144,7 @@ const userCtrl = {
       // send email to the newly registered user
       resendCodeMail(email, fullname, code);
 
-      // send feedback to the client side
+      // send feedbac to the client side
       res.json({
         msg: "Code sent!, please check your mail to activate your account",
         activation_token,
@@ -203,7 +203,9 @@ const userCtrl = {
 
       // Generate the one-time verication code
 
-      const code = Math.floor(Math.random() * (9999 - 1000) + 1000).toString();
+      const code = Math.floor(
+        Math.random() * (99999999 - 10000000) + 10000000
+      ).toString();
 
       const authorised = {
         id: user._id,
@@ -255,6 +257,12 @@ const userCtrl = {
 
       res.json({ msg: "Password successfully changed!" });
     } catch (error) {
+      if (error.message === "jwt expired") {
+        return res
+          .status(401)
+          .json({ msg: "Session expired, Please try again" });
+      }
+
       return res.status(500).json({ msg: error.message });
     }
   },
