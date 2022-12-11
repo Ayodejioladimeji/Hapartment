@@ -27,6 +27,35 @@ const userSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+    image: {
+      type: String,
+      default: null,
+    },
+
+    verification: [
+      {
+        fullname: {
+          type: String,
+          default: "",
+        },
+        phone: {
+          type: String,
+          default: "",
+        },
+        image: {
+          type: String,
+          default: "",
+        },
+        document: {
+          type: String,
+          default: "",
+        },
+        isVerified: {
+          type: String,
+          default: "",
+        },
+      },
+    ],
   },
   {
     timestamps: true,
