@@ -45,7 +45,7 @@ const userCtrl = {
         fullname,
         email,
         username,
-        userType: "agent",
+        userType,
         password: passwordHash,
         code,
       };
@@ -292,6 +292,26 @@ const userCtrl = {
       res.json({ msg: "Password successfully changed!" });
     } catch (error) {
       return res.status(500).json({ msg: error.message });
+    }
+  },
+
+  // update user profile
+  updateUser: async (req, res) => {
+    try {
+      const { fullname, username, image } = req.body;
+
+      await User.findOneAndUpdate(
+        { _id: req.user.id },
+        {
+          fullname,
+          username,
+          image,
+        }
+      );
+
+      res.json({ msg: "Account information updated successfully" });
+    } catch (error) {
+      res.status(500).json({ msg: error.message });
     }
   },
 };

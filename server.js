@@ -3,6 +3,9 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
+const swaggerJsDoc = require("swagger-jsdoc");
+const swaggerUI = require("swagger-ui-express");
+const swaggerDocument = require("./swagger.json");
 
 // initialize express
 const app = express();
@@ -12,14 +15,32 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(cors());
 
+// swagger documentation
+// const swaggerOptions = {
+//   swaggerDefinition: {
+//     info: {
+//       title: "Hapartment Backend API",
+//       version: "1.0.0",
+//       description:
+//         "We help users search for apartment easily and provide them with adequate information to help them make well-informed decisions.",
+//     },
+//   },
+//   apis: ["./routes/userRouter*.js"],
+// };
+
+// const swaggerDocs = swaggerJsDoc(swaggerOptions);
+// app.use("/", swaggerUI.serve, swaggerUI.setup(swaggerDocs));
+
+app.use("/", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
+
 // routes
 
 app.use("/api/v1", require("./routes/newsletterRouter"));
 app.use("/api/v1", require("./routes/userRouter"));
 
-app.get("/", (req, res) => {
-  res.json({ Text: "Welcome to our websites" });
-});
+// app.get("/", (req, res) => {
+//   res.json({ Text: "Hapartment API", Version: "1.0.0" });
+// });
 
 // connect to mongo db
 const URI = process.env.MONGO_URI;
