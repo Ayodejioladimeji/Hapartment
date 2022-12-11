@@ -21,6 +21,7 @@ router.post("/resetpassword", userCtrl.resetPassword);
 router.post("/changepassword", auth, userCtrl.changePassword);
 
 // get
+
 router.get("/user", auth, userCtrl.getUser);
 
 module.exports = router;

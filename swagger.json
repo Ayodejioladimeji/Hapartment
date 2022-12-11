@@ -1,0 +1,177 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Hapartment Backend API 1.0",
+    "description": "We help users search for apartment easily and provide them with adequate information to help them make well-informed decisions.\n\nVisit website on  [https://hapartment.org](https://hapartment.org). \n\nHapartment is bringing agents with renters together by providing them with the simplest and most cost-effective route to renting properties online\"",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.hapartment.org"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Hapartment",
+      "description": "Easy way to find a perfect home",
+      "externalDocs": {
+        "description": "Visit our website",
+        "url": "https://hapartment.org"
+      }
+    }
+  ],
+  "paths": {
+    "/api/v1/register": {
+      "post": {
+        "tags": ["user"],
+        "summary": "Create a user",
+        "description": "Create a new user with user information.",
+        "operationId": "createUser",
+        "requestBody": {
+          "description": "Login user object",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Register"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/Register"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/Register"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Internal Server error"
+          },
+          "default": {
+            "description": "Registration Successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Register"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Register"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/login": {
+      "post": {
+        "tags": ["user"],
+        "summary": "Login a user",
+        "description": "Login a user.",
+        "operationId": "LoginUser",
+        "requestBody": {
+          "description": "Login user object",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Login"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/Login"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/Login"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Internal Server error"
+          },
+          "default": {
+            "description": "Login Successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Login"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Login"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Register": {
+        "type": "object",
+        "properties": {
+          "fullname": {
+            "type": "string",
+            "example": "Ayodeji Oladimeji"
+          },
+          "username": {
+            "type": "string",
+            "example": "layobright"
+          },
+          "email": {
+            "type": "string",
+            "example": "layobright@email.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "Layobright1@"
+          }
+        },
+        "xml": {
+          "name": "users"
+        }
+      },
+      "Login": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "layobright@email.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "Layobright1@"
+          }
+        },
+        "xml": {
+          "name": "users"
+        }
+      }
+    }
+  }
+}
