@@ -31,8 +31,6 @@ app.use(cors());
 // const swaggerDocs = swaggerJsDoc(swaggerOptions);
 // app.use("/", swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 
-app.use("/", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
-
 // routes
 
 app.use("/api/v1", require("./routes/newsletterRouter"));
@@ -58,6 +56,8 @@ mongoose.connect(
 
 // port
 const PORT = process.env.PORT || 8000;
+
+app.use("/", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 // listen to port
 app.listen(PORT, () => {
