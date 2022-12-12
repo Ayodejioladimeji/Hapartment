@@ -29,7 +29,8 @@
     "googleapis": "^107.0.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.6.1",
-    "nodemailer": "^6.7.8"
+    "nodemailer": "^6.7.8",
+    "request": "^2.88.2"
   },
   "devDependencies": {
     "nodemon": "^2.0.20"
