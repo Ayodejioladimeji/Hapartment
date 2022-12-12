@@ -34,25 +34,29 @@ const userSchema = new mongoose.Schema(
 
     verification: [
       {
-        fullname: {
+        identity_name: {
           type: String,
-          default: "",
+          default: null,
         },
-        phone: {
+        identity_mobile: {
           type: String,
-          default: "",
+          default: null,
         },
-        image: {
+        identity_selfie: {
           type: String,
-          default: "",
+          default: null,
         },
-        document: {
+        identity_document: {
           type: String,
-          default: "",
+          default: null,
+        },
+        documentType: {
+          type: String,
+          default: null,
         },
         isVerified: {
           type: String,
-          default: "",
+          default: null,
         },
       },
     ],
