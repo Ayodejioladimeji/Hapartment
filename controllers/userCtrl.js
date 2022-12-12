@@ -321,19 +321,17 @@ const userCtrl = {
       const {
         identity_name,
         identity_mobile,
-        identity_document,
         identity_selfie,
-        documentType,
+        identity_document,
+        document_type,
       } = req.body;
-
-      console.log(req.body);
 
       if (
         identity_name === null ||
         identity_mobile === null ||
         identity_selfie === null ||
         identity_document === null ||
-        documentType === null
+        document_type === null
       ) {
         return res
           .status(400)
@@ -345,9 +343,11 @@ const userCtrl = {
         identity_mobile,
         identity_selfie,
         identity_document,
-        documentType,
+        document_type,
         isVerified: "true",
       };
+
+      console.log(newData);
 
       await User.findOneAndUpdate(
         { _id: req.user.id },

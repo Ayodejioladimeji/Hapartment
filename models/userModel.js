@@ -50,7 +50,7 @@ const userSchema = new mongoose.Schema(
           type: String,
           default: null,
         },
-        documentType: {
+        document_type: {
           type: String,
           default: null,
         },
