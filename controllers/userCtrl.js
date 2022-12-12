@@ -316,6 +316,53 @@ const userCtrl = {
       res.status(500).json({ msg: error.message });
     }
   },
+
+  // verify agent
+  verifyAgent: async (req, res) => {
+    try {
+      const {
+        identity_name,
+        identity_mobile,
+        identity_document,
+        identity_selfie,
+        documentType,
+      } = req.body;
+
+      console.log(req.body);
+
+      if (
+        identity_name === null ||
+        identity_mobile === null ||
+        identity_selfie === null ||
+        identity_document === null ||
+        documentType === null
+      ) {
+        return res
+          .status(400)
+          .json({ msg: "Please provide necessary informations" });
+      }
+
+      const newData = {
+        identity_name,
+        identity_mobile,
+        identity_selfie,
+        identity_document,
+        documentType,
+        isVerified: "true",
+      };
+
+      await User.findOneAndUpdate(
+        { _id: req.user.id },
+        {
+          verification: newData,
+        }
+      );
+
+      res.json({ msg: "Identity verification successful" });
+    } catch (error) {
+      res.status(500).json({ msg: error.message });
+    }
+  },
 };
 
 // ===========================

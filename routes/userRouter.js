@@ -21,6 +21,7 @@ router.post("/forgotpassword", userCtrl.forgotPassword);
 router.post("/resetpassword", userCtrl.resetPassword);
 router.post("/changepassword", auth, userCtrl.changePassword);
 router.patch("/updateuser", auth, userCtrl.updateUser);
+router.patch("/verifyagent", auth, userCtrl.verifyAgent);
 
 // get request
 router.get("/user", auth, userCtrl.getUser);
