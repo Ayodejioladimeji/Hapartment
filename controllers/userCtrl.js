@@ -347,8 +347,6 @@ const userCtrl = {
         isVerified: "pending",
       };
 
-      console.log(newData);
-
       await User.findOneAndUpdate(
         { _id: req.user.id },
         {
