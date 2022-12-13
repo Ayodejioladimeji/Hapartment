@@ -65,12 +65,65 @@ const listCtrl = {
         category,
         area_guide,
         images,
+        postedBy: req.user,
       });
 
       await newListing.save();
       res.json({
         msg: "Property under review for approval, this can take up to 1hr, you will get a mail from us as soon as it is approved! ",
       });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
+
+  //   get all listings
+  allListing: async (req, res) => {
+    try {
+      const user = await User.findById(req.user.id);
+      if (!user)
+        return res.status(400).json({ msg: "Please login to continue" });
+
+      const listing = await Listing.find()
+        .populate("postedBy", "_id fullname email username image ")
+        .sort("-createdAt");
+
+      res.json(listing);
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
+
+  //   Listing details
+  listDetails: async (req, res) => {
+    try {
+      // check if user is logged in
+      const user = await User.findById(req.user.id);
+      if (!user)
+        return res.status(400).json({ msg: "Please login to continue" });
+
+      const list_details = await Listing.findById(req.params.id);
+
+      res.json(list_details);
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
+
+  //   get my listings by agents
+  myListing: async (req, res) => {
+    try {
+      const user = await User.findById(req.user.id);
+      if (!user)
+        return res.status(400).json({ msg: "Please login to continue" });
+
+      const listing = await Listing.find({ user: req.user.id })
+        .populate("postedBy", "_id fullname email username image ")
+        .sort("-createdAt");
+
+      if (!listing) return res.status(400).json({ msg: "No properties found" });
+
+      res.json(listing);
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }
