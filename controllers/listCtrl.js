@@ -65,6 +65,7 @@ const listCtrl = {
         category,
         area_guide,
         images,
+        postedBy: req.user,
       });
 
       await newListing.save();
