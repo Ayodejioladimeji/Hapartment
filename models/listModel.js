@@ -23,6 +23,18 @@ const listingSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    statename: {
+      type: String,
+      required: true,
+    },
+    cityname: {
+      type: String,
+      required: true,
+    },
+    bedrooms: {
+      type: String,
+      required: true,
+    },
     bathrooms: {
       type: String,
       required: true,
@@ -66,6 +78,10 @@ const listingSchema = new mongoose.Schema(
     images: {
       type: Array,
       required: true,
+    },
+    video: {
+      type: String,
+      default: "",
     },
     postedBy: {
       type: ObjectId,

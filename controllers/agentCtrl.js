@@ -6,10 +6,6 @@ const Listing = require("../models/listModel");
 const agentCtrl = {
   allAgents: async (req, res) => {
     try {
-      const user = await User.findById(req.user.id);
-      if (!user)
-        return res.status(400).json({ msg: "Please login to continue" });
-
       const all_users = await User.find().sort("-createdAt");
 
       const agents = all_users.filter((item) => item.userType === "agent");
@@ -37,7 +33,7 @@ const agentCtrl = {
       const all_listing = await Listing.find();
 
       const agent_listing = all_listing.filter(
-        (item) => item.postedBy.toString() === req.params.id
+        (item) => item.postedBy._id.toString() === req.params.id
       );
       res.json({
         agent_details: agent_details,
