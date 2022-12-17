@@ -26,9 +26,6 @@ const newsletterCtrl = {
         server: process.env.MAILCHIMP_API_SERVER,
       });
 
-      // splitting the fullname
-      const name = fullname.split(" ");
-
       // Creating a new member here
       await mailchimp.lists.addListMember(process.env.MAILCHIMP_ID, {
         email_address: email,
@@ -44,11 +41,14 @@ const newsletterCtrl = {
       await newUser.save();
 
       // Send email to user
-      sendMail(email, name[0]);
+      sendMail(email);
 
       return res.json({ msg: "Thank you for Joining our waitlist", newUser });
     } catch (err) {
+      const { email } = req.body;
+
       if (err.message === "Bad Request") {
+        sendMail(email);
         return res.status(400).json({ msg: "You already joined our waitlist" });
       }
 
