@@ -10,6 +10,9 @@ const listCtrl = {
         country,
         state,
         city,
+        statename,
+        cityname,
+        bedrooms,
         bathrooms,
         toilets,
         furnishing,
@@ -18,7 +21,7 @@ const listCtrl = {
         description,
         price,
         category,
-        area_guide,
+        video,
         images,
       } = req.body;
 
@@ -36,7 +39,6 @@ const listCtrl = {
         !description ||
         !price ||
         !category ||
-        !area_guide ||
         !images
       ) {
         return res
@@ -55,6 +57,9 @@ const listCtrl = {
         country,
         state,
         city,
+        statename,
+        cityname,
+        bedrooms,
         bathrooms,
         toilets,
         furnishing,
@@ -63,7 +68,7 @@ const listCtrl = {
         description,
         price,
         category,
-        area_guide,
+        video,
         images,
         postedBy: req.user,
       });
@@ -80,10 +85,6 @@ const listCtrl = {
   //   get all listings
   allListing: async (req, res) => {
     try {
-      const user = await User.findById(req.user.id);
-      if (!user)
-        return res.status(400).json({ msg: "Please login to continue" });
-
       const listing = await Listing.find()
         .populate("postedBy", "_id fullname email username image ")
         .sort("-createdAt");
