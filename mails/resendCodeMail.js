@@ -252,21 +252,21 @@ const resendCodeMail = (to, fullname, code) => {
           </span>
 
           <div class="social-icons">
-            <a href="https://www.facebook.com" target="_blank"
+            <a href="https://www.facebook.com/profile.php?id=100085724386292&mibextid=ZbWKwL" target="_blank"
               ><img
-                src="https://www.facebook.com/profile.php?id=100085724386292&mibextid=ZbWKwL"
+                src="https://res.cloudinary.com/devsource/image/upload/v1671294040/hapartment/facebook_mg52gn.png"
                 alt="facebook"
               />
             </a>
-            <a href="https://www.instagram.com/" target="_blank"
+            <a href="https://www.instagram.com/invites/contact/?i=1pqlgg45pg0nl&utm_content=pldblyb" target="_blank"
               ><img
-                src="https://www.instagram.com/invites/contact/?i=1pqlgg45pg0nl&utm_content=pldblyb"
+                src="https://res.cloudinary.com/devsource/image/upload/v1671294036/hapartment/instagram_qqugwq.png"
                 alt="instagram"
               />
             </a>
-            <a href="" target="_blank"
+            <a href="https://twitter.com/Hapartment11?t=cmOAR5aAypWeGzbLvebt-A&s=09" target="_blank"
               ><img
-                src="https://twitter.com/Hapartment11?t=cmOAR5aAypWeGzbLvebt-A&s=09"
+                src="https://res.cloudinary.com/devsource/image/upload/v1671294038/hapartment/twitter_nhe4s3.png"
                 alt="twitter"
               />
             </a>
