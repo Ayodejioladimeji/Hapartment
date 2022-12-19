@@ -257,23 +257,23 @@ const sendMail = (to, fullname) => {
           <div class="social-icons">
             <a href="https://www.facebook.com" target="_blank"
               ><img
-                src="https://res.cloudinary.com/devsource/image/upload/v1671294040/hapartment/facebook_mg52gn.png"
+                src="https://www.facebook.com/profile.php?id=100085724386292&mibextid=ZbWKwL"
                 alt="facebook"
               />
             </a>
             <a href="https://www.instagram.com/" target="_blank"
               ><img
-                src="https://res.cloudinary.com/devsource/image/upload/v1671294036/hapartment/instagram_qqugwq.png"
+                src="https://www.instagram.com/invites/contact/?i=1pqlgg45pg0nl&utm_content=pldblyb"
                 alt="instagram"
               />
             </a>
             <a href="" target="_blank"
               ><img
-                src="https://res.cloudinary.com/devsource/image/upload/v1671294038/hapartment/twitter_nhe4s3.png"
+                src="https://twitter.com/Hapartment11?t=cmOAR5aAypWeGzbLvebt-A&s=09"
                 alt="twitter"
               />
             </a>
-            <a href="https://www.linkedin.com/in/" target="_blank"
+            <a href="https://www.linkedin.com/in/hapartment-rentals" target="_blank"
               ><img
                 src="https://res.cloudinary.com/devsource/image/upload/v1671293954/hapartment/linkedin_2_ruzrjf.png"
                 alt="linkedin"

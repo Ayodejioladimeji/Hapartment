@@ -260,20 +260,26 @@ const registerMail = (to, fullname, code) => {
           <div class="social-icons">
             <a href="https://www.facebook.com" target="_blank"
               ><img
-                src="https://res.cloudinary.com/devsource/image/upload/v1663903291/hapartment/facebook-square-brands_nsdfa6.png"
-                alt=""
+                src="https://www.facebook.com/profile.php?id=100085724386292&mibextid=ZbWKwL"
+                alt="facebook"
               />
             </a>
             <a href="https://www.instagram.com/" target="_blank"
               ><img
-                src="https://res.cloudinary.com/devsource/image/upload/v1663903291/hapartment/instagram-square-brands_1_hljzgv.png"
-                alt=""
+                src="https://www.instagram.com/invites/contact/?i=1pqlgg45pg0nl&utm_content=pldblyb"
+                alt="instagram"
               />
             </a>
             <a href="" target="_blank"
               ><img
-                src="https://res.cloudinary.com/devsource/image/upload/v1663903291/hapartment/twitter-square-brands_gkupmf.png"
-                alt=""
+                src="https://twitter.com/Hapartment11?t=cmOAR5aAypWeGzbLvebt-A&s=09"
+                alt="twitter"
+              />
+            </a>
+            <a href="https://www.linkedin.com/in/hapartment-rentals" target="_blank"
+              ><img
+                src="https://res.cloudinary.com/devsource/image/upload/v1671293954/hapartment/linkedin_2_ruzrjf.png"
+                alt="linkedin"
               />
             </a>
           </div>
