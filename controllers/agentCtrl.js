@@ -19,11 +19,6 @@ const agentCtrl = {
   //   agent details
   agentDetails: async (req, res) => {
     try {
-      // check if user is logged in
-      const user = await User.findById(req.user.id);
-      if (!user)
-        return res.status(400).json({ msg: "Please login to continue" });
-
       // get agents by id
       const agent_details = await User.findById({ _id: req.params.id });
       if (!agent_details)
