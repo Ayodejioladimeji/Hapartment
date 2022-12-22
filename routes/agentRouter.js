@@ -5,6 +5,6 @@ const router = require("express").Router();
 
 // get request
 router.get("/all_agents", agentCtrl.allAgents);
-router.get("/agent_details/:id", auth, agentCtrl.agentDetails);
+router.get("/agent_details/:id", agentCtrl.agentDetails);
 //
 module.exports = router;

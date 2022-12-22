@@ -1,5 +1,6 @@
 const User = require("../models/userModel");
 const Listing = require("../models/listModel");
+const Favorite = require("../models/favoriteModel");
 
 const listCtrl = {
   createListing: async (req, res) => {
@@ -118,13 +119,71 @@ const listCtrl = {
       if (!user)
         return res.status(400).json({ msg: "Please login to continue" });
 
-      const listing = await Listing.find({ user: req.user.id })
+      const listing = await Listing.find({ postedBy: req.user.id })
         .populate("postedBy", "_id fullname email username image ")
         .sort("-createdAt");
 
       if (!listing) return res.status(400).json({ msg: "No properties found" });
 
       res.json(listing);
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
+
+  //   My Saved Favorites
+  saveFavorite: async (req, res) => {
+    try {
+      const { list_id } = req.body;
+
+      // get all listing
+      const listing = await Listing.find().sort("-createdAt");
+
+      // check if the listing clicked is available
+      const list = listing.filter((item) => item._id.toString() === list_id);
+
+      if (list.length === 0)
+        return res.status(400).json({ msg: "Property not found" });
+
+      // Check if the property has already been added
+      const favorites = await Favorite.find();
+
+      const myfav = favorites.find(
+        (item) => item.saved_favorite._id.toString() === list_id
+      );
+
+      if (myfav)
+        return res
+          .status(400)
+          .json({ msg: "Property already saved to favorites" });
+
+      const saved_favorite = listing.find(
+        (item) => item._id.toString() === list_id
+      );
+
+      // Create a new instance of the property
+      const newListing = new Favorite({
+        saved_favorite,
+        savedBy: req.user,
+      });
+
+      await newListing.save();
+
+      res.json({ msg: "Property added to your favorites", newListing });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
+
+  // get Saved favorites
+  getFavorites: async (req, res) => {
+    try {
+      const favourite = await Favorite.find().sort("-createdAt");
+      // filter through the listing to get the ones created by the logged in user
+      const get_favourite = favourite.filter(
+        (item) => item.savedBy.toString() === req.user.id.toString()
+      );
+      res.json(get_favourite);
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }
