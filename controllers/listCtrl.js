@@ -146,11 +146,16 @@ const listCtrl = {
         return res.status(400).json({ msg: "Property not found" });
 
       // Check if the property has already been added
-      const check = await Favorite.findOne({ list_id });
-      if (check)
+      const favorites = await Favorite.find();
+
+      const myfav = favorites.find(
+        (item) => item.saved_favorite._id.toString() === list_id
+      );
+
+      if (myfav)
         return res
           .status(400)
-          .json({ msg: "Property already saved to favourites" });
+          .json({ msg: "Property already saved to favorites" });
 
       const saved_favorite = listing.find(
         (item) => item._id.toString() === list_id
@@ -164,7 +169,7 @@ const listCtrl = {
 
       await newListing.save();
 
-      res.json(newListing);
+      res.json({ msg: "Property added to your favorites", newListing });
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }
@@ -173,7 +178,7 @@ const listCtrl = {
   // get Saved favorites
   getFavorites: async (req, res) => {
     try {
-      const favourite = await Favorite.find();
+      const favourite = await Favorite.find().sort("-createdAt");
       // filter through the listing to get the ones created by the logged in user
       const get_favourite = favourite.filter(
         (item) => item.savedBy.toString() === req.user.id.toString()
