@@ -9,6 +9,7 @@ const {
   MAILING_SERVICE_CLIENT_SECRET,
   MAILING_SERVICE_REFRESH_TOKEN,
   SENDER_EMAIL_ADDRESS,
+  SENDER_EMAIL,
 } = process.env;
 
 const oauth2Client = new OAuth2(
@@ -38,7 +39,7 @@ const sendMail = (to, fullname) => {
   });
 
   const mailOptions = {
-    from: "layobright11@gmail.com",
+    from: SENDER_EMAIL,
     to: to,
     subject: "Welcome to Hapartment",
     html: `
@@ -223,8 +224,6 @@ const sendMail = (to, fullname) => {
         </nav>
 
         <div class="main-body">
-          <h2>Hi ${fullname},</h2>
-          <br />
           <p>
             Thank you for your interest in our product, We’re thrilled to have
             you on board.
@@ -235,17 +234,11 @@ const sendMail = (to, fullname) => {
             very soon.
           </p>
 
-          <div class="main-images">
-            <img
-              src="https://res.cloudinary.com/devsource/image/upload/v1664194285/hapartment/62_wjqjtf.jpg"
-              alt=""
-            />
-          </div>
-
           <p>
-            We’ll be sending you important news and updates about Hapartment,
-            we’ll also send you exclusive deals on new available homes in your
-            location and apartments for rent.
+            We’ll be sending you important news and updates about
+            <small style="color: green">Hapartment</small>, we’ll also send you
+            exclusive deals on new available homes in your location and
+            apartments for rent.
           </p>
 
           <small class="thanks"
@@ -262,22 +255,28 @@ const sendMail = (to, fullname) => {
           </span>
 
           <div class="social-icons">
-            <a href="https://www.facebook.com" target="_blank"
+            <a href="https://www.facebook.com/profile.php?id=100085724386292&mibextid=ZbWKwL" target="_blank"
               ><img
-                src="https://res.cloudinary.com/devsource/image/upload/v1663903291/hapartment/facebook-square-brands_nsdfa6.png"
-                alt=""
+                src="https://res.cloudinary.com/devsource/image/upload/v1671294040/hapartment/facebook_mg52gn.png"
+                alt="facebook"
               />
             </a>
-            <a href="https://www.instagram.com/" target="_blank"
+            <a href="https://www.instagram.com/invites/contact/?i=1pqlgg45pg0nl&utm_content=pldblyb" target="_blank"
               ><img
-                src="https://res.cloudinary.com/devsource/image/upload/v1663903291/hapartment/instagram-square-brands_1_hljzgv.png"
-                alt=""
+                src="https://res.cloudinary.com/devsource/image/upload/v1671294036/hapartment/instagram_qqugwq.png"
+                alt="instagram"
               />
             </a>
-            <a href="" target="_blank"
+            <a href="https://twitter.com/Hapartment11?t=cmOAR5aAypWeGzbLvebt-A&s=09" target="_blank"
               ><img
-                src="https://res.cloudinary.com/devsource/image/upload/v1663903291/hapartment/twitter-square-brands_gkupmf.png"
-                alt=""
+                src="https://res.cloudinary.com/devsource/image/upload/v1671294038/hapartment/twitter_nhe4s3.png"
+                alt="twitter"
+              />
+            </a>
+            <a href="https://www.linkedin.com/in/hapartment-rentals" target="_blank"
+              ><img
+                src="https://res.cloudinary.com/devsource/image/upload/v1671293954/hapartment/linkedin_2_ruzrjf.png"
+                alt="linkedin"
               />
             </a>
           </div>
@@ -290,6 +289,7 @@ const sendMail = (to, fullname) => {
     </div>
   </body>
 </html>
+
     `,
   };
 

@@ -19,8 +19,8 @@ const oauth2Client = new OAuth2(
   OAUTH_PLAYGROUND
 );
 
-// send register mail
-const forgotPasswordMail = (to, code) => {
+// send mail
+const welcomeAgentMail = (to, fullname) => {
   oauth2Client.setCredentials({
     refresh_token: MAILING_SERVICE_REFRESH_TOKEN,
   });
@@ -41,7 +41,7 @@ const forgotPasswordMail = (to, code) => {
   const mailOptions = {
     from: SENDER_EMAIL,
     to: to,
-    subject: "Forgot Password",
+    subject: "Thank you for Joining us",
     html: `
       <html lang="en">
   <head>
@@ -88,19 +88,9 @@ const forgotPasswordMail = (to, code) => {
 
       /* mainbody */
       .main-body {
+        margin-top: 10px;
         padding: 20px;
         height: 100%;
-      }
-
-      .heading {
-        color: green;
-        text-align: center;
-        margin-bottom: 50px;
-      }
-
-      .code {
-        text-align: center;
-        color: green;
       }
 
       .main-body h3 {
@@ -120,7 +110,6 @@ const forgotPasswordMail = (to, code) => {
         line-height: 25px;
         font-family: "arial";
         margin: 10px 0;
-        text-align: center;
       }
 
       .main-body small {
@@ -129,6 +118,13 @@ const forgotPasswordMail = (to, code) => {
 
       .main-body h1 {
         margin: 40px 0;
+      }
+
+      .main-images img {
+        width: 100%;
+        height: 300px;
+        border: 2px solid #449342;
+        object-fit: cover;
       }
 
       .main-body .thanks {
@@ -228,16 +224,22 @@ const forgotPasswordMail = (to, code) => {
         </nav>
 
         <div class="main-body">
-          <h2 class="heading">Change Password Request</h2>
+          <p>Hi Ayodeji Oladimeji</p>
 
-          <p>You just requested to change your password.</p>
+          <p>
+            Welcome to Hapartment, you made the right decision to join us and
+            we’re excited about giving you exceptional services. Our goal is to
+            showcase your property to millions of prospective tenants who
+            regularly search for property on our platform.
+          </p>
+      
 
-          <div class="content">
-            <p>Please verify your email address with this one time password</p>
-            <h1 class="code">${code}</h1>
-          </div>
-
-          <p>If you didn’t make this request, kindly ignore</p>
+          <p>
+            We’ll be sending you important news and updates about
+            <small style="color: green">Hapartment</small>, we’ll also send you
+            exclusive deals on new available homes in your location and
+            apartments for rent.
+          </p>
 
           <small class="thanks"
             >Regards,<br />
@@ -253,25 +255,33 @@ const forgotPasswordMail = (to, code) => {
           </span>
 
           <div class="social-icons">
-            <a href="https://www.facebook.com/profile.php?id=100085724386292&mibextid=ZbWKwL" target="_blank"
+            <a
+              href="https://www.facebook.com/profile.php?id=100085724386292&mibextid=ZbWKwL"
+              target="_blank"
               ><img
                 src="https://res.cloudinary.com/devsource/image/upload/v1671294040/hapartment/facebook_mg52gn.png"
                 alt="facebook"
               />
             </a>
-            <a href="https://www.instagram.com/invites/contact/?i=1pqlgg45pg0nl&utm_content=pldblyb" target="_blank"
+            <a
+              href="https://www.instagram.com/invites/contact/?i=1pqlgg45pg0nl&utm_content=pldblyb"
+              target="_blank"
               ><img
                 src="https://res.cloudinary.com/devsource/image/upload/v1671294036/hapartment/instagram_qqugwq.png"
                 alt="instagram"
               />
             </a>
-            <a href="https://twitter.com/Hapartment11?t=cmOAR5aAypWeGzbLvebt-A&s=09" target="_blank"
+            <a
+              href="https://twitter.com/Hapartment11?t=cmOAR5aAypWeGzbLvebt-A&s=09"
+              target="_blank"
               ><img
                 src="https://res.cloudinary.com/devsource/image/upload/v1671294038/hapartment/twitter_nhe4s3.png"
                 alt="twitter"
               />
             </a>
-            <a href="https://www.linkedin.com/in/hapartment-rentals" target="_blank"
+            <a
+              href="https://www.linkedin.com/in/hapartment-rentals"
+              target="_blank"
               ><img
                 src="https://res.cloudinary.com/devsource/image/upload/v1671293954/hapartment/linkedin_2_ruzrjf.png"
                 alt="linkedin"
@@ -298,4 +308,4 @@ const forgotPasswordMail = (to, code) => {
   });
 };
 
-module.exports = forgotPasswordMail;
+module.exports = welcomeAgentMail;

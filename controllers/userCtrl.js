@@ -346,10 +346,8 @@ const userCtrl = {
         identity_selfie,
         identity_document,
         document_type,
-        isVerified: "true",
+        isVerified: "pending",
       };
-
-      console.log(newData);
 
       await User.findOneAndUpdate(
         { _id: req.user.id },
