@@ -169,6 +169,20 @@ const listCtrl = {
       return res.status(500).json({ msg: error.message });
     }
   },
+
+  // get Saved favorites
+  getFavorites: async (req, res) => {
+    try {
+      const favourite = await Favorite.find();
+      // filter through the listing to get the ones created by the logged in user
+      const get_favourite = favourite.filter(
+        (item) => item.savedBy.toString() === req.user.id.toString()
+      );
+      res.json(get_favourite);
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
 };
 
 module.exports = listCtrl;
