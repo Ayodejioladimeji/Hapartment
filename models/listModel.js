@@ -7,6 +7,10 @@ const listingSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    map: {
+      type: Array,
+      required: true,
+    },
     property_type: {
       type: String,
       required: true,

@@ -1,6 +1,9 @@
 const User = require("../models/userModel");
 const Listing = require("../models/listModel");
 const Favorite = require("../models/favoriteModel");
+const axios = require("axios");
+
+const { GEO_HOST, GEO_URL, GEO_KEY } = process.env;
 
 const listCtrl = {
   createListing: async (req, res) => {
@@ -26,34 +29,59 @@ const listCtrl = {
         images,
       } = req.body;
 
-      if (
-        !address ||
-        !property_type ||
-        !country ||
-        !state ||
-        !city ||
-        !bathrooms ||
-        !toilets ||
-        !furnishing ||
-        !home_facilities ||
-        !area_facilities ||
-        !description ||
-        !price ||
-        !category ||
-        !images
-      ) {
-        return res
-          .status(400)
-          .json({ msg: "Fields cannot be empty, please fill the inputs" });
-      }
+      // if (
+      //   !address ||
+      //   !property_type ||
+      //   !country ||
+      //   !state ||
+      //   !city ||
+      //   !bathrooms ||
+      //   !toilets ||
+      //   !furnishing ||
+      //   !home_facilities ||
+      //   !area_facilities ||
+      //   !description ||
+      //   !price ||
+      //   !category ||
+      //   !images
+      // ) {
+      //   return res
+      //     .status(400)
+      //     .json({ msg: "Fields cannot be empty, please fill the inputs" });
+      // }
 
       //   check if the user exists
       const user = await User.findById(req.user.id);
       if (!user) return res.status(400).json({ msg: "User not found" });
 
+      // get the latitude and longitude of the address provided by the user
+      let map = [];
+
+      const options = {
+        method: "GET",
+        url: process.env.GEO_URL,
+        params: {
+          address: address,
+        },
+        headers: {
+          "X-RapidAPI-Key": process.env.GEO_KEY,
+          "X-RapidAPI-Host": process.env.GEO_HOST,
+        },
+      };
+
+      await axios
+        .request(options)
+        .then(function (response) {
+          map.push(response.data.Results[0]);
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+
       //   save data in the database
       const newListing = new Listing({
         address,
+        map,
         property_type,
         country,
         state,
