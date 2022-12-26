@@ -91,6 +91,18 @@ const listingSchema = new mongoose.Schema(
       type: ObjectId,
       ref: "User",
     },
+    reportedBy: [
+      {
+        user: {
+          type: String,
+          default: "",
+        },
+        message: {
+          type: String,
+          default: "",
+        },
+      },
+    ],
   },
   {
     timestamps: true,

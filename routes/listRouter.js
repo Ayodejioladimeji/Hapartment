@@ -15,5 +15,8 @@ router.get("/my_listing", auth, listCtrl.myListing);
 router.get("/list_details/:id", listCtrl.listDetails);
 router.get("/get_favorite", auth, listCtrl.getFavorites);
 
+// patch request
+router.patch("/report_listing", auth, listCtrl.reportListing);
+
 //
 module.exports = router;
