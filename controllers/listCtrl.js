@@ -231,7 +231,7 @@ const listCtrl = {
         message,
       };
 
-      const check = listing.reportedBy.filter(
+      const check = listing.reportedBy.find(
         (item) => item.user === req.user.id
       );
 
