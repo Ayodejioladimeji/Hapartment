@@ -2,6 +2,7 @@ const User = require("../models/userModel");
 const Listing = require("../models/listModel");
 const Favorite = require("../models/favoriteModel");
 const axios = require("axios");
+const { strictRemoveComma } = require("comma-separator");
 
 const { GEO_HOST, GEO_URL, GEO_KEY } = process.env;
 
@@ -29,26 +30,26 @@ const listCtrl = {
         images,
       } = req.body;
 
-      // if (
-      //   !address ||
-      //   !property_type ||
-      //   !country ||
-      //   !state ||
-      //   !city ||
-      //   !bathrooms ||
-      //   !toilets ||
-      //   !furnishing ||
-      //   !home_facilities ||
-      //   !area_facilities ||
-      //   !description ||
-      //   !price ||
-      //   !category ||
-      //   !images
-      // ) {
-      //   return res
-      //     .status(400)
-      //     .json({ msg: "Fields cannot be empty, please fill the inputs" });
-      // }
+      if (
+        !address ||
+        !property_type ||
+        !country ||
+        !state ||
+        !city ||
+        !bathrooms ||
+        !toilets ||
+        !furnishing ||
+        !home_facilities ||
+        !area_facilities ||
+        !description ||
+        !price ||
+        !category ||
+        !images
+      ) {
+        return res
+          .status(400)
+          .json({ msg: "Fields cannot be empty, please fill the inputs" });
+      }
 
       //   check if the user exists
       const user = await User.findById(req.user.id);
@@ -104,6 +105,7 @@ const listCtrl = {
 
       await newListing.save();
       res.json({
+        listing: newListing,
         msg: "Property under review for approval, this can take up to 1hr, you will get a mail from us as soon as it is approved! ",
       });
     } catch (error) {
@@ -212,6 +214,97 @@ const listCtrl = {
         (item) => item.savedBy.toString() === req.user.id.toString()
       );
       res.json(get_favourite);
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
+
+  // Report listing
+  reportListing: async (req, res) => {
+    try {
+      const { list_id, message } = req.body;
+
+      const listing = await Listing.findOne({ _id: list_id });
+
+      const data = {
+        user: req.user.id,
+        message,
+      };
+
+      const check = listing.reportedBy.find(
+        (item) => item.user === req.user.id
+      );
+
+      if (check)
+        return res
+          .status(400)
+          .json({ msg: "You already reported this property" });
+
+      listing.reportedBy.unshift(data);
+
+      await listing.save();
+
+      res.json({ msg: "You just reported this property" });
+    } catch (error) {
+      res.status(500).json({ msg: error.message });
+    }
+  },
+
+  // filter listing
+  filterListing: async (req, res) => {
+    try {
+      const data = await Listing.find();
+      const filters = req.query;
+
+      const filt = {
+        property_type: filters.property_type,
+        statename: filters.statename,
+        cityname: filters.cityname,
+        bathrooms: filters.bathrooms,
+        toilets: filters.toilets,
+        furnishing: filters.furnishing,
+      };
+
+      const filteredListing = data.filter((item) => {
+        let isValid = true;
+
+        for (key in filt) {
+          // console.log(key, item[key], filters[key]);
+          isValid = isValid && item[key] === filt[key];
+        }
+        return isValid;
+      });
+
+      // add price filtering
+      const priceFilter = filteredListing.filter(
+        (item) =>
+          strictRemoveComma(item.price) >=
+            strictRemoveComma(filters.min_price) &&
+          strictRemoveComma(item.price) <= strictRemoveComma(filters.max_price)
+      );
+
+      res.json(priceFilter);
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
+
+  // search listing
+  searchListing: async (req, res) => {
+    try {
+      const data = await Listing.find();
+      const filters = req.query;
+
+      const filteredListing = data.filter((item) => {
+        let isValid = true;
+
+        for (key in filters) {
+          isValid = isValid && item[key] === filters[key];
+        }
+        return isValid;
+      });
+
+      res.json(filteredListing);
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }
