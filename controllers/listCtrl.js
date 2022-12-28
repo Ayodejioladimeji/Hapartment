@@ -2,7 +2,7 @@ const User = require("../models/userModel");
 const Listing = require("../models/listModel");
 const Favorite = require("../models/favoriteModel");
 const axios = require("axios");
-const { datamigration } = require("googleapis/build/src/apis/datamigration");
+const { strictRemoveComma } = require("comma-separator");
 
 const { GEO_HOST, GEO_URL, GEO_KEY } = process.env;
 
@@ -25,6 +25,7 @@ const listCtrl = {
         area_facilities,
         description,
         price,
+        price2,
         category,
         video,
         images,
@@ -97,6 +98,7 @@ const listCtrl = {
         area_facilities,
         description,
         price,
+        price2: price,
         category,
         video,
         images,
@@ -247,6 +249,46 @@ const listCtrl = {
       res.json({ msg: "You just reported this property" });
     } catch (error) {
       res.status(500).json({ msg: error.message });
+    }
+  },
+
+  // search listing
+  filterListing: async (req, res) => {
+    try {
+      const data = await Listing.find();
+      const filters = req.query;
+
+      const filt = {
+        property_type: filters.property_type,
+        statename: filters.statename,
+        cityname: filters.cityname,
+        bedrooms: filters.bedrooms,
+        bathrooms: filters.bathrooms,
+        toilets: filters.toilets,
+        furnishing: filters.furnishing,
+      };
+
+      const filteredListing = data.filter((item) => {
+        let isValid = true;
+
+        for (key in filt) {
+          // console.log(key, item[key], filters[key]);
+          isValid = isValid && item[key] === filt[key];
+        }
+        return isValid;
+      });
+
+      // add price filtering
+      const priceFilter = filteredListing.filter(
+        (item) =>
+          strictRemoveComma(item.price) >=
+            strictRemoveComma(filters.min_price) &&
+          strictRemoveComma(item.price) <= strictRemoveComma(filters.max_price)
+      );
+
+      res.json(priceFilter);
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
     }
   },
 };

@@ -67,6 +67,10 @@ const listingSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    price2: {
+      type: String,
+      required: true,
+    },
     category: {
       type: String,
       required: true,
