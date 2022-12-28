@@ -25,7 +25,6 @@ const listCtrl = {
         area_facilities,
         description,
         price,
-        price2,
         category,
         video,
         images,
@@ -98,7 +97,6 @@ const listCtrl = {
         area_facilities,
         description,
         price,
-        price2: price,
         category,
         video,
         images,
@@ -252,7 +250,7 @@ const listCtrl = {
     }
   },
 
-  // search listing
+  // filter listing
   filterListing: async (req, res) => {
     try {
       const data = await Listing.find();
@@ -262,7 +260,6 @@ const listCtrl = {
         property_type: filters.property_type,
         statename: filters.statename,
         cityname: filters.cityname,
-        bedrooms: filters.bedrooms,
         bathrooms: filters.bathrooms,
         toilets: filters.toilets,
         furnishing: filters.furnishing,
@@ -287,6 +284,27 @@ const listCtrl = {
       );
 
       res.json(priceFilter);
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
+
+  // search listing
+  searchListing: async (req, res) => {
+    try {
+      const data = await Listing.find();
+      const filters = req.query;
+
+      const filteredListing = data.filter((item) => {
+        let isValid = true;
+
+        for (key in filters) {
+          isValid = isValid && item[key] === filters[key];
+        }
+        return isValid;
+      });
+
+      res.json(filteredListing);
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }
