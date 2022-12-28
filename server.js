@@ -15,28 +15,13 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(cors());
 
-// swagger documentation
-// const swaggerOptions = {
-//   swaggerDefinition: {
-//     info: {
-//       title: "Hapartment Backend API",
-//       version: "1.0.0",
-//       description:
-//         "We help users search for apartment easily and provide them with adequate information to help them make well-informed decisions.",
-//     },
-//   },
-//   apis: ["./routes/userRouter*.js"],
-// };
-
-// const swaggerDocs = swaggerJsDoc(swaggerOptions);
-// app.use("/", swaggerUI.serve, swaggerUI.setup(swaggerDocs));
-
 // routes
 
 app.use("/api/v1", require("./routes/newsletterRouter"));
 app.use("/api/v1", require("./routes/userRouter"));
 app.use("/api/v1", require("./routes/listRouter"));
 app.use("/api/v1", require("./routes/agentRouter"));
+app.use("/api/v1", require("./routes/notificationRouter"));
 
 // app.get("/", (req, res) => {
 //   res.json({ Text: "Hapartment API", Version: "1.0.0" });
