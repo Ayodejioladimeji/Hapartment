@@ -13,5 +13,12 @@ router.get("/my_notifications", auth, notificationCtrl.myNotification);
 
 // patch request
 
+// delete
+router.delete(
+  "/delete_notification/:id",
+  auth,
+  notificationCtrl.deleteNotification
+);
+
 //
 module.exports = router;
