@@ -3,9 +3,9 @@ const jwt = require("jsonwebtoken");
 const { validationResult } = require("express-validator");
 const bcrypt = require("bcrypt");
 const { strictRemoveComma } = require("comma-separator");
-const registerMail = require("../mails/registerMail");
 const forgotPasswordMail = require("../mails/forgotPasswordMail");
 const resendCodeMail = require("../mails/resendCodeMail");
+const registerMail = require("../mails/registerMail");
 
 //
 
@@ -54,6 +54,7 @@ const userCtrl = {
       const activation_token = createActivationToken(newUser);
 
       // send email to the newly registered user
+      // registerMail(email, fullname, code);
       registerMail(email, fullname, code);
 
       // send feedbacl to the client side
