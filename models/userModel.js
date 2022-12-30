@@ -31,10 +31,6 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: null,
     },
-    favorite: {
-      type: Array,
-      default: [],
-    },
 
     verification: [
       {

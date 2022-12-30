@@ -175,27 +175,18 @@ const listCtrl = {
         return res.status(400).json({ msg: "Property not found" });
 
       // Check if the property has already been added
-      // const favorites = await Favorite.find();
+      const favorites = await Favorite.find();
 
-      // const myfav = favorites.find(
-      //   (item) => item.saved_favorite._id.toString() === list_id
-      // );
+      const myfav = favorites.find(
+        (item) => item.saved_favorite._id.toString() === list_id
+      );
 
-      // if (myfav)
-      //   return res
-      //     .status(400)
-      //     .json({ msg: "Property already saved to favorites" });
+      if (myfav)
+        return res.status(400).json({ msg: "You already saved this property" });
 
       const saved_favorite = listing.find(
         (item) => item._id.toString() === list_id
       );
-
-      // await User.findOneAndUpdate(
-      //   { _id: req.user.id },
-      //   {
-      //     favorite: saved_favorite,
-      //   }
-      // );
 
       const postedBy = {
         _id: saved_favorite.postedBy._id,
@@ -271,7 +262,9 @@ const listCtrl = {
   // filter listing
   filterListing: async (req, res) => {
     try {
-      const data = await Listing.find();
+      const data = await Listing.find()
+        .populate("postedBy", "_id fullname email username image ")
+        .sort("-createdAt");
       const filters = req.query;
 
       const filt = {
@@ -310,7 +303,9 @@ const listCtrl = {
   // search listing
   searchListing: async (req, res) => {
     try {
-      const data = await Listing.find();
+      const data = await Listing.find()
+        .populate("postedBy", "_id fullname email username image ")
+        .sort("-createdAt");
       const filters = req.query;
 
       const filteredListing = data.filter((item) => {
