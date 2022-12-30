@@ -4,8 +4,6 @@ const Favorite = require("../models/favoriteModel");
 const axios = require("axios");
 const { strictRemoveComma } = require("comma-separator");
 
-const { GEO_HOST, GEO_URL, GEO_KEY } = process.env;
-
 const listCtrl = {
   createListing: async (req, res) => {
     try {
