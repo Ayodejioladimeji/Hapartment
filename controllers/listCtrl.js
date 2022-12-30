@@ -105,7 +105,6 @@ const listCtrl = {
 
       await newListing.save();
       res.json({
-        listing: newListing,
         msg: "Property under review for approval, this can take up to 1hr, you will get a mail from us as soon as it is approved! ",
       });
     } catch (error) {
@@ -167,7 +166,9 @@ const listCtrl = {
       const { list_id } = req.body;
 
       // get all listing
-      const listing = await Listing.find().sort("-createdAt");
+      const listing = await Listing.find()
+        .populate("postedBy", "_id fullname email username image ")
+        .sort("-createdAt");
 
       // check if the listing clicked is available
       const list = listing.filter((item) => item._id.toString() === list_id);
@@ -176,30 +177,37 @@ const listCtrl = {
         return res.status(400).json({ msg: "Property not found" });
 
       // Check if the property has already been added
-      const favorites = await Favorite.find();
+      // const favorites = await Favorite.find();
 
-      const myfav = favorites.find(
-        (item) => item.saved_favorite._id.toString() === list_id
-      );
+      // const myfav = favorites.find(
+      //   (item) => item.saved_favorite._id.toString() === list_id
+      // );
 
-      if (myfav)
-        return res
-          .status(400)
-          .json({ msg: "Property already saved to favorites" });
+      // if (myfav)
+      //   return res
+      //     .status(400)
+      //     .json({ msg: "Property already saved to favorites" });
 
       const saved_favorite = listing.find(
         (item) => item._id.toString() === list_id
       );
 
+      await User.findOneAndUpdate(
+        { _id: req.user.id },
+        {
+          favorite: saved_favorite,
+        }
+      );
+
       // Create a new instance of the property
-      const newListing = new Favorite({
-        saved_favorite,
-        savedBy: req.user,
-      });
+      // const newListing = new Favorite({
+      //   saved_favorite,
+      //   savedBy: req.user,
+      // });
 
-      await newListing.save();
+      // await newListing.save();
 
-      res.json({ msg: "Property added to your favorites", newListing });
+      res.json({ msg: "Property added to your favorites" });
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }
@@ -213,9 +221,36 @@ const listCtrl = {
       const get_favourite = favourite.filter(
         (item) => item.savedBy.toString() === req.user.id.toString()
       );
+
+      const newFav = get_favourite.saved_favorite;
+      console.log(newFav);
+
       res.json(get_favourite);
     } catch (error) {
       return res.status(500).json({ msg: error.message });
+    }
+  },
+
+  // save Listing
+  saveListing: async (req, res) => {
+    try {
+      const { list_id } = req.body;
+
+      // get all listing
+      const listing = await Listing.find()
+        .populate("postedBy", "_id fullname email username image ")
+        .sort("-createdAt");
+
+      await User.findOneAndUpdate(
+        { _id: req.user.id },
+        {
+          favorite: req.body.favorite,
+        }
+      );
+
+      return res.json({ msg: "Property added to favorites" });
+    } catch (error) {
+      res.status(500).json({ msg: error.message });
     }
   },
 
