@@ -192,20 +192,30 @@ const listCtrl = {
         (item) => item._id.toString() === list_id
       );
 
-      await User.findOneAndUpdate(
-        { _id: req.user.id },
-        {
-          favorite: saved_favorite,
-        }
-      );
+      // await User.findOneAndUpdate(
+      //   { _id: req.user.id },
+      //   {
+      //     favorite: saved_favorite,
+      //   }
+      // );
+
+      const postedBy = {
+        _id: saved_favorite.postedBy._id,
+        fullname: saved_favorite.postedBy.fullname,
+        username: saved_favorite.postedBy.username,
+        email: saved_favorite.postedBy.email,
+        image: saved_favorite.postedBy.image,
+      };
 
       // Create a new instance of the property
-      // const newListing = new Favorite({
-      //   saved_favorite,
-      //   savedBy: req.user,
-      // });
+      const newListing = new Favorite({
+        saved_favorite,
+        savedBy: req.user,
+        postedBy: postedBy,
+      });
 
-      // await newListing.save();
+      await newListing.save();
+      // res.json(newListing);
 
       res.json({ msg: "Property added to your favorites" });
     } catch (error) {
@@ -217,40 +227,15 @@ const listCtrl = {
   getFavorites: async (req, res) => {
     try {
       const favourite = await Favorite.find().sort("-createdAt");
+
       // filter through the listing to get the ones created by the logged in user
       const get_favourite = favourite.filter(
         (item) => item.savedBy.toString() === req.user.id.toString()
       );
 
-      const newFav = get_favourite.saved_favorite;
-      console.log(newFav);
-
       res.json(get_favourite);
     } catch (error) {
       return res.status(500).json({ msg: error.message });
-    }
-  },
-
-  // save Listing
-  saveListing: async (req, res) => {
-    try {
-      const { list_id } = req.body;
-
-      // get all listing
-      const listing = await Listing.find()
-        .populate("postedBy", "_id fullname email username image ")
-        .sort("-createdAt");
-
-      await User.findOneAndUpdate(
-        { _id: req.user.id },
-        {
-          favorite: req.body.favorite,
-        }
-      );
-
-      return res.json({ msg: "Property added to favorites" });
-    } catch (error) {
-      res.status(500).json({ msg: error.message });
     }
   },
 

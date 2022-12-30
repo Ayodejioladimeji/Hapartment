@@ -11,6 +11,10 @@ const favoriteSchema = new mongoose.Schema(
       type: ObjectId,
       ref: "User",
     },
+    postedBy: {
+      type: Object,
+      required: true,
+    },
   },
   {
     timestamps: true,
