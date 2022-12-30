@@ -188,13 +188,6 @@ const listCtrl = {
         (item) => item._id.toString() === list_id
       );
 
-      // await User.findOneAndUpdate(
-      //   { _id: req.user.id },
-      //   {
-      //     favorite: saved_favorite,
-      //   }
-      // );
-
       const postedBy = {
         _id: saved_favorite.postedBy._id,
         fullname: saved_favorite.postedBy.fullname,
@@ -269,7 +262,9 @@ const listCtrl = {
   // filter listing
   filterListing: async (req, res) => {
     try {
-      const data = await Listing.find();
+      const data = await Listing.find()
+        .populate("postedBy", "_id fullname email username image ")
+        .sort("-createdAt");
       const filters = req.query;
 
       const filt = {
@@ -308,7 +303,9 @@ const listCtrl = {
   // search listing
   searchListing: async (req, res) => {
     try {
-      const data = await Listing.find();
+      const data = await Listing.find()
+        .populate("postedBy", "_id fullname email username image ")
+        .sort("-createdAt");
       const filters = req.query;
 
       const filteredListing = data.filter((item) => {
