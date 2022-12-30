@@ -175,16 +175,14 @@ const listCtrl = {
         return res.status(400).json({ msg: "Property not found" });
 
       // Check if the property has already been added
-      // const favorites = await Favorite.find();
+      const favorites = await Favorite.find();
 
-      // const myfav = favorites.find(
-      //   (item) => item.saved_favorite._id.toString() === list_id
-      // );
+      const myfav = favorites.find(
+        (item) => item.saved_favorite._id.toString() === list_id
+      );
 
-      // if (myfav)
-      //   return res
-      //     .status(400)
-      //     .json({ msg: "Property already saved to favorites" });
+      if (myfav)
+        return res.status(400).json({ msg: "You already saved this property" });
 
       const saved_favorite = listing.find(
         (item) => item._id.toString() === list_id
