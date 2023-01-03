@@ -19,6 +19,7 @@ app.use(cors());
 
 app.use("/api/v1", require("./routes/newsletterRouter"));
 app.use("/api/v1", require("./routes/userRouter"));
+app.use("/api/v1", require("./routes/adminRouter"));
 app.use("/api/v1", require("./routes/listRouter"));
 app.use("/api/v1", require("./routes/agentRouter"));
 app.use("/api/v1", require("./routes/notificationRouter"));

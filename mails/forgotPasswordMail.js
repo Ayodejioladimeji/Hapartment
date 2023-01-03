@@ -223,7 +223,7 @@ const forgotPasswordMail = (to, code) => {
         <nav class="nav">
           <img
             style="width: 100%"
-            src="https://res.cloudinary.com/devsource/image/upload/v1664196560/hapartment/Facebook_cover_-_2_3_cm03oa.png"
+            src="https://res.cloudinary.com/devsource/image/upload/v1672499277/hapartment/Facebook_cover_usvkic.png"
           />
         </nav>
 
