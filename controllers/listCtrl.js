@@ -5,6 +5,7 @@ const axios = require("axios");
 const { strictRemoveComma } = require("comma-separator");
 
 const listCtrl = {
+  // Create Listing
   createListing: async (req, res) => {
     try {
       const {
@@ -103,7 +104,117 @@ const listCtrl = {
 
       await newListing.save();
       res.json({
-        msg: "Property under review for approval, this can take up to 1hr, you will get a mail from us as soon as it is approved! ",
+        msg: "Property created successfully, it will reflect as soon as it is approved! ",
+      });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
+
+  // update Listing
+  updateListing: async (req, res) => {
+    try {
+      const {
+        list_id,
+        address,
+        property_type,
+        country,
+        state,
+        city,
+        statename,
+        cityname,
+        bedrooms,
+        bathrooms,
+        toilets,
+        furnishing,
+        home_facilities,
+        area_facilities,
+        description,
+        price,
+        category,
+        video,
+        images,
+      } = req.body;
+
+      if (
+        !address ||
+        !property_type ||
+        !country ||
+        !state ||
+        !city ||
+        !bathrooms ||
+        !toilets ||
+        !furnishing ||
+        !home_facilities ||
+        !area_facilities ||
+        !description ||
+        !price ||
+        !category ||
+        !images
+      ) {
+        return res
+          .status(400)
+          .json({ msg: "Fields cannot be empty, please fill the inputs" });
+      }
+
+      // get the latitude and longitude of the address provided by the user
+      let map = [];
+
+      const options = {
+        method: "GET",
+        url: process.env.GEO_URL,
+        params: {
+          address: address,
+        },
+        headers: {
+          "X-RapidAPI-Key": process.env.GEO_KEY,
+          "X-RapidAPI-Host": process.env.GEO_HOST,
+        },
+      };
+
+      await axios
+        .request(options)
+        .then(function (response) {
+          map.push(response.data.Results[0]);
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+
+      const newListing = await Listing.find({
+        postedBy: req.user.id,
+      });
+
+      const list = newListing.find((item) => item._id.toString() === list_id);
+
+      await Listing.findOneAndUpdate(
+        { _id: list._id },
+        {
+          address,
+          map,
+          property_type,
+          country,
+          state,
+          city,
+          statename,
+          cityname,
+          bedrooms,
+          bathrooms,
+          toilets,
+          furnishing,
+          home_facilities,
+          area_facilities,
+          description,
+          price,
+          category,
+          video,
+          images,
+          status: "pending",
+        }
+      );
+
+      res.json({
+        msg: "Property updated successfully, your changes will reflect as soon as it is approved",
       });
     } catch (error) {
       return res.status(500).json({ msg: error.message });

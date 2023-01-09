@@ -301,8 +301,6 @@ const userCtrl = {
     try {
       const { fullname, username, image } = req.body;
 
-      console.log(req.body);
-
       await User.findOneAndUpdate(
         { _id: req.user.id },
         {
