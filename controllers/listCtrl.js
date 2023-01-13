@@ -157,6 +157,7 @@ const listCtrl = {
           .json({ msg: "Fields cannot be empty, please fill the inputs" });
       }
 
+      // Check if the user is logged in
       const check = await User.findById(req.user.id);
 
       if (check === null)
@@ -441,6 +442,78 @@ const listCtrl = {
       });
 
       res.json(filteredListing);
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
+
+  // delete listing
+  deleteListing: async (req, res) => {
+    try {
+      // check if the user is logged in
+      const check = await User.findById(req.user.id);
+      if (check === null)
+        return res.status(400).json({ msg: "Login to continue" });
+
+      await Listing.findByIdAndDelete(req.params.id);
+
+      res.json({ msg: "Listing Deleted Successfully" });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
+
+  // update Rented / Acquired property
+  acquiredListing: async (req, res) => {
+    try {
+      // Check if the user is logged in
+      const check = await User.findById(req.user.id);
+
+      if (check === null)
+        return res.status(400).json({ msg: "Login to continue" });
+
+      await Listing.findOneAndUpdate(
+        { _id: req.params.id },
+        {
+          acquired: true,
+        }
+      );
+
+      res.json({
+        msg: "Status updated successfully",
+      });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
+
+  // Delete image
+  deleteImage: async (req, res) => {
+    try {
+      const { publicId } = req.body;
+      if (!publicId) return res.status(400).json({ msg: "No images selected" });
+
+      cloudinary.v2.uploader.destroy(publicId[0], (err, result) => {
+        if (err) throw err;
+      });
+      cloudinary.v2.uploader.destroy(publicId[1], (err, result) => {
+        if (err) throw err;
+      });
+      cloudinary.v2.uploader.destroy(publicId[2], (err, result) => {
+        if (err) throw err;
+      });
+      cloudinary.v2.uploader.destroy(publicId[3], (err, result) => {
+        if (err) throw err;
+      });
+      cloudinary.v2.uploader.destroy(publicId[4], (err, result) => {
+        if (err) throw err;
+      });
+      cloudinary.v2.uploader.destroy(publicId[5], (err, result) => {
+        if (err) throw err;
+      });
+      cloudinary.v2.uploader.destroy(publicId[6], (err, result) => {
+        if (err) throw err;
+      });
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }
