@@ -19,6 +19,7 @@ router.get("/filter_listing", listCtrl.filterListing);
 router.get("/search_listing", listCtrl.searchListing);
 
 // patch request
+router.patch("/update_listing", auth, listCtrl.updateListing);
 
 //
 module.exports = router;

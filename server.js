@@ -5,7 +5,8 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const swaggerJsDoc = require("swagger-jsdoc");
 const swaggerUI = require("swagger-ui-express");
-const swaggerDocument = require("./swagger.json");
+// const swaggerDocument = require("./swagger.json");
+const swaggerDocument = "";
 
 // initialize express
 const app = express();

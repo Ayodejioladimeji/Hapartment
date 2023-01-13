@@ -157,6 +157,11 @@ const listCtrl = {
           .json({ msg: "Fields cannot be empty, please fill the inputs" });
       }
 
+      const check = await User.findById(req.user.id);
+
+      if (check === null)
+        return res.status(400).json({ msg: "Login to continue" });
+
       // get the latitude and longitude of the address provided by the user
       let map = [];
 
@@ -185,7 +190,14 @@ const listCtrl = {
         postedBy: req.user.id,
       });
 
+      if (newListing.length === 0)
+        return res
+          .status(400)
+          .json({ msg: "You haven't created any property" });
+
       const list = newListing.find((item) => item._id.toString() === list_id);
+
+      if (!list) return res.status(400).json({ msg: "incorect list id" });
 
       await Listing.findOneAndUpdate(
         { _id: list._id },
