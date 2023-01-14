@@ -20,7 +20,7 @@ router.get("/search_listing", listCtrl.searchListing);
 
 // patch request
 router.patch("/update_listing", auth, listCtrl.updateListing);
-router.patch("/acquired_listing/:id", auth, listCtrl.acquiredListing);
+router.patch("/acquired_listing/:id", listCtrl.acquiredListing);
 
 // delete request
 router.delete("/delete_listing/:id", auth, listCtrl.deleteListing);

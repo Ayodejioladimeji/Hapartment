@@ -466,12 +466,6 @@ const listCtrl = {
   // update Rented / Acquired property
   acquiredListing: async (req, res) => {
     try {
-      // Check if the user is logged in
-      const check = await User.findById(req.user.id);
-
-      if (check === null)
-        return res.status(400).json({ msg: "Login to continue" });
-
       await Listing.findOneAndUpdate(
         { _id: req.params.id },
         {
