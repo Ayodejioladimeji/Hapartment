@@ -1,5 +1,7 @@
 const User = require("../models/userModel");
 const jwt = require("jsonwebtoken");
+const Listing = require("../models/listModel");
+const Admin = require("../models/adminModel");
 const { validationResult } = require("express-validator");
 const bcrypt = require("bcrypt");
 const { strictRemoveComma } = require("comma-separator");
@@ -10,22 +12,54 @@ const registerMail = require("../mails/registerMail");
 //
 
 const adminCtrl = {
+  // create admin
+  createAdmin: async (req, res) => {
+    try {
+      // check for empty input field
+      if (!fullname || !email || !password) {
+        return res.status(400).json({ msg: "Field cannot be empty" });
+      }
+
+      // check of the user already exists in the database
+      const user = await User.findOne({ email });
+      if (user)
+        return res
+          .status(400)
+          .json({ msg: "Admin already exists with the email address" });
+
+      // password encryption
+      const passwordHash = await bcrypt.hash(password, 12);
+
+      // Create a new admin
+      const newAdmin = new Admin({
+        fullname,
+        email,
+        password,
+      });
+
+      await newAdmin.save();
+      res.json({ msg: "Admin agent created successfully" });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
+
   // login admin
 
-  login: async (req, res) => {
+  loginAdmin: async (req, res) => {
     try {
       const { email, password } = req.body;
 
       // check for user in the database
-      const user = await User.findOne({ email });
-      if (!user) return res.status(400).json({ msg: "Invalid Credentials" });
+      const admin = await Admin.findOne({ email });
+      if (!admin) return res.status(400).json({ msg: "Invalid Credentials" });
 
       // check the password provided by the user
-      const isMatch = await bcrypt.compare(password, user.password);
+      const isMatch = await bcrypt.compare(password, admin.password);
       if (!isMatch) return res.status(400).json({ msg: "Invalid Credentials" });
 
       // create access token
-      const access_token = createAccessToken({ id: user.id });
+      const access_token = createAccessToken({ id: admin.id });
 
       res.json({ msg: "Login successful!", access_token });
     } catch (error) {
@@ -65,6 +99,124 @@ const adminCtrl = {
       res.json({ msg: "Account information updated successfully" });
     } catch (error) {
       res.status(500).json({ msg: error.message });
+    }
+  },
+
+  // Verify Agent endpoint
+  approveAgent: async (req, res) => {
+    try {
+      const allusers = await User.find();
+
+      const getUser = allusers.filter(
+        (user) => user._id.toString() === req.params.id
+      );
+
+      const {
+        identity_name,
+        identity_mobile,
+        identity_selfie,
+        identity_document,
+        document_type,
+      } = getUser[0].verification[0];
+
+      const newData = {
+        identity_name,
+        identity_mobile,
+        identity_selfie,
+        identity_document,
+        document_type,
+        isVerified: "true",
+      };
+
+      await User.findOneAndUpdate(
+        {
+          _id: req.params.id,
+        },
+        {
+          verification: newData,
+        }
+      );
+
+      res.json({ msg: "Agent verified successfully" });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
+
+  // Decline Agent verification endpoint
+  declineAgent: async (req, res) => {
+    try {
+      const allusers = await User.find();
+
+      const getUser = allusers.filter(
+        (user) => user._id.toString() === req.params.id
+      );
+
+      const {
+        identity_name,
+        identity_mobile,
+        identity_selfie,
+        identity_document,
+        document_type,
+      } = getUser[0].verification[0];
+
+      const newData = {
+        identity_name,
+        identity_mobile,
+        identity_selfie,
+        identity_document,
+        document_type,
+        isVerified: "declined",
+      };
+
+      await User.findOneAndUpdate(
+        {
+          _id: req.params.id,
+        },
+        {
+          verification: newData,
+        }
+      );
+
+      res.json({ msg: "Agent approval declined successfully" });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
+
+  // Approve Listings
+  approveListing: async (req, res) => {
+    try {
+      await Listing.findOneAndUpdate(
+        {
+          _id: req.params.id,
+        },
+        {
+          status: "verified",
+        }
+      );
+
+      res.json({ msg: "Property verified successfully" });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
+
+  // Decline Listings
+  declineListing: async (req, res) => {
+    try {
+      await Listing.findOneAndUpdate(
+        {
+          _id: req.params.id,
+        },
+        {
+          status: "declined",
+        }
+      );
+
+      res.json({ msg: "Property declined successfully" });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
     }
   },
 };
