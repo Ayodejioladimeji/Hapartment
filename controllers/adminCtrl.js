@@ -68,7 +68,7 @@ const adminCtrl = {
     }
   },
 
-  // get logged in user with the access token created earlier
+  // get all users
   getAllUsers: async (req, res) => {
     try {
       const users = await User.find().sort("-createdAt");
@@ -76,6 +76,19 @@ const adminCtrl = {
         return res.status(400).json({ msg: "User not found" });
 
       res.json(users);
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
+
+  // get all listings
+  getAllListings: async (req, res) => {
+    try {
+      const list = await Listing.find().sort("-createdAt");
+      if (list === null)
+        return res.status(400).json({ msg: "Properties not found" });
+
+      res.json(list);
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }
