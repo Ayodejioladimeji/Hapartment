@@ -15,6 +15,7 @@ const adminCtrl = {
   // create admin
   createAdmin: async (req, res) => {
     try {
+      const { fullname, email, password } = req.body;
       // check for empty input field
       if (!fullname || !email || !password) {
         return res.status(400).json({ msg: "Field cannot be empty" });
