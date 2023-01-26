@@ -35,7 +35,7 @@ const adminCtrl = {
       const newAdmin = new Admin({
         fullname,
         email,
-        password,
+        password: passwordHash,
       });
 
       await newAdmin.save();
