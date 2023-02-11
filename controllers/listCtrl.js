@@ -427,21 +427,16 @@ const listCtrl = {
   // search listing
   searchListing: async (req, res) => {
     try {
-      const data = await Listing.find()
-        .populate("postedBy", "_id fullname email username image ")
-        .sort("-createdAt");
-      const filters = req.query;
-
-      const filteredListing = data.filter((item) => {
-        let isValid = true;
-
-        for (key in filters) {
-          isValid = isValid && item[key] === filters[key];
-        }
-        return isValid;
+      let data = await Listing.find({
+        $or: [
+          { property_type: { $regex: req.params.key } },
+          { statename: { $regex: req.params.key } },
+          { cityname: { $regex: req.params.key } },
+          { furnishing: { $regex: req.params.key } },
+        ],
       });
 
-      res.json(filteredListing);
+      res.json(data);
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }

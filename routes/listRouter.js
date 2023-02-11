@@ -16,7 +16,7 @@ router.get("/my_listing", auth, listCtrl.myListing);
 router.get("/list_details/:id", listCtrl.listDetails);
 router.get("/get_favorite", auth, listCtrl.getFavorites);
 router.get("/filter_listing", listCtrl.filterListing);
-router.get("/search_listing", listCtrl.searchListing);
+router.get("/search_listing/:key", listCtrl.searchListing);
 
 // patch request
 router.patch("/update_listing", auth, listCtrl.updateListing);
