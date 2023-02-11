@@ -1,4 +1,5 @@
 const User = require("../models/userModel");
+const Contact = require("../models/contactModel");
 const jwt = require("jsonwebtoken");
 const { validationResult } = require("express-validator");
 const bcrypt = require("bcrypt");
@@ -65,6 +66,26 @@ const adminCtrl = {
       res.json({ msg: "Account information updated successfully" });
     } catch (error) {
       res.status(500).json({ msg: error.message });
+    }
+  },
+
+  // contact us
+  contactUs: async (req, res) => {
+    try {
+      const { name, email, message } = req.body;
+
+      const newContact = new Contact({
+        name,
+        email,
+        message,
+      });
+
+      await newContact.save();
+      res.json({
+        msg: "Thank your for contacting us, we'll reply you as soon as possible",
+      });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
     }
   },
 };

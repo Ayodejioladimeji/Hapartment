@@ -4,6 +4,9 @@ const auth = require("../middlewares/auth");
 
 // post request
 // router.post("/admin-login", userCtrl.login);
+router.post("/contact", adminCtrl.contactUs);
+
+// patch request
 // router.patch("/admin-updateuser", auth, adminCtrl.updateUser);
 // router.patch("/admin-verifyagent", auth, adminCtrl.verifyAgent);
 

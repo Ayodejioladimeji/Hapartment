@@ -17,7 +17,7 @@ const newsletterCtrl = {
       const check = await Newsletter.findOne({ email });
       if (check)
         return res.status(400).json({
-          msg: "Thank you, You have already subscribed to our waitlist.",
+          msg: "You have already subscribed to our waitlist.",
         });
 
       // mailchimp
