@@ -7,6 +7,9 @@ const auth = require("../middlewares/auth");
 router.post("/create-admin", adminCtrl.createAdmin);
 router.post("/login-admin", adminCtrl.loginAdmin);
 router.post("/contact", adminCtrl.contactUs);
+router.post("/contact", adminCtrl.contactUs);
+router.post("/create-admin", adminCtrl.createAdmin);
+router.post("/login-admin", adminCtrl.loginAdmin);
 
 // patch request
 // router.patch("/admin-updateuser", auth, adminCtrl.updateUser);

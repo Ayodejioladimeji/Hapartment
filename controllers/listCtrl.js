@@ -238,7 +238,7 @@ const listCtrl = {
   allListing: async (req, res) => {
     try {
       const listing = await Listing.find()
-        .populate("postedBy", "_id fullname email username image ")
+        .populate("postedBy", "_id fullname email username image verification ")
         .sort("-createdAt");
 
       res.json(listing);
@@ -271,7 +271,7 @@ const listCtrl = {
         return res.status(400).json({ msg: "Please login to continue" });
 
       const listing = await Listing.find({ postedBy: req.user.id })
-        .populate("postedBy", "_id fullname email username image ")
+        .populate("postedBy", "_id fullname email username image verification ")
         .sort("-createdAt");
 
       if (!listing) return res.status(400).json({ msg: "No properties found" });
@@ -289,7 +289,7 @@ const listCtrl = {
 
       // get all listing
       const listing = await Listing.find()
-        .populate("postedBy", "_id fullname email username image ")
+        .populate("postedBy", "_id fullname email username image verification ")
         .sort("-createdAt");
 
       // check if the listing clicked is available
@@ -312,19 +312,20 @@ const listCtrl = {
         (item) => item._id.toString() === list_id
       );
 
-      const postedBy = {
-        _id: saved_favorite.postedBy._id,
-        fullname: saved_favorite.postedBy.fullname,
-        username: saved_favorite.postedBy.username,
-        email: saved_favorite.postedBy.email,
-        image: saved_favorite.postedBy.image,
-      };
+      // const postedBy = {
+      //   _id: saved_favorite.postedBy._id,
+      //   fullname: saved_favorite.postedBy.fullname,
+      //   username: saved_favorite.postedBy.username,
+      //   email: saved_favorite.postedBy.email,
+      //   image: saved_favorite.postedBy.image,
+      //   verification: saved_favorite.postedBy.verification,
+      // };
 
       // Create a new instance of the property
       const newListing = new Favorite({
         saved_favorite,
         savedBy: req.user,
-        postedBy: postedBy,
+        postedBy: req.user,
       });
 
       await newListing.save();
@@ -339,11 +340,13 @@ const listCtrl = {
   // get Saved favorites
   getFavorites: async (req, res) => {
     try {
-      const favourite = await Favorite.find().sort("-createdAt");
+      const favourite = await Favorite.find()
+        .populate("savedBy", "_id fullname email username image verification ")
+        .sort("-createdAt");
 
       // filter through the listing to get the ones created by the logged in user
       const get_favourite = favourite.filter(
-        (item) => item.savedBy.toString() === req.user.id.toString()
+        (item) => item.postedBy.toString() === req.user.id.toString()
       );
 
       res.json(get_favourite);
@@ -387,7 +390,10 @@ const listCtrl = {
   filterListing: async (req, res) => {
     try {
       const data = await Listing.find()
-        .populate("postedBy", "_id fullname email username image ")
+        .populate(
+          "postedBy",
+          "_id fullname email username image, verification "
+        )
         .sort("-createdAt");
       const filters = req.query;
 

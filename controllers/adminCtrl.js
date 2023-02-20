@@ -117,6 +117,26 @@ const adminCtrl = {
     }
   },
 
+  // contact us
+  contactUs: async (req, res) => {
+    try {
+      const { name, email, message } = req.body;
+
+      const newContact = new Contact({
+        name,
+        email,
+        message,
+      });
+
+      await newContact.save();
+      res.json({
+        msg: "Thank your for contacting us, we'll reply you as soon as possible",
+      });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
+
   // Verify Agent endpoint
   approveAgent: async (req, res) => {
     try {
