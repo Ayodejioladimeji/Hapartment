@@ -464,6 +464,22 @@ const listCtrl = {
     }
   },
 
+  // delete favorites
+  deleteFavorite: async (req, res) => {
+    try {
+      // check if the user is logged in
+      const check = await User.findById(req.user.id);
+      if (check === null)
+        return res.status(400).json({ msg: "Login to continue" });
+
+      await Favorite.findByIdAndDelete(req.params.id);
+
+      res.json({ msg: "Property Deleted Successfully" });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
+
   // update Rented / Acquired property
   acquiredListing: async (req, res) => {
     try {
