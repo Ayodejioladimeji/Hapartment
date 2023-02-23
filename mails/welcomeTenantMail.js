@@ -48,95 +48,81 @@ const welcomeTenantMail = (to, fullname) => {
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-    />
+    <title>Welcome to Hapartment</title>
 
-    <style type="text/css">
-      @import url("https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Inter:wght@400;500;600;700&family=Nunito+Sans:wght@400;600;700;800&family=Roboto:wght@300;500;700;900&display=swap");
-
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
       * {
         box-sizing: border-box;
         margin: 0;
         padding: 0;
-        font-family: "arial";
+        font-family: 'Lato', sans-serif;
       }
 
-      .major-container {
-        width: 100%;
-        padding: 30px 10px;
+      section {
         display: flex;
-        align-items: center;
         justify-content: center;
-      }
-
-      .main-container {
-        width: 100%;
-        background: #fff;
-        padding: 0 0 20px 0;
-        border: 2px solid #449342;
-      }
-
-      .nav {
-        width: 100%;
-      }
-
-      .nav img {
-        width: 100%;
-      }
-
-      /* mainbody */
-      .main-body {
-        margin-top: 10px;
-        padding: 20px;
         height: 100%;
       }
 
-      .main-body h3 {
-        font-size: 22px;
-        font-weight: 700;
-        color: #1a083e;
-        font-family: "Roboto";
+      .container {
+        width: 100%;
+        margin: 20px 0;
+        padding: 30px 5px;
+        background: #fff;
+        border: 1px solid #f8f9fc;
       }
 
-      .main-body h2 {
-        font-size: 20px;
+      .header {
+        text-align: center;
+      }
+
+      .header-image {
+        width: 300px;
+        object-fit: contain;
+      }
+      main {
+        width: 100%;
+        background: #f8f9fc;
+        border-radius: 10px;
+        margin-top: 20px;
+        padding: 40px 10px;
+      }
+
+      .heading {
+        font-size: 18px;
+        margin-bottom: 20px;
+        line-height: 30px;
+        font-weight: 700;
+      }
+
+      .heading img {
+        height: 20px;
+        width: 20px;
+      }
+
+      .code {
+        text-align: center;
+        font-size: 35px;
+        margin-bottom: 30px;
+        font-weight: bold;
+      }
+      .body {
+        font-size: 15px;
+        margin-bottom: 20px;
+        line-height: 30px;
+      }
+      .reasons {
+        font-size: 15px;
+        margin-bottom: 20px;
+        line-height: 30px;
+      }
+      footer {
+        text-align: center;
         margin-top: 20px;
       }
 
-      .main-body p {
-        font-size: 16px;
-        line-height: 25px;
-        font-family: "arial";
-        margin: 10px 0;
-      }
-
-      .main-body small {
-        font-size: 16px;
-      }
-
-      .main-body h1 {
-        margin: 40px 0;
-      }
-
-      .main-images img {
-        width: 100%;
-        height: 300px;
-        border: 2px solid #449342;
-        object-fit: cover;
-      }
-
-      .main-body .thanks {
-        text-align: left;
-        display: block;
-        margin-bottom: 40px;
-        font-size: 14px;
-        margin-top: 50px;
-        line-height: 25px;
-      }
-
-      .main-body span {
+      footer span {
         display: block;
         margin-top: 20px;
         color: #7e7e7e;
@@ -145,8 +131,8 @@ const welcomeTenantMail = (to, fullname) => {
         text-align: center;
       }
 
-      .main-body span strong {
-        color: #1a083e;
+      footer span strong {
+        color: green;
       }
 
       .social-icons {
@@ -164,90 +150,75 @@ const welcomeTenantMail = (to, fullname) => {
         margin-right: 5px;
       }
 
-      .main-body .copyrights {
-        font-size: 13px;
+      .copyrights {
+        font-size: 14px;
         color: #7e7e7e;
         text-align: center;
         display: block;
       }
 
-      /* The responsiveness section */
-      @media (min-width: 768px) {
-        .main-container {
-          width: 700px;
-        }
+      .button {
+        background: green;
+        color: #fff;
+        padding: 10px 25px;
+        border-radius: 5px;
+        border: none;
+        outline: none;
+        margin-bottom: 30px;
+        font-size: 15px;
       }
 
-      @media (max-width: 500px) {
-        .nav {
-          margin-bottom: 0px;
+      /* responsiveness */
+      @media (min-width: 700px) {
+        .container {
+          width: 600px;
+          padding: 30px 20px;
         }
 
-        .main-body {
-          padding: 0px 10px;
-        }
-
-        .main-body h3 {
-          font-size: 18px;
-        }
-
-        .main-body h2 {
-          font-size: 15px;
-        }
-
-        .main-body p {
-          font-size: 14px;
-        }
-
-        .main-body span {
-          font-size: 12px;
-        }
-
-        .main-images img {
-          height: 170px;
-        }
-
-        .main-body .copyrights {
-          font-size: 12px;
+        main {
+          width: 550px;
+          padding: 40px 30px;
         }
       }
     </style>
   </head>
   <body>
-    <div class="major-container" style="width: 100%">
-      <div class="main-container" style="margin: 0 auto">
-        <nav class="nav">
+    <section>
+      <div class="container">
+        <div class="header">
           <img
-            style="width: 100%"
-            src="https://res.cloudinary.com/devsource/image/upload/v1672499277/hapartment/Facebook_cover_usvkic.png"
+            style="width: 120px; margin-bottom: 40px; object-fit: contain"
+            src="https://res.cloudinary.com/hapartments/image/upload/v1677132535/logos/Group_11_ggfsko.png"
           />
-        </nav>
+        </div>
 
-        <div class="main-body">
-          <p>Hi Ayodeji Oladimeji</p>
+        <main>
+          <p class="heading"><b>Hi, Ayodeji Oladimeji</b></p>
 
-         <p>
-            Welcome to Hapartment, you made the right decision to join us and
-            we’re excited about giving you exceptional services. Our goal is to
-            help you search for apartment easily and provide you with adequate
-            information to help you make a well-informed decision.
+          <p class="body">
+            <span style="color: green; font-weight: bold"
+              >Welcome to Hapartment</span
+            ><br />
+            You made the right decision to join us and we’re excited about
+            giving you exceptional services. Our goal is to help you search for
+            apartment easily and provide you with adequate information to help
+            you make a well-informed decision.
           </p>
-      
 
-          <p>
+          <p class="body">
             We’ll be sending you important news and updates about
-            <small style="color: green">Hapartment</small>, we’ll also send you
+            <span style="color: green">Hapartment</span>, we’ll also send you
             exclusive deals on new available homes in your location and
             apartments for rent.
           </p>
 
-          <small class="thanks"
-            >Regards,<br />
-            <b>Hapartment team</b>
-          </small>
+          <p class="thanks">
+            Regards,<br /><br />
+            <b style="color: green">Hapartment Team</b>
+          </p>
+        </main>
 
-          <hr />
-
+        <footer>
           <span
             >If you have any questions, concerns or feedback, kindly reach us on
             <strong>support@hapartment.org</strong> or chat us across all our
@@ -289,15 +260,12 @@ const welcomeTenantMail = (to, fullname) => {
             </a>
           </div>
 
-          <small class="copyrights">
-            © 2022 hapartment. All Rights Reserved.
-          </small>
-        </div>
+          <p class="copyrights">© 2023 hapartment. All Rights Reserved.</p>
+        </footer>
       </div>
-    </div>
+    </section>
   </body>
 </html>
-
 
     `,
   };
