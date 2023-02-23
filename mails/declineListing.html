@@ -1,54 +1,9 @@
-const nodemailer = require("nodemailer");
-const { google } = require("googleapis");
-const { OAuth2 } = google.auth;
-const OAUTH_PLAYGROUND = "https://developers.google.com/oauthplayground";
-
-//
-const {
-  MAILING_SERVICE_CLIENT_ID,
-  MAILING_SERVICE_CLIENT_SECRET,
-  MAILING_SERVICE_REFRESH_TOKEN,
-  SENDER_EMAIL_ADDRESS,
-  SENDER_EMAIL,
-} = process.env;
-
-const oauth2Client = new OAuth2(
-  MAILING_SERVICE_CLIENT_ID,
-  MAILING_SERVICE_CLIENT_SECRET,
-  MAILING_SERVICE_REFRESH_TOKEN,
-  OAUTH_PLAYGROUND
-);
-
-// send register mail
-const forgotPasswordMail = (to, code) => {
-  oauth2Client.setCredentials({
-    refresh_token: MAILING_SERVICE_REFRESH_TOKEN,
-  });
-
-  const accessToken = oauth2Client.getAccessToken();
-  const smtpTransport = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      type: "OAuth2",
-      user: SENDER_EMAIL_ADDRESS,
-      clientId: MAILING_SERVICE_CLIENT_ID,
-      clientSecret: MAILING_SERVICE_CLIENT_SECRET,
-      refreshToken: MAILING_SERVICE_REFRESH_TOKEN,
-      accessToken,
-    },
-  });
-
-  const mailOptions = {
-    from: SENDER_EMAIL,
-    to: to,
-    subject: "Forgot Password",
-    html: `
-      <html lang="en">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Forgot Password</title>
+    <title>Decline Listing Email</title>
 
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
@@ -90,17 +45,14 @@ const forgotPasswordMail = (to, code) => {
         margin-bottom: 20px;
         line-height: 30px;
         font-weight: 700;
-        text-align: center;
       }
-
       .heading img {
         height: 20px;
         width: 20px;
       }
-
       .code {
         text-align: center;
-        font-size: 35px;
+        font-size: 38px;
         margin-bottom: 30px;
         font-weight: bold;
       }
@@ -108,7 +60,6 @@ const forgotPasswordMail = (to, code) => {
         font-size: 15px;
         margin-bottom: 20px;
         line-height: 30px;
-        text-align: center;
       }
       .reasons {
         font-size: 15px;
@@ -155,10 +106,6 @@ const forgotPasswordMail = (to, code) => {
         display: block;
       }
 
-      .thanks {
-        margin-top: 50px;
-      }
-
       .button {
         background: green;
         color: #fff;
@@ -195,18 +142,35 @@ const forgotPasswordMail = (to, code) => {
         </div>
 
         <main>
-          <p class="heading"><b>Change Password Request</b></p>
+          <p class="heading"><b>Hi, Ayodeji Oladimeji</b></p>
 
           <p class="body">
             <span style="color: green; font-weight: bold"
-              >You just requested to change your password.</span
-            ><br />
-            Please verify your email address with this one time OTP code
+              >Thank you for submitting your property on Hapartment</span
+            >
           </p>
 
-          <h1 class="code">${code}</h1>
+          <p class="body">
+            We have reviewed your property and regret to inform you that your
+            listing do not pass the provided standard for creating property on
+            Hapartment.
+          </p>
 
-          <p class="body">If you didn’t make this request, kindly ignore</p>
+          <p class="heading" style="color: green">Reasons for Rejection</p>
+
+          <p class="reasons">
+            Please provide the listing address in details to avoid consequent
+            rejections
+          </p>
+
+          <p class="body">
+            Click <span style="color: green">here</span> to watch a step by step
+            video on how to create listings successfully.
+          </p>
+
+          <button class="button">View Property</button>
+
+          <br />
 
           <p class="thanks">
             Regards,<br /><br />
@@ -262,15 +226,3 @@ const forgotPasswordMail = (to, code) => {
     </section>
   </body>
 </html>
-
-
-    `,
-  };
-
-  smtpTransport.sendMail(mailOptions, (err, infor) => {
-    if (err) return err;
-    return infor;
-  });
-};
-
-module.exports = forgotPasswordMail;

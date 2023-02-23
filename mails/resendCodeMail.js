@@ -90,6 +90,7 @@ const resendCodeMail = (to, fullname, code) => {
         margin-bottom: 20px;
         line-height: 30px;
         font-weight: 700;
+        text-align: center;
       }
 
       .heading img {
@@ -107,6 +108,7 @@ const resendCodeMail = (to, fullname, code) => {
         font-size: 15px;
         margin-bottom: 20px;
         line-height: 30px;
+        text-align: center;
       }
       .reasons {
         font-size: 15px;
@@ -151,6 +153,10 @@ const resendCodeMail = (to, fullname, code) => {
         color: #7e7e7e;
         text-align: center;
         display: block;
+      }
+
+      .thanks {
+        margin-top: 50px;
       }
 
       .button {

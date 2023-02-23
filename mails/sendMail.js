@@ -49,7 +49,6 @@ const sendMail = (to, fullname) => {
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Thank you for joining us</title>
-
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
       * {
@@ -90,6 +89,7 @@ const sendMail = (to, fullname) => {
         margin-bottom: 20px;
         line-height: 30px;
         font-weight: 700;
+        text-align: center;
       }
 
       .heading img {
@@ -107,6 +107,7 @@ const sendMail = (to, fullname) => {
         font-size: 15px;
         margin-bottom: 20px;
         line-height: 30px;
+        text-align: center;
       }
       .reasons {
         font-size: 15px;
@@ -151,6 +152,10 @@ const sendMail = (to, fullname) => {
         color: #7e7e7e;
         text-align: center;
         display: block;
+      }
+
+      .thanks {
+        margin-top: 50px;
       }
 
       .button {

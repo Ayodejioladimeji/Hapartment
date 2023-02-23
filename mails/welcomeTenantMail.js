@@ -168,6 +168,10 @@ const welcomeTenantMail = (to, fullname) => {
         font-size: 15px;
       }
 
+       .thanks {
+        margin-top: 50px;
+      }
+
       /* responsiveness */
       @media (min-width: 700px) {
         .container {

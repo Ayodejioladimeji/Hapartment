@@ -90,6 +90,7 @@ const registerMail = (to, fullname, code) => {
         margin-bottom: 20px;
         line-height: 30px;
         font-weight: 700;
+        text-align: center;
       }
 
       .heading img {
@@ -107,6 +108,7 @@ const registerMail = (to, fullname, code) => {
         font-size: 15px;
         margin-bottom: 20px;
         line-height: 30px;
+        text-align: center;
       }
       .reasons {
         font-size: 15px;
@@ -153,6 +155,10 @@ const registerMail = (to, fullname, code) => {
         display: block;
       }
 
+      .thanks {
+        margin-top: 50px;
+      }
+
       .button {
         background: green;
         color: #fff;
@@ -177,6 +183,7 @@ const registerMail = (to, fullname, code) => {
         }
       }
     </style>
+    >
   </head>
   <body>
     <section>
