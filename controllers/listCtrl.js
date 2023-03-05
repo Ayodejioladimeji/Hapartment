@@ -241,7 +241,11 @@ const listCtrl = {
         .populate("postedBy", "_id fullname email username image verification ")
         .sort("-createdAt");
 
-      res.json(listing);
+      // shuffle the listings to display randomly
+      const shuffle = (arr) => [...arr].sort(() => Math.random() - 0.8);
+      const randomData = shuffle(listing);
+
+      res.json(randomData);
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }
@@ -474,7 +478,7 @@ const listCtrl = {
 
       await Favorite.findByIdAndDelete(req.params.id);
 
-      res.json({ msg: "Property Deleted Successfully" });
+      res.json({ msg: "Favourite Deleted Successfully" });
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }
