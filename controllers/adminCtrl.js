@@ -3,12 +3,10 @@ const Contact = require("../models/contactModel");
 const jwt = require("jsonwebtoken");
 const Listing = require("../models/listModel");
 const Admin = require("../models/adminModel");
-const { validationResult } = require("express-validator");
 const bcrypt = require("bcrypt");
-const { strictRemoveComma } = require("comma-separator");
-const forgotPasswordMail = require("../mails/forgotPasswordMail");
-const resendCodeMail = require("../mails/resendCodeMail");
-const registerMail = require("../mails/registerMail");
+const agentVerifiedMail = require("../mails/agentVerifiedMail");
+
+
 
 //
 
@@ -171,6 +169,8 @@ const adminCtrl = {
           verification: newData,
         }
       );
+
+      agentVerifiedMail(getUser.email, getUser.fullname)
 
       res.json({ msg: "Agent verified successfully" });
     } catch (err) {

@@ -241,6 +241,8 @@ const listCtrl = {
         .populate("postedBy", "_id fullname email username image verification ")
         .sort("-createdAt");
 
+        // filter through not to return declined listings
+        
       // shuffle the listings to display randomly
       const shuffle = (arr) => [...arr].sort(() => Math.random() - 0.8);
       const randomData = shuffle(listing);
