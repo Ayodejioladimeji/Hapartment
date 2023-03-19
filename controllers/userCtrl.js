@@ -6,6 +6,9 @@ const { strictRemoveComma } = require("comma-separator");
 const forgotPasswordMail = require("../mails/forgotPasswordMail");
 const resendCodeMail = require("../mails/resendCodeMail");
 const registerMail = require("../mails/registerMail");
+const verificationRequestMail = require("../mails/verificationRequestMail");
+const welcomeAgentMail = require("../mails/welcomeAgentMail");
+const welcomeTenantMail = require("../mails/welcomeTenantMail");
 
 //
 
@@ -83,7 +86,7 @@ const userCtrl = {
 
       // Check the code provided by the user
       if (strictRemoveComma(auth_code) !== strictRemoveComma(code)) {
-        return res.status(401).json({ msg: "PLease provide a valid code" });
+        return res.status(401).json({ msg: "Please provide a valid code" });
       }
 
       // check if the user already exists in the database
@@ -101,6 +104,14 @@ const userCtrl = {
       });
 
       await newUser.save();
+
+      // Send welcome mail to the user
+      if (userType === "agent") {
+        welcomeAgentMail(email, fullname);
+      } else {
+        welcomeTenantMail(email, fullname);
+      }
+
       res.json({ msg: "Your Account has been activated" });
     } catch (error) {
       if (error.message === "jwt expired") {
@@ -339,6 +350,9 @@ const userCtrl = {
           .json({ msg: "Please provide necessary informations" });
       }
 
+      const user = await User.findById(req.user.id).select("-password");
+      if (!user) return res.status(400).json({ msg: "User does not exist" });
+
       const newData = {
         identity_name,
         identity_mobile,
@@ -355,7 +369,9 @@ const userCtrl = {
         }
       );
 
-      res.json({ msg: "Identity verification successful" });
+      verificationRequestMail(user.email, user.fullname);
+
+      res.json({ msg: "Identity verification request has been sent" });
     } catch (error) {
       res.status(500).json({ msg: error.message });
     }

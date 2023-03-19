@@ -5,8 +5,11 @@ const Listing = require("../models/listModel");
 const Admin = require("../models/adminModel");
 const bcrypt = require("bcrypt");
 const agentVerifiedMail = require("../mails/agentVerifiedMail");
+const listingApprovedMail = require("../mails/listingApprovedMail");
+const declineListingMail = require("../mails/declineListingMail");
+const verificationDeclineMail = require("../mails/verificationDeclineMail");
 
-
+const CLIENT_URL = process.env.CLIENT_URL;
 
 //
 
@@ -140,7 +143,7 @@ const adminCtrl = {
     try {
       const allusers = await User.find();
 
-      const getUser = allusers.filter(
+      const getUser = allusers.find(
         (user) => user._id.toString() === req.params.id
       );
 
@@ -150,7 +153,7 @@ const adminCtrl = {
         identity_selfie,
         identity_document,
         document_type,
-      } = getUser[0].verification[0];
+      } = getUser.verification[0];
 
       const newData = {
         identity_name,
@@ -170,7 +173,7 @@ const adminCtrl = {
         }
       );
 
-      agentVerifiedMail(getUser.email, getUser.fullname)
+      agentVerifiedMail(getUser.email, getUser.fullname);
 
       res.json({ msg: "Agent verified successfully" });
     } catch (err) {
@@ -181,11 +184,11 @@ const adminCtrl = {
   // Decline Agent verification endpoint
   declineAgent: async (req, res) => {
     try {
+      const { id, one, two, three } = req.body;
+
       const allusers = await User.find();
 
-      const getUser = allusers.filter(
-        (user) => user._id.toString() === req.params.id
-      );
+      const getUser = allusers.find((user) => user._id.toString() === id);
 
       const {
         identity_name,
@@ -193,7 +196,7 @@ const adminCtrl = {
         identity_selfie,
         identity_document,
         document_type,
-      } = getUser[0].verification[0];
+      } = getUser.verification[0];
 
       const newData = {
         identity_name,
@@ -206,12 +209,14 @@ const adminCtrl = {
 
       await User.findOneAndUpdate(
         {
-          _id: req.params.id,
+          _id: id,
         },
         {
           verification: newData,
         }
       );
+
+      verificationDeclineMail(getUser.email, getUser.fullname, one, two, three);
 
       res.json({ msg: "Agent approval declined successfully" });
     } catch (err) {
@@ -221,6 +226,13 @@ const adminCtrl = {
 
   // Approve Listings
   approveListing: async (req, res) => {
+    const listing = await Listing.findById(req.params.id).populate(
+      "postedBy",
+      "_id fullname email username image verification "
+    );
+    if (!listing)
+      return res.status(400).json({ msg: "Listing does not exist" });
+
     try {
       await Listing.findOneAndUpdate(
         {
@@ -231,6 +243,7 @@ const adminCtrl = {
         }
       );
 
+      listingApprovedMail(listing.postedBy.email, listing.postedBy.fullname);
       res.json({ msg: "Property verified successfully" });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
@@ -240,13 +253,36 @@ const adminCtrl = {
   // Decline Listings
   declineListing: async (req, res) => {
     try {
+      const { id, one, two, three, four, five } = req.body;
+
+      const listing = await Listing.findById(id).populate(
+        "postedBy",
+        "_id fullname email username image verification "
+      );
+
+      if (!listing)
+        return res.status(400).json({ msg: "Listing does not exist" });
+
       await Listing.findOneAndUpdate(
         {
-          _id: req.params.id,
+          _id: id,
         },
         {
           status: "declined",
         }
+      );
+
+      const pathurl = `${CLIENT_URL}/public/${id}`;
+
+      declineListingMail(
+        listing.postedBy.email,
+        listing.postedBy.fullname,
+        one,
+        two,
+        three,
+        four,
+        five,
+        pathurl
       );
 
       res.json({ msg: "Property declined successfully" });

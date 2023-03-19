@@ -39,11 +39,11 @@ const welcomeAgentMail = (to, fullname) => {
   });
 
   const mailOptions = {
-    from: SENDER_EMAIL,
+    from: `Hapartment Digital Marketplace ${SENDER_EMAIL}`,
     to: to,
-    subject: "Thank you for Joining us",
+    subject: "Welcome to Hapartment",
     html: `
-      <html lang="en">
+    <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -68,9 +68,9 @@ const welcomeAgentMail = (to, fullname) => {
       .container {
         width: 100%;
         margin: 20px 0;
-        padding: 30px 5px;
+        padding: 30px 10px;
         background: #fff;
-        border: 1px solid #f8f9fc;
+        border-radius: 10px;
       }
 
       .header {
@@ -79,17 +79,17 @@ const welcomeAgentMail = (to, fullname) => {
 
       main {
         width: 100%;
-        background: #f8f9fc;
         border-radius: 10px;
         margin-top: 20px;
-        padding: 40px 10px;
+        padding: 40px 5px;
       }
 
       .heading {
-        font-size: 18px;
+        font-size: 16px;
         margin-bottom: 20px;
         line-height: 30px;
         font-weight: 700;
+        text-align:left;
       }
 
       .heading img {
@@ -99,7 +99,7 @@ const welcomeAgentMail = (to, fullname) => {
 
       .code {
         text-align: center;
-        font-size: 35px;
+        font-size: 30px;
         margin-bottom: 30px;
         font-weight: bold;
       }
@@ -120,15 +120,9 @@ const welcomeAgentMail = (to, fullname) => {
 
       footer span {
         display: block;
-        margin-top: 20px;
         color: #7e7e7e;
-        font-size: 14px;
         line-height: 25px;
         text-align: center;
-      }
-
-      footer span strong {
-        color: green;
       }
 
       .social-icons {
@@ -147,7 +141,7 @@ const welcomeAgentMail = (to, fullname) => {
       }
 
       .copyrights {
-        font-size: 14px;
+        font-size: 13px;
         color: #7e7e7e;
         text-align: center;
         display: block;
@@ -162,10 +156,6 @@ const welcomeAgentMail = (to, fullname) => {
         outline: none;
         margin-bottom: 30px;
         font-size: 15px;
-      }
-
-       .thanks {
-        margin-top: 50px;
       }
 
       /* responsiveness */
@@ -184,22 +174,23 @@ const welcomeAgentMail = (to, fullname) => {
   </head>
   <body>
     <section>
-      <div class="container">
+      <div class="container" style="background: #f8f9fc;">
         <div class="header">
           <img
-            style="width: 120px; margin-bottom: 40px; object-fit: contain"
+            style="width: 120px; margin-bottom: 40px; object-fit: contain;"
             src="https://res.cloudinary.com/hapartments/image/upload/v1677132535/logos/Group_11_ggfsko.png"
           />
         </div>
 
         <main>
-          <p class="heading"><b>Hi, Ayodeji Oladimeji</b></p>
+          <p class="heading"><b>Hi, ${fullname}</b></p>
 
           <p class="body">
-            <span style="color: green; font-weight: bold"
-              >Welcome to Hapartment</span
-            ><br />
-            Welcome to Hapartment, you made the right decision to join us and
+            <span style="color: green; font-weight: bold;">
+              Welcome to Hapartment
+            </span>
+            <br />
+            You made the right decision to join us and
             we’re excited about giving you exceptional services. Our goal is to
             showcase your property to millions of prospective tenants who
             regularly search for property on our platform.
@@ -207,29 +198,39 @@ const welcomeAgentMail = (to, fullname) => {
 
           <p class="body">
             We’ll be sending you important news and updates about
-            <span style="color: green">Hapartment</span>, we’ll also send you
-            exclusive deals on new available homes in your location and
-            apartments for rent.
+            <span style="color: green;">Hapartment</span>
+            , we’ll also send you exclusive deals on new available homes in your
+            location and apartments for rent.
           </p>
 
-          <p class="thanks">
-            Regards,<br /><br />
-            <b style="color: green">Hapartment Team</b>
+          <p style="margin-top: 50px; font-size: 13px;">
+            Regards,
+            <br />
+            <br />
+            <b style="color: green;">Hapartment Team</b>
           </p>
         </main>
 
-        <footer>
-          <span
-            >If you have any questions, concerns or feedback, kindly reach us on
-            <strong>support@hapartment.org</strong> or chat us across all our
-            social media handles.
+        <footer
+          style="
+            margin-top: 20px;
+            background: #e7eaf4;
+            border-radius: 10px;
+            padding: 30px 10px;
+          "
+        >
+          <span style="font-size: 13px;">
+            If you have any questions, concerns or feedback, kindly reach us on
+            <a style="color: green;">support@hapartment.org</a>
+            or chat us across all our social media handles.
           </span>
 
           <div class="social-icons">
             <a
               href="https://www.facebook.com/profile.php?id=100085724386292&mibextid=ZbWKwL"
               target="_blank"
-              ><img
+            >
+              <img
                 src="https://res.cloudinary.com/devsource/image/upload/v1671294040/hapartment/facebook_mg52gn.png"
                 alt="facebook"
               />
@@ -237,7 +238,8 @@ const welcomeAgentMail = (to, fullname) => {
             <a
               href="https://www.instagram.com/invites/contact/?i=1pqlgg45pg0nl&utm_content=pldblyb"
               target="_blank"
-              ><img
+            >
+              <img
                 src="https://res.cloudinary.com/devsource/image/upload/v1671294036/hapartment/instagram_qqugwq.png"
                 alt="instagram"
               />
@@ -245,7 +247,8 @@ const welcomeAgentMail = (to, fullname) => {
             <a
               href="https://twitter.com/Hapartment11?t=cmOAR5aAypWeGzbLvebt-A&s=09"
               target="_blank"
-              ><img
+            >
+              <img
                 src="https://res.cloudinary.com/devsource/image/upload/v1671294038/hapartment/twitter_nhe4s3.png"
                 alt="twitter"
               />
@@ -253,7 +256,8 @@ const welcomeAgentMail = (to, fullname) => {
             <a
               href="https://www.linkedin.com/in/hapartment-rentals"
               target="_blank"
-              ><img
+            >
+              <img
                 src="https://res.cloudinary.com/devsource/image/upload/v1671293954/hapartment/linkedin_2_ruzrjf.png"
                 alt="linkedin"
               />

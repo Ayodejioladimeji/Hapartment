@@ -20,7 +20,7 @@ const oauth2Client = new OAuth2(
 );
 
 // send register mail
-const agentVerifiedMail = (to, fullname) => {
+const listingRequestMail = (to, fullname) => {
   oauth2Client.setCredentials({
     refresh_token: MAILING_SERVICE_REFRESH_TOKEN,
   });
@@ -177,82 +177,82 @@ const agentVerifiedMail = (to, fullname) => {
     </style>
   </head>
   <body>
-    <section>
-      <div class="container">
-        <div class="header">
-          <img
-            style="width: 120px; margin-bottom: 40px; object-fit: contain"
-            src="https://res.cloudinary.com/hapartments/image/upload/v1677132535/logos/Group_11_ggfsko.png"
+  <section>
+  <div class="container">
+    <div class="header">
+      <img
+        style="width: 120px; margin-bottom: 40px; object-fit: contain"
+        src="https://res.cloudinary.com/hapartments/image/upload/v1677132535/logos/Group_11_ggfsko.png"
+      />
+    </div>
+
+    <main>
+      <p class="heading"><b>Hi, ${fullname}</b></p>
+
+      <p class="body">
+        <span style="color: green; font-weight: bold"
+          >Thank you for submitting your property on Hapartment</span
+        >
+      </p>
+
+      <p class="body">
+        We will review your submission and get back to you as soon as possible
+      </p>
+
+      <br />
+
+      <p class="thanks">
+        Regards,<br /><br />
+        <b style="color: green">Hapartment Team</b>
+      </p>
+    </main>
+
+    <footer>
+      <span
+        >If you have any questions, concerns or feedback, kindly reach us on
+        <strong>support@hapartment.org</strong> or chat us across all our
+        social media handles.
+      </span>
+
+      <div class="social-icons">
+        <a
+          href="https://www.facebook.com/profile.php?id=100085724386292&mibextid=ZbWKwL"
+          target="_blank"
+          ><img
+            src="https://res.cloudinary.com/devsource/image/upload/v1671294040/hapartment/facebook_mg52gn.png"
+            alt="facebook"
           />
-        </div>
-
-        <main>
-          <p class="heading"><b>Hi, ${fullname}</b></p>
-
-          <p class="body">
-            <span style="color: green; font-weight: bold"
-              >Thank you for joining Hapartment as an agent</span
-            >
-          </p>
-
-          <p class="body">
-            We are happy to tell you that your identification submissions has been verified and approved 
-          </p>
-
-          <br />
-
-          <p class="thanks">
-            Regards,<br /><br />
-            <b style="color: green">Hapartment Team</b>
-          </p>
-        </main>
-
-        <footer>
-          <span
-            >If you have any questions, concerns or feedback, kindly reach us on
-            <strong>support@hapartment.org</strong> or chat us across all our
-            social media handles.
-          </span>
-
-          <div class="social-icons">
-            <a
-              href="https://www.facebook.com/profile.php?id=100085724386292&mibextid=ZbWKwL"
-              target="_blank"
-              ><img
-                src="https://res.cloudinary.com/devsource/image/upload/v1671294040/hapartment/facebook_mg52gn.png"
-                alt="facebook"
-              />
-            </a>
-            <a
-              href="https://www.instagram.com/invites/contact/?i=1pqlgg45pg0nl&utm_content=pldblyb"
-              target="_blank"
-              ><img
-                src="https://res.cloudinary.com/devsource/image/upload/v1671294036/hapartment/instagram_qqugwq.png"
-                alt="instagram"
-              />
-            </a>
-            <a
-              href="https://twitter.com/Hapartment11?t=cmOAR5aAypWeGzbLvebt-A&s=09"
-              target="_blank"
-              ><img
-                src="https://res.cloudinary.com/devsource/image/upload/v1671294038/hapartment/twitter_nhe4s3.png"
-                alt="twitter"
-              />
-            </a>
-            <a
-              href="https://www.linkedin.com/in/hapartment-rentals"
-              target="_blank"
-              ><img
-                src="https://res.cloudinary.com/devsource/image/upload/v1671293954/hapartment/linkedin_2_ruzrjf.png"
-                alt="linkedin"
-              />
-            </a>
-          </div>
-
-          <p class="copyrights">© 2023 hapartment. All Rights Reserved.</p>
-        </footer>
+        </a>
+        <a
+          href="https://www.instagram.com/invites/contact/?i=1pqlgg45pg0nl&utm_content=pldblyb"
+          target="_blank"
+          ><img
+            src="https://res.cloudinary.com/devsource/image/upload/v1671294036/hapartment/instagram_qqugwq.png"
+            alt="instagram"
+          />
+        </a>
+        <a
+          href="https://twitter.com/Hapartment11?t=cmOAR5aAypWeGzbLvebt-A&s=09"
+          target="_blank"
+          ><img
+            src="https://res.cloudinary.com/devsource/image/upload/v1671294038/hapartment/twitter_nhe4s3.png"
+            alt="twitter"
+          />
+        </a>
+        <a
+          href="https://www.linkedin.com/in/hapartment-rentals"
+          target="_blank"
+          ><img
+            src="https://res.cloudinary.com/devsource/image/upload/v1671293954/hapartment/linkedin_2_ruzrjf.png"
+            alt="linkedin"
+          />
+        </a>
       </div>
-    </section>
+
+      <p class="copyrights">© 2023 hapartment. All Rights Reserved.</p>
+    </footer>
+  </div>
+</section>
   </body>
 </html>
 
@@ -266,4 +266,4 @@ const agentVerifiedMail = (to, fullname) => {
   });
 };
 
-module.exports = agentVerifiedMail;
+module.exports = listingRequestMail;

@@ -13,10 +13,10 @@ router.post("/login-admin", adminCtrl.loginAdmin);
 
 // patch request
 // router.patch("/admin-updateuser", adminCtrl.updateUser);
-router.patch("/approve-agent/:id", adminCtrl.approveAgent);
-router.patch("/decline-agent/:id", adminCtrl.declineAgent);
-router.patch("/approve-listing/:id", adminCtrl.approveListing);
-router.patch("/decline-listing/:id", adminCtrl.declineListing);
+router.patch("/approve-agent/:id", auth, adminCtrl.approveAgent);
+router.patch("/approve-listing/:id", auth, adminCtrl.approveListing);
+router.patch("/decline-agent", auth, adminCtrl.declineAgent);
+router.patch("/decline-listing", auth, adminCtrl.declineListing);
 
 // get request
 router.get("/all-users", adminCtrl.getAllUsers);

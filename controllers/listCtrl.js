@@ -1,8 +1,9 @@
 const User = require("../models/userModel");
-const Listing = require("../models/listModel");
+const SampleListing = require("../models/listSampleModel");
 const Favorite = require("../models/favoriteModel");
 const axios = require("axios");
 const { strictRemoveComma } = require("comma-separator");
+const listingRequestMail = require("../mails/listingRequestMail");
 
 const listCtrl = {
   // Create Listing
@@ -79,7 +80,7 @@ const listCtrl = {
         });
 
       //   save data in the database
-      const newListing = new Listing({
+      const newListing = new SampleListing({
         address,
         map,
         property_type,
@@ -102,9 +103,11 @@ const listCtrl = {
         postedBy: req.user,
       });
 
+      listingRequestMail(user.email, user.fullname);
+
       await newListing.save();
       res.json({
-        msg: "Property created successfully, it will reflect as soon as it is approved! ",
+        msg: "Property created successfully",
       });
     } catch (error) {
       return res.status(500).json({ msg: error.message });
@@ -241,8 +244,8 @@ const listCtrl = {
         .populate("postedBy", "_id fullname email username image verification ")
         .sort("-createdAt");
 
-        // filter through not to return declined listings
-        
+      // filter through not to return declined listings
+
       // shuffle the listings to display randomly
       const shuffle = (arr) => [...arr].sort(() => Math.random() - 0.8);
       const randomData = shuffle(listing);

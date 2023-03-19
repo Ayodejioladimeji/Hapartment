@@ -1,9 +1,54 @@
-<html lang="en">
+const nodemailer = require("nodemailer");
+const { google } = require("googleapis");
+const { OAuth2 } = google.auth;
+const OAUTH_PLAYGROUND = "https://developers.google.com/oauthplayground";
+
+//
+const {
+  MAILING_SERVICE_CLIENT_ID,
+  MAILING_SERVICE_CLIENT_SECRET,
+  MAILING_SERVICE_REFRESH_TOKEN,
+  SENDER_EMAIL_ADDRESS,
+  SENDER_EMAIL,
+} = process.env;
+
+const oauth2Client = new OAuth2(
+  MAILING_SERVICE_CLIENT_ID,
+  MAILING_SERVICE_CLIENT_SECRET,
+  MAILING_SERVICE_REFRESH_TOKEN,
+  OAUTH_PLAYGROUND
+);
+
+// send register mail
+const listingApprovedMail = (to, fullname) => {
+  oauth2Client.setCredentials({
+    refresh_token: MAILING_SERVICE_REFRESH_TOKEN,
+  });
+
+  const accessToken = oauth2Client.getAccessToken();
+  const smtpTransport = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      type: "OAuth2",
+      user: SENDER_EMAIL_ADDRESS,
+      clientId: MAILING_SERVICE_CLIENT_ID,
+      clientSecret: MAILING_SERVICE_CLIENT_SECRET,
+      refreshToken: MAILING_SERVICE_REFRESH_TOKEN,
+      accessToken,
+    },
+  });
+
+  const mailOptions = {
+    from: SENDER_EMAIL,
+    to: to,
+    subject: "Welcome to Hapartment",
+    html: `
+       <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Decline Listing Email</title>
+    <title>Agent Verification</title>
 
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap");
@@ -142,7 +187,7 @@
         </div>
 
         <main>
-          <p class="heading"><b>Hi, Ayodeji Oladimeji</b></p>
+          <p class="heading"><b>Hi, ${fullname}</b></p>
 
           <p class="body">
             <span style="color: green; font-weight: bold"
@@ -151,8 +196,7 @@
           </p>
 
           <p class="body">
-            We will review your submission and get back to you as soon as
-            possible
+            We are happy to announce to you that your property has been approved 
           </p>
 
           <br />
@@ -211,3 +255,15 @@
     </section>
   </body>
 </html>
+
+
+    `,
+  };
+
+  smtpTransport.sendMail(mailOptions, (err, infor) => {
+    if (err) return err;
+    return infor;
+  });
+};
+
+module.exports = listingApprovedMail;
