@@ -141,11 +141,7 @@ const adminCtrl = {
   // Verify Agent endpoint
   approveAgent: async (req, res) => {
     try {
-      const allusers = await User.find();
-
-      const getUser = allusers.find(
-        (user) => user._id.toString() === req.params.id
-      );
+      const getUser = await User.findById(req.params.id);
 
       const {
         identity_name,
@@ -263,14 +259,14 @@ const adminCtrl = {
       if (!listing)
         return res.status(400).json({ msg: "Listing does not exist" });
 
-      await Listing.findOneAndUpdate(
-        {
-          _id: id,
-        },
-        {
-          status: "declined",
-        }
-      );
+      // await Listing.findOneAndUpdate(
+      //   {
+      //     _id: id,
+      //   },
+      //   {
+      //     status: "declined",
+      //   }
+      // );
 
       const pathurl = `${CLIENT_URL}/public/${id}`;
 

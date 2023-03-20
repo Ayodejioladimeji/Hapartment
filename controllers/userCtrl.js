@@ -156,7 +156,7 @@ const userCtrl = {
       // send email to the newly registered user
       resendCodeMail(email, fullname, code);
 
-      // send feedbac to the client side
+      // send feedback to the client side
       res.json({
         msg: "Code sent!, please check your mail to activate your account",
         activation_token,

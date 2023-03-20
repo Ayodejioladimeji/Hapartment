@@ -39,224 +39,232 @@ const listingRequestMail = (to, fullname) => {
   });
 
   const mailOptions = {
-    from: SENDER_EMAIL,
+    from: `Hapartment Digital Marketplace ${SENDER_EMAIL}`,
     to: to,
-    subject: "Welcome to Hapartment",
+    subject: "Property Created Successfully",
     html: `
-       <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Agent Verification</title>
-
-    <style>
-      @import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap");
-      * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-        font-family: "Lato", sans-serif;
-      }
-
-      section {
-        display: flex;
-        justify-content: center;
-        height: 100%;
-      }
-
-      .container {
-        width: 100%;
-        margin: 20px 0;
-        padding: 30px 5px;
-        background: #fff;
-        border: 1px solid #f8f9fc;
-      }
-
-      .header {
-        text-align: center;
-      }
-
-      main {
-        width: 100%;
-        background: #f8f9fc;
-        border-radius: 10px;
-        margin-top: 20px;
-        padding: 40px 10px;
-      }
-
-      .heading {
-        font-size: 18px;
-        margin-bottom: 20px;
-        line-height: 30px;
-        font-weight: 700;
-      }
-      .heading img {
-        height: 20px;
-        width: 20px;
-      }
-      .code {
-        text-align: center;
-        font-size: 38px;
-        margin-bottom: 30px;
-        font-weight: bold;
-      }
-      .body {
-        font-size: 15px;
-        margin-bottom: 20px;
-        line-height: 30px;
-      }
-      .reasons {
-        font-size: 15px;
-        margin-bottom: 20px;
-        line-height: 30px;
-      }
-      footer {
-        text-align: center;
-        margin-top: 20px;
-      }
-
-      footer span {
-        display: block;
-        margin-top: 20px;
-        color: #7e7e7e;
-        font-size: 14px;
-        line-height: 25px;
-        text-align: center;
-      }
-
-      footer span strong {
-        color: green;
-      }
-
-      .social-icons {
-        margin: 40px auto 20px auto;
-        text-align: center;
-      }
-
-      .social-icons a {
-        text-decoration: none;
-      }
-
-      .social-icons a img {
-        width: 25px;
-        height: 25px;
-        margin-right: 5px;
-      }
-
-      .copyrights {
-        font-size: 14px;
-        color: #7e7e7e;
-        text-align: center;
-        display: block;
-      }
-
-      .button {
-        background: green;
-        color: #fff;
-        padding: 10px 25px;
-        border-radius: 5px;
-        border: none;
-        outline: none;
-        margin-bottom: 30px;
-        font-size: 15px;
-      }
-
-      /* responsiveness */
-      @media (min-width: 700px) {
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Property Created Successfully</title>
+  
+      <style>
+        @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
+        * {
+          box-sizing: border-box;
+          margin: 0;
+          padding: 0;
+          font-family: 'Lato', sans-serif;
+        }
+  
+        section {
+          display: flex;
+          justify-content: center;
+          height: 100%;
+        }
+  
         .container {
-          width: 600px;
-          padding: 30px 20px;
+          width: 100%;
+          margin: 20px 0;
+          padding: 30px 10px;
+          background: #fff;
+          border-radius: 10px;
         }
-
+  
+        .header {
+          text-align: center;
+        }
+  
         main {
-          width: 550px;
-          padding: 40px 30px;
+          width: 100%;
+          border-radius: 10px;
+          margin-top: 20px;
+          padding: 40px 5px;
         }
-      }
-    </style>
-  </head>
-  <body>
-  <section>
-  <div class="container">
-    <div class="header">
-      <img
-        style="width: 120px; margin-bottom: 40px; object-fit: contain"
-        src="https://res.cloudinary.com/hapartments/image/upload/v1677132535/logos/Group_11_ggfsko.png"
-      />
-    </div>
+  
+        .heading {
+          font-size: 16px;
+          margin-bottom: 20px;
+          line-height: 30px;
+          font-weight: 700;
+          text-align: left;
+        }
+  
+        .heading img {
+          height: 20px;
+          width: 20px;
+        }
+  
+        .code {
+          text-align: center;
+          font-size: 30px;
+          margin-bottom: 30px;
+          font-weight: bold;
+        }
+        .body {
+          font-size: 15px;
+          margin-bottom: 20px;
+          line-height: 30px;
+        }
+        .reasons {
+          font-size: 15px;
+          margin-bottom: 20px;
+          line-height: 30px;
+        }
+        footer {
+          text-align: center;
+          margin-top: 20px;
+        }
+  
+        footer span {
+          display: block;
+          color: #7e7e7e;
+          line-height: 25px;
+          text-align: center;
+        }
+  
+        .social-icons {
+          margin: 40px auto 20px auto;
+          text-align: center;
+        }
+  
+        .social-icons a {
+          text-decoration: none;
+        }
+  
+        .social-icons a img {
+          width: 25px;
+          height: 25px;
+          margin-right: 5px;
+        }
+  
+        .copyrights {
+          font-size: 13px;
+          color: #7e7e7e;
+          text-align: center;
+          display: block;
+        }
+  
+        .button {
+          background: green;
+          color: #fff;
+          padding: 10px 25px;
+          border-radius: 5px;
+          border: none;
+          outline: none;
+          margin-bottom: 30px;
+          font-size: 15px;
+        }
+  
+        /* responsiveness */
+        @media (min-width: 700px) {
+          .container {
+            width: 600px;
+            padding: 30px 20px;
+          }
+  
+          main {
+            width: 550px;
+            padding: 40px 30px;
+          }
+        }
+      </style>
+    </head>
+    <body>
+      <section>
+        <div class="container" style="background: #f8f9fc;">
+          <div class="header">
+            <img
+              style="width: 120px; margin-bottom: 40px; object-fit: contain;"
+              src="https://res.cloudinary.com/hapartments/image/upload/v1677132535/logos/Group_11_ggfsko.png"
+            />
+          </div>
+  
+          <main>
+            <p class="heading"><b>Hi, ${fullname}</b></p>
+  
+            <p class="body">
+              Thank you for submitting your property on Hapartment
+            </p>
 
-    <main>
-      <p class="heading"><b>Hi, ${fullname}</b></p>
-
-      <p class="body">
-        <span style="color: green; font-weight: bold"
-          >Thank you for submitting your property on Hapartment</span
-        >
-      </p>
-
-      <p class="body">
-        We will review your submission and get back to you as soon as possible
-      </p>
-
-      <br />
-
-      <p class="thanks">
-        Regards,<br /><br />
-        <b style="color: green">Hapartment Team</b>
-      </p>
-    </main>
-
-    <footer>
-      <span
-        >If you have any questions, concerns or feedback, kindly reach us on
-        <strong>support@hapartment.org</strong> or chat us across all our
-        social media handles.
-      </span>
-
-      <div class="social-icons">
-        <a
-          href="https://www.facebook.com/profile.php?id=100085724386292&mibextid=ZbWKwL"
-          target="_blank"
-          ><img
-            src="https://res.cloudinary.com/devsource/image/upload/v1671294040/hapartment/facebook_mg52gn.png"
-            alt="facebook"
-          />
-        </a>
-        <a
-          href="https://www.instagram.com/invites/contact/?i=1pqlgg45pg0nl&utm_content=pldblyb"
-          target="_blank"
-          ><img
-            src="https://res.cloudinary.com/devsource/image/upload/v1671294036/hapartment/instagram_qqugwq.png"
-            alt="instagram"
-          />
-        </a>
-        <a
-          href="https://twitter.com/Hapartment11?t=cmOAR5aAypWeGzbLvebt-A&s=09"
-          target="_blank"
-          ><img
-            src="https://res.cloudinary.com/devsource/image/upload/v1671294038/hapartment/twitter_nhe4s3.png"
-            alt="twitter"
-          />
-        </a>
-        <a
-          href="https://www.linkedin.com/in/hapartment-rentals"
-          target="_blank"
-          ><img
-            src="https://res.cloudinary.com/devsource/image/upload/v1671293954/hapartment/linkedin_2_ruzrjf.png"
-            alt="linkedin"
-          />
-        </a>
-      </div>
-
-      <p class="copyrights">© 2023 hapartment. All Rights Reserved.</p>
-    </footer>
-  </div>
-</section>
-  </body>
-</html>
-
-
+            <p class="body">
+              Your property has been created successfully 
+            </p>
+  
+            <p class="body">
+              Our team will review your submission and get back to you on your approval status.
+            </p>
+  
+            <p style="margin-top: 50px; font-size: 13px;">
+              Regards,
+              <br />
+              <br />
+              <b style="color: green;">Hapartment Team</b>
+            </p>
+          </main>
+  
+          <footer
+            style="
+              margin-top: 20px;
+              background: #e7eaf4;
+              border-radius: 10px;
+              padding: 30px 10px;
+            "
+          >
+            <span style="font-size: 13px;">
+              If you have any questions, concerns or feedback, kindly reach us on
+              <a style="color: green;">support@hapartment.org</a>
+              or chat us across all our social media handles.
+            </span>
+  
+            <div class="social-icons">
+              <a
+                href="https://www.facebook.com/profile.php?id=100085724386292&mibextid=ZbWKwL"
+                target="_blank"
+              >
+                <img
+                  src="https://res.cloudinary.com/devsource/image/upload/v1671294040/hapartment/facebook_mg52gn.png"
+                  alt="facebook"
+                />
+              </a>
+              <a
+                href="https://www.instagram.com/invites/contact/?i=1pqlgg45pg0nl&utm_content=pldblyb"
+                target="_blank"
+              >
+                <img
+                  src="https://res.cloudinary.com/devsource/image/upload/v1671294036/hapartment/instagram_qqugwq.png"
+                  alt="instagram"
+                />
+              </a>
+              <a
+                href="https://twitter.com/Hapartment11?t=cmOAR5aAypWeGzbLvebt-A&s=09"
+                target="_blank"
+              >
+                <img
+                  src="https://res.cloudinary.com/devsource/image/upload/v1671294038/hapartment/twitter_nhe4s3.png"
+                  alt="twitter"
+                />
+              </a>
+              <a
+                href="https://www.linkedin.com/in/hapartment-rentals"
+                target="_blank"
+              >
+                <img
+                  src="https://res.cloudinary.com/devsource/image/upload/v1671293954/hapartment/linkedin_2_ruzrjf.png"
+                  alt="linkedin"
+                />
+              </a>
+            </div>
+  
+            <p class="copyrights">© 2023 hapartment. All Rights Reserved.</p>
+          </footer>
+        </div>
+      </section>
+    </body>
+  </html>
+  
     `,
   };
 

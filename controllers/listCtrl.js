@@ -1,5 +1,6 @@
 const User = require("../models/userModel");
-const SampleListing = require("../models/listSampleModel");
+const Listing = require("../models/listModel");
+// const SampleListing = require("../models/listSampleModel");
 const Favorite = require("../models/favoriteModel");
 const axios = require("axios");
 const { strictRemoveComma } = require("comma-separator");
@@ -80,7 +81,7 @@ const listCtrl = {
         });
 
       //   save data in the database
-      const newListing = new SampleListing({
+      const newListing = new Listing({
         address,
         map,
         property_type,

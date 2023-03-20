@@ -3,7 +3,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Verify Your Email Address</title>
+    <title>Property Approved</title>
 
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
@@ -40,11 +40,11 @@
       }
 
       .heading {
-        font-size: 18px;
+        font-size: 16px;
         margin-bottom: 20px;
         line-height: 30px;
         font-weight: 700;
-        text-align: center;
+        text-align: left;
       }
 
       .heading img {
@@ -62,7 +62,6 @@
         font-size: 15px;
         margin-bottom: 20px;
         line-height: 30px;
-        text-align: center;
       }
       .reasons {
         font-size: 15px;
@@ -103,17 +102,6 @@
         display: block;
       }
 
-      .button {
-        background: green;
-        color: #fff;
-        padding: 10px 25px;
-        border-radius: 5px;
-        border: none;
-        outline: none;
-        margin-bottom: 30px;
-        font-size: 15px;
-      }
-
       /* responsiveness */
       @media (min-width: 700px) {
         .container {
@@ -139,23 +127,58 @@
         </div>
 
         <main>
-          <p class="heading">
-            <b>Registration Successful</b>
-            <img
-              src="https://res.cloudinary.com/hapartments/image/upload/v1677132539/logos/Group_10556_xgtbe1.png"
-              alt=""
-            />
+          <p class="heading"><b>Hi, ${fullname}</b></p>
+
+          <p class="body">
+            We have reviewed your property and regret to inform you that your
+            listing do not pass the provided standard for creating property on
+            Hapartment.
+          </p>
+
+          <p class="heading" style="color: green;">Reasons for Rejection</p>
+
+          <p class="reasons">
+            ${one}
+          </p>
+          <p class="reasons">
+            ${two}
+          </p>
+          <p class="reasons">
+            ${three}
+          </p>
+          <p class="reasons">
+            ${four}
+          </p>
+          <p class="reasons">
+            ${five}
           </p>
 
           <p class="body">
-          <span style="color: green; font-weight: bold"
-          >Thanks for signing up. Seems like you didn’t get the OTP sent
-          earlier.</span
-            <br />
-            Please verify your email address with this one time OTP code
+            Click
+            <a href="https://www.hapartment.org/howto" style="color: green;">
+              here
+            </a>
+            to have a view on how to create a listing.
           </p>
 
-          <h1 class="code">${code}</h1>
+          <a
+            href="${url}"
+            style="
+              background: green;
+              color: #fff;
+              padding: 14px;
+              border-radius: 5px;
+              border: none;
+              outline: none;
+              margin-bottom: 30px;
+              font-size: 15px;
+              text-decoration: none;
+              width: 100%;
+              text-align: center;
+            "
+          >
+            View Property
+          </a>
 
           <p style="margin-top: 50px; font-size: 13px;">
             Regards,

@@ -39,16 +39,16 @@ const forgotPasswordMail = (to, code) => {
   });
 
   const mailOptions = {
-    from: SENDER_EMAIL,
+    from: `Hapartment Digital Marketplace ${SENDER_EMAIL}`,
     to: to,
-    subject: "Forgot Password",
+    subject: "Change Password",
     html: `
-      <html lang="en">
+    <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Forgot Password</title>
+    <title>Change password</title>
 
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
@@ -68,9 +68,9 @@ const forgotPasswordMail = (to, code) => {
       .container {
         width: 100%;
         margin: 20px 0;
-        padding: 30px 5px;
+        padding: 30px 10px;
         background: #fff;
-        border: 1px solid #f8f9fc;
+        border-radius: 10px;
       }
 
       .header {
@@ -79,10 +79,9 @@ const forgotPasswordMail = (to, code) => {
 
       main {
         width: 100%;
-        background: #f8f9fc;
         border-radius: 10px;
         margin-top: 20px;
-        padding: 40px 10px;
+        padding: 40px 5px;
       }
 
       .heading {
@@ -100,7 +99,7 @@ const forgotPasswordMail = (to, code) => {
 
       .code {
         text-align: center;
-        font-size: 35px;
+        font-size: 30px;
         margin-bottom: 30px;
         font-weight: bold;
       }
@@ -122,15 +121,9 @@ const forgotPasswordMail = (to, code) => {
 
       footer span {
         display: block;
-        margin-top: 20px;
         color: #7e7e7e;
-        font-size: 14px;
         line-height: 25px;
         text-align: center;
-      }
-
-      footer span strong {
-        color: green;
       }
 
       .social-icons {
@@ -149,14 +142,10 @@ const forgotPasswordMail = (to, code) => {
       }
 
       .copyrights {
-        font-size: 14px;
+        font-size: 13px;
         color: #7e7e7e;
         text-align: center;
         display: block;
-      }
-
-      .thanks {
-        margin-top: 50px;
       }
 
       .button {
@@ -186,46 +175,56 @@ const forgotPasswordMail = (to, code) => {
   </head>
   <body>
     <section>
-      <div class="container">
+      <div class="container" style="background: #f8f9fc;">
         <div class="header">
           <img
-            style="width: 120px; margin-bottom: 40px; object-fit: contain"
+            style="width: 120px; margin-bottom: 40px; object-fit: contain;"
             src="https://res.cloudinary.com/hapartments/image/upload/v1677132535/logos/Group_11_ggfsko.png"
           />
         </div>
 
         <main>
-          <p class="heading"><b>Change Password Request</b></p>
+        <p class="heading"><b>Change Password Request</b></p>
 
-          <p class="body">
-            <span style="color: green; font-weight: bold"
-              >You just requested to change your password.</span
-            ><br />
-            Please verify your email address with this one time OTP code
-          </p>
+        <p class="body">
+        <span style="color: green; font-weight: bold"
+          >You just requested to change your password.</span
+        ><br />
+        Please verify your email address with this one time OTP code
+      </p>
 
           <h1 class="code">${code}</h1>
 
           <p class="body">If you didn’t make this request, kindly ignore</p>
 
-          <p class="thanks">
-            Regards,<br /><br />
-            <b style="color: green">Hapartment Team</b>
+          <p style="margin-top: 50px; font-size: 13px;">
+            Regards,
+            <br />
+            <br />
+            <b style="color: green;">Hapartment Team</b>
           </p>
         </main>
 
-        <footer>
-          <span
-            >If you have any questions, concerns or feedback, kindly reach us on
-            <strong>support@hapartment.org</strong> or chat us across all our
-            social media handles.
+        <footer
+          style="
+            margin-top: 20px;
+            background: #e7eaf4;
+            border-radius: 10px;
+            padding: 30px 10px;
+          "
+        >
+          <span style="font-size: 13px;">
+            If you have any questions, concerns or feedback, kindly reach us on
+            <a style="color: green;">support@hapartment.org</a>
+            or chat us across all our social media handles.
           </span>
 
           <div class="social-icons">
             <a
               href="https://www.facebook.com/profile.php?id=100085724386292&mibextid=ZbWKwL"
               target="_blank"
-              ><img
+            >
+              <img
                 src="https://res.cloudinary.com/devsource/image/upload/v1671294040/hapartment/facebook_mg52gn.png"
                 alt="facebook"
               />
@@ -233,7 +232,8 @@ const forgotPasswordMail = (to, code) => {
             <a
               href="https://www.instagram.com/invites/contact/?i=1pqlgg45pg0nl&utm_content=pldblyb"
               target="_blank"
-              ><img
+            >
+              <img
                 src="https://res.cloudinary.com/devsource/image/upload/v1671294036/hapartment/instagram_qqugwq.png"
                 alt="instagram"
               />
@@ -241,7 +241,8 @@ const forgotPasswordMail = (to, code) => {
             <a
               href="https://twitter.com/Hapartment11?t=cmOAR5aAypWeGzbLvebt-A&s=09"
               target="_blank"
-              ><img
+            >
+              <img
                 src="https://res.cloudinary.com/devsource/image/upload/v1671294038/hapartment/twitter_nhe4s3.png"
                 alt="twitter"
               />
@@ -249,7 +250,8 @@ const forgotPasswordMail = (to, code) => {
             <a
               href="https://www.linkedin.com/in/hapartment-rentals"
               target="_blank"
-              ><img
+            >
+              <img
                 src="https://res.cloudinary.com/devsource/image/upload/v1671293954/hapartment/linkedin_2_ruzrjf.png"
                 alt="linkedin"
               />
