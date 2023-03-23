@@ -260,12 +260,9 @@ const listCtrl = {
   //   Listing details
   listDetails: async (req, res) => {
     try {
-      // check if user is logged in
-      const user = await User.findById(req.user.id);
-      if (!user)
-        return res.status(400).json({ msg: "Please login to continue" });
-
-      const list_details = await Listing.findById(req.params.id);
+      const list_details = await Listing.findById(req.params.id)
+        .populate("postedBy", "_id fullname email username image verification ")
+        .sort("-createdAt");
 
       res.json(list_details);
     } catch (error) {
@@ -351,7 +348,7 @@ const listCtrl = {
   getFavorites: async (req, res) => {
     try {
       const favourite = await Favorite.find()
-        .populate("savedBy", "_id fullname email username image verification ")
+        .populate("postedBy", "_id fullname email username image verification ")
         .sort("-createdAt");
 
       // filter through the listing to get the ones created by the logged in user

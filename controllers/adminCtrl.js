@@ -259,14 +259,14 @@ const adminCtrl = {
       if (!listing)
         return res.status(400).json({ msg: "Listing does not exist" });
 
-      // await Listing.findOneAndUpdate(
-      //   {
-      //     _id: id,
-      //   },
-      //   {
-      //     status: "declined",
-      //   }
-      // );
+      await Listing.findOneAndUpdate(
+        {
+          _id: id,
+        },
+        {
+          status: "declined",
+        }
+      );
 
       const pathurl = `${CLIENT_URL}/public/${id}`;
 
