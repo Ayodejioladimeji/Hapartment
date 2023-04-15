@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { ObjectId } = mongoose.Schema.Types;
 
-const listingSchema = new mongoose.Schema(
+const listingSampleSchema = new mongoose.Schema(
   {
     address: {
       type: String,
@@ -109,4 +109,4 @@ const listingSchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("Listing", listingSchema);
+module.exports = mongoose.model("SampleListing", listingSampleSchema);
