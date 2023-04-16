@@ -3,7 +3,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Property Approved</title>
+    <title>Notifications</title>
 
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
@@ -102,6 +102,17 @@
         display: block;
       }
 
+      .button {
+        background: green;
+        color: #fff;
+        padding: 10px 25px;
+        border-radius: 5px;
+        border: none;
+        outline: none;
+        margin-bottom: 30px;
+        font-size: 15px;
+      }
+
       /* responsiveness */
       @media (min-width: 700px) {
         .container {
@@ -130,55 +141,16 @@
           <p class="heading"><b>Hi, ${fullname}</b></p>
 
           <p class="body">
-            We have reviewed your property and regret to inform you that your
-            listing do not pass the provided standard for creating property on
-            Hapartment.
-          </p>
-
-          <p class="heading" style="color: green;">Reasons for Rejection</p>
-
-          <p class="reasons">
-            ${one}
-          </p>
-          <p class="reasons">
-            ${two}
-          </p>
-          <p class="reasons">
-            ${three}
-          </p>
-          <p class="reasons">
-            ${four}
-          </p>
-          <p class="reasons">
-            ${five}
+            <span style="color: green; font-weight: bold;">
+              Congratulations!
+            </span>
           </p>
 
           <p class="body">
-            Click
-            <a href="https://www.hapartment.org/howto" style="color: green;">
-              here
-            </a>
-            to have a view on how to create a listing.
+            A property has been found based on your notification criteria
           </p>
 
-          <a
-            href="${url}"
-            style="
-              background: green;
-              color: #fff;
-              padding: 14px;
-              border-radius: 5px;
-              border: none;
-              outline: none;
-              margin-bottom: 30px;
-              font-size: 15px;
-              text-decoration: none;
-              width: 100%;
-              text-align: center;
-            "
-          >
-            View Property
-          </a>
+          <button class="button">View property</button>
 
           <p style="margin-top: 50px; font-size: 13px;">
             Regards,

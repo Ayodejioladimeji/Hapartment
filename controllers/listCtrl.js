@@ -8,6 +8,8 @@ const { strictRemoveComma } = require("comma-separator");
 const listingRequestMail = require("../mails/listingRequestMail");
 const notificationMail = require("../mails/notificationMail");
 
+const { CLIENT_URL } = process.env;
+
 const listCtrl = {
   // Create Listing
   createListing: async (req, res) => {
@@ -121,7 +123,7 @@ const listCtrl = {
         .populate("postedBy", "_id fullname email username image ")
         .sort("-createdAt");
 
-      const filteredNotification = notifications.find((item) => {
+      const filtered = notifications.find((item) => {
         let isValid = true;
 
         const filters = {
@@ -140,16 +142,30 @@ const listCtrl = {
         return isValid;
       });
 
-      // res.json(filt);
-      // res.json(filteredNotification);
-
       listingRequestMail(user.email, user.fullname);
+      await newListing.save();
+
+      const listing = await Listing.find();
+
+      // filter through the listing and compare its values with notification values
+      const value = listing.find(
+        (item) =>
+          item.property_type === filtered.property_type &&
+          item.statename === filtered.statename &&
+          item.cityname === filtered.cityname &&
+          item.bathrooms === filtered.bathrooms &&
+          item.toilets === filtered.toilets &&
+          item.furnishing === filtered.furnishing
+      );
+
+      const url = `${CLIENT_URL}/listings/${value._id}`;
+
       notificationMail(
+        url,
         filteredNotification.postedBy.email,
         filteredNotification.postedBy.fullname
       );
 
-      await newListing.save();
       res.json({
         msg: "Property created successfully",
       });
