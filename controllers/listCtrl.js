@@ -104,9 +104,11 @@ const listCtrl = {
         postedBy: req.user,
       });
 
-      listingRequestMail(user.email, user.fullname);
+      console.log(newListing);
 
-      await newListing.save();
+      // listingRequestMail(user.email, user.fullname);
+
+      // await newListing.save();
       res.json({
         msg: "Property created successfully",
       });

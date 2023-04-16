@@ -10,6 +10,7 @@ router.post("/create_notification", auth, notificationCtrl.createNotification);
 //
 // get request
 router.get("/my_notifications", auth, notificationCtrl.myNotification);
+router.get("/notifications", notificationCtrl.allNotifications);
 
 // patch request
 
