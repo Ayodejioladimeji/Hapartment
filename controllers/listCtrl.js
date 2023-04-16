@@ -162,8 +162,8 @@ const listCtrl = {
 
       notificationMail(
         url,
-        filteredNotification.postedBy.email,
-        filteredNotification.postedBy.fullname
+        filtered.postedBy.email,
+        filtered.postedBy.fullname
       );
 
       res.json({
