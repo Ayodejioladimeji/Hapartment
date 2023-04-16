@@ -1,10 +1,12 @@
 const User = require("../models/userModel");
 const Listing = require("../models/listModel");
 // const SampleListing = require("../models/listSampleModel");
+const Notification = require("../models/notificationModel");
 const Favorite = require("../models/favoriteModel");
 const axios = require("axios");
 const { strictRemoveComma } = require("comma-separator");
 const listingRequestMail = require("../mails/listingRequestMail");
+const notificationMail = require("../mails/notificationMail");
 
 const listCtrl = {
   // Create Listing
@@ -104,7 +106,48 @@ const listCtrl = {
         postedBy: req.user,
       });
 
+      // Create a notification criteria to notify users through mail
+      const filt = {
+        property_type,
+        statename,
+        cityname,
+        bathrooms,
+        toilets,
+        furnishing,
+      };
+
+      // get all notifications
+      const notifications = await Notification.find()
+        .populate("postedBy", "_id fullname email username image ")
+        .sort("-createdAt");
+
+      const filteredNotification = notifications.find((item) => {
+        let isValid = true;
+
+        const filters = {
+          property_type: item.property_type,
+          statename: item.statename,
+          cityname: item.cityname,
+          bathrooms: item.bathrooms,
+          toilets: item.toilets,
+          furnishing: item.furnishing,
+        };
+
+        for (key in filt) {
+          // console.log(key, item[key], filters[key]);
+          isValid = isValid && filters[key] === filt[key];
+        }
+        return isValid;
+      });
+
+      // res.json(filt);
+      // res.json(filteredNotification);
+
       listingRequestMail(user.email, user.fullname);
+      notificationMail(
+        filteredNotification.postedBy.email,
+        filteredNotification.postedBy.fullname
+      );
 
       await newListing.save();
       res.json({

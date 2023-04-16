@@ -76,6 +76,19 @@ const notificationCtrl = {
     }
   },
 
+  // get all user notifications
+  allNotifications: async (req, res) => {
+    try {
+      const notifications = await Notification.find()
+        .populate("postedBy", "_id fullname email username image ")
+        .sort("-createdAt");
+      res.json(notifications);
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
+
+  // get single user notification
   myNotification: async (req, res) => {
     try {
       const notify = await Notification.find({ postedBy: req.user.id })
