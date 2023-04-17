@@ -20,7 +20,7 @@ const oauth2Client = new OAuth2(
 );
 
 // send register mail
-const notificationMail = (to, fullname) => {
+const notificationMail = (url, to, fullname) => {
   oauth2Client.setCredentials({
     refresh_token: MAILING_SERVICE_REFRESH_TOKEN,
   });
@@ -188,13 +188,15 @@ const notificationMail = (to, fullname) => {
 
           <p class="body">
             <span style="color: green; font-weight: bold;">
-              Notification Alert!
+              Congratulations!
             </span>
           </p>
 
           <p class="body">
-            A property has been found based on your notifications
+            A property has been found based on your notification criteria
           </p>
+
+          <a href="${url}" class="button">View property</a>
 
           <p style="margin-top: 50px; font-size: 13px;">
             Regards,
