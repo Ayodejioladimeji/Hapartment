@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const adminCtrl = require("../controllers/adminCtrl");
-const auth = require("../middlewares/auth");
+const admin = require("../middlewares/admin");
 
 // post request
 // router.post("/admin-login", userCtrl.login);
@@ -13,10 +13,10 @@ router.post("/login-admin", adminCtrl.loginAdmin);
 
 // patch request
 // router.patch("/admin-updateuser", adminCtrl.updateUser);
-router.patch("/approve-agent/:id", auth, adminCtrl.approveAgent);
-router.patch("/approve-listing/:id", auth, adminCtrl.approveListing);
-router.patch("/decline-agent", auth, adminCtrl.declineAgent);
-router.patch("/decline-listing", auth, adminCtrl.declineListing);
+router.patch("/approve-agent/:id", admin, adminCtrl.approveAgent);
+router.patch("/approve-listing/:id", admin, adminCtrl.approveListing);
+router.patch("/decline-agent", admin, adminCtrl.declineAgent);
+router.patch("/decline-listing", admin, adminCtrl.declineListing);
 
 // get request
 router.get("/all-users", adminCtrl.getAllUsers);
