@@ -329,7 +329,9 @@ const adminCtrl = {
     try {
       const { id } = req.body;
 
-      const user = req.user;
+      const allusers = await User.find();
+
+      const user = allusers.find((user) => user._id.toString() === id);
 
       await User.findOneAndUpdate(
         {

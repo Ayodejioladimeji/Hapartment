@@ -18,7 +18,7 @@ router.patch("/approve-agent/:id", admin, adminCtrl.approveAgent);
 router.patch("/approve-listing/:id", admin, adminCtrl.approveListing);
 router.patch("/decline-agent", admin, adminCtrl.declineAgent);
 router.patch("/decline-listing", admin, adminCtrl.declineListing);
-router.patch("/suspend-agent", auth, adminCtrl.suspendAgent);
+router.patch("/suspend-agent", admin, adminCtrl.suspendAgent);
 
 // get request
 router.get("/all-users", adminCtrl.getAllUsers);
