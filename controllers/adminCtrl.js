@@ -8,6 +8,7 @@ const agentVerifiedMail = require("../mails/agentVerifiedMail");
 const listingApprovedMail = require("../mails/listingApprovedMail");
 const declineListingMail = require("../mails/declineListingMail");
 const verificationDeclineMail = require("../mails/verificationDeclineMail");
+const accountSuspendedMail = require("../mails/accountSuspendedMail");
 
 const CLIENT_URL = process.env.CLIENT_URL;
 
@@ -320,6 +321,30 @@ const adminCtrl = {
       });
     } catch (error) {
       return res.status(500).json({ msg: error.message });
+    }
+  },
+
+  // Suspend Agent verification endpoint
+  suspendAgent: async (req, res) => {
+    try {
+      const { id } = req.body;
+
+      const user = req.user;
+
+      await User.findOneAndUpdate(
+        {
+          _id: id,
+        },
+        {
+          isSuspended: true,
+        }
+      );
+
+      accountSuspendedMail(user.email, user.fullname);
+
+      res.json({ msg: "Account suspended successfully" });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
     }
   },
 };

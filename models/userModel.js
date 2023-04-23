@@ -31,6 +31,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: null,
     },
+    isSuspended: {
+      type: Boolean,
+      default: false,
+    },
 
     verification: [
       {
