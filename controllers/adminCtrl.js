@@ -1,8 +1,8 @@
 const User = require("../models/userModel");
+const Admin = require("../models/adminModel");
 const Contact = require("../models/contactModel");
 const jwt = require("jsonwebtoken");
 const Listing = require("../models/listModel");
-const Admin = require("../models/adminModel");
 const bcrypt = require("bcrypt");
 const agentVerifiedMail = require("../mails/agentVerifiedMail");
 const listingApprovedMail = require("../mails/listingApprovedMail");
@@ -65,6 +65,22 @@ const adminCtrl = {
       const access_token = createAccessToken({ id: admin.id });
 
       res.json({ msg: "Login successful!", access_token });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
+
+  // get logged in admin
+  getAdmin: async (req, res) => {
+    try {
+      const check = await Admin.findById(req.user);
+      if (check === null)
+        return res.status(400).json({ msg: "User not found" });
+
+      const user = await Admin.findById(req.user.id).select("-password");
+      if (!user) return res.status(400).json({ msg: "User does not exist" });
+
+      res.json(user);
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }
@@ -268,7 +284,7 @@ const adminCtrl = {
         }
       );
 
-      const pathurl = `${CLIENT_URL}/public/${id}`;
+      const pathurl = `${CLIENT_URL}/listings/${id}`;
 
       declineListingMail(
         listing.postedBy.email,
