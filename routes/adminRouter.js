@@ -20,5 +20,6 @@ router.patch("/decline-listing", admin, adminCtrl.declineListing);
 
 // get request
 router.get("/all-users", adminCtrl.getAllUsers);
+router.get("/user", adminCtrl.getAdmin);
 
 module.exports = router;
