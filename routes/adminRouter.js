@@ -24,4 +24,7 @@ router.patch("/suspend-agent", admin, adminCtrl.suspendAgent);
 router.get("/all-users", adminCtrl.getAllUsers);
 router.get("/admin-user", admin, adminCtrl.getAdmin);
 
+// delete request
+router.delete("/admin-delete-listing/:id", admin, listCtrl.deleteListing);
+
 module.exports = router;
