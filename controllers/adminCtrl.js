@@ -113,6 +113,22 @@ const adminCtrl = {
     }
   },
 
+  // delete listing
+  deleteListing: async (req, res) => {
+    try {
+      // check if the user is logged in
+      const check = await Admin.findById(req.user.id);
+      if (check === null)
+        return res.status(400).json({ msg: "Login to continue" });
+
+      await Listing.findByIdAndDelete(req.params.id);
+
+      res.json({ msg: "Listing Deleted Successfully" });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
+
   // update user profile
   updateUser: async (req, res) => {
     try {
