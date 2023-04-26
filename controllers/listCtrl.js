@@ -108,6 +108,9 @@ const listCtrl = {
         postedBy: req.user,
       });
 
+      listingRequestMail(user.email, user.fullname);
+      await newListing.save();
+
       // Create a notification criteria to notify users through mail
       const filt = {
         property_type,
@@ -142,29 +145,31 @@ const listCtrl = {
         return isValid;
       });
 
-      listingRequestMail(user.email, user.fullname);
-      await newListing.save();
-
+      // get all listings so you can find the notification from it
       const listing = await Listing.find();
 
       // filter through the listing and compare its values with notification values
-      const value = listing.find(
-        (item) =>
-          item.property_type === filtered.property_type &&
-          item.statename === filtered.statename &&
-          item.cityname === filtered.cityname &&
-          item.bathrooms === filtered.bathrooms &&
-          item.toilets === filtered.toilets &&
-          item.furnishing === filtered.furnishing
-      );
+      if (filtered !== undefined) {
+        const value = listing.find(
+          (item) =>
+            item.property_type === filtered.property_type &&
+            item.statename === filtered.statename &&
+            item.cityname === filtered.cityname &&
+            item.bathrooms === filtered.bathrooms &&
+            item.toilets === filtered.toilets &&
+            item.furnishing === filtered.furnishing
+        );
 
-      const url = `${CLIENT_URL}/listings/${value._id}`;
+        if (value !== undefined) {
+          const url = `${CLIENT_URL}/listings/${value._id}`;
 
-      notificationMail(
-        url,
-        filtered.postedBy.email,
-        filtered.postedBy.fullname
-      );
+          notificationMail(
+            url,
+            filtered.postedBy.email,
+            filtered.postedBy.fullname
+          );
+        }
+      }
 
       res.json({
         msg: "Property created successfully",
@@ -289,8 +294,68 @@ const listCtrl = {
         }
       );
 
+      // Create a notification criteria to notify users through mail
+      const filt = {
+        property_type,
+        statename,
+        cityname,
+        bathrooms,
+        toilets,
+        furnishing,
+      };
+
+      // get all notifications
+      const notifications = await Notification.find()
+        .populate("postedBy", "_id fullname email username image ")
+        .sort("-createdAt");
+
+      const filtered = notifications.find((item) => {
+        let isValid = true;
+
+        const filters = {
+          property_type: item.property_type,
+          statename: item.statename,
+          cityname: item.cityname,
+          bathrooms: item.bathrooms,
+          toilets: item.toilets,
+          furnishing: item.furnishing,
+        };
+
+        for (key in filt) {
+          // console.log(key, item[key], filters[key]);
+          isValid = isValid && filters[key] === filt[key];
+        }
+        return isValid;
+      });
+
+      // get all listings so you can find the notification from it
+      const listing = await Listing.find();
+
+      // filter through the listing and compare its values with notification values
+      if (filtered !== undefined) {
+        const value = listing.find(
+          (item) =>
+            item.property_type === filtered.property_type &&
+            item.statename === filtered.statename &&
+            item.cityname === filtered.cityname &&
+            item.bathrooms === filtered.bathrooms &&
+            item.toilets === filtered.toilets &&
+            item.furnishing === filtered.furnishing
+        );
+
+        if (value !== undefined) {
+          const url = `${CLIENT_URL}/listings/${value._id}`;
+
+          notificationMail(
+            url,
+            filtered.postedBy.email,
+            filtered.postedBy.fullname
+          );
+        }
+      }
+
       res.json({
-        msg: "Property updated successfully, your changes will reflect as soon as it is approved",
+        msg: "Property updated successfully",
       });
     } catch (error) {
       return res.status(500).json({ msg: error.message });
