@@ -8,6 +8,7 @@ const router = require("express").Router();
 router.post("/create_listing", auth, listCtrl.createListing);
 router.post("/save_favorite", auth, listCtrl.saveFavorite);
 router.post("/report_listing", auth, listCtrl.reportListing);
+router.post("/destroy", auth, listCtrl.destroyImage);
 
 //
 // get request

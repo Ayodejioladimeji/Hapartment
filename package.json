@@ -21,6 +21,7 @@
     "@mailchimp/mailchimp_marketing": "^3.0.78",
     "axios": "^1.2.1",
     "bcrypt": "^5.0.1",
+    "cloudinary": "^1.36.2",
     "comma-separator": "^1.0.7",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
