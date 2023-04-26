@@ -108,6 +108,9 @@ const listCtrl = {
         postedBy: req.user,
       });
 
+      listingRequestMail(user.email, user.fullname);
+      await newListing.save();
+
       // Create a notification criteria to notify users through mail
       const filt = {
         property_type,
@@ -142,29 +145,31 @@ const listCtrl = {
         return isValid;
       });
 
-      listingRequestMail(user.email, user.fullname);
-      await newListing.save();
-
+      // get all listings so you can find the notification from it
       const listing = await Listing.find();
 
       // filter through the listing and compare its values with notification values
-      const value = listing.find(
-        (item) =>
-          item.property_type === filtered.property_type &&
-          item.statename === filtered.statename &&
-          item.cityname === filtered.cityname &&
-          item.bathrooms === filtered.bathrooms &&
-          item.toilets === filtered.toilets &&
-          item.furnishing === filtered.furnishing
-      );
+      if (filtered !== undefined) {
+        const value = listing.find(
+          (item) =>
+            item.property_type === filtered.property_type &&
+            item.statename === filtered.statename &&
+            item.cityname === filtered.cityname &&
+            item.bathrooms === filtered.bathrooms &&
+            item.toilets === filtered.toilets &&
+            item.furnishing === filtered.furnishing
+        );
 
-      const url = `${CLIENT_URL}/listings/${value._id}`;
+        if (value !== undefined) {
+          const url = `${CLIENT_URL}/listings/${value._id}`;
 
-      notificationMail(
-        url,
-        filtered.postedBy.email,
-        filtered.postedBy.fullname
-      );
+          notificationMail(
+            url,
+            filtered.postedBy.email,
+            filtered.postedBy.fullname
+          );
+        }
+      }
 
       res.json({
         msg: "Property created successfully",
