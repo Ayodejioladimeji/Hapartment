@@ -7,8 +7,15 @@ const axios = require("axios");
 const { strictRemoveComma } = require("comma-separator");
 const listingRequestMail = require("../mails/listingRequestMail");
 const notificationMail = require("../mails/notificationMail");
+const cloudinary = require("cloudinary");
 
-const { CLIENT_URL } = process.env;
+const { CLIENT_URL, CLOUD_NAME, CLOUD_API_KEY, CLOUD_API_SECRET } = process.env;
+
+cloudinary.config({
+  cloud_name: CLOUD_NAME,
+  api_key: CLOUD_API_KEY,
+  api_secret: CLOUD_API_SECRET,
+});
 
 const listCtrl = {
   // Create Listing
@@ -515,6 +522,19 @@ const listCtrl = {
     } catch (error) {
       res.status(500).json({ msg: error.message });
     }
+  },
+
+  // Delete Listing images
+  destroyImage: async (req, res) => {
+    const { public_id } = req.body;
+
+    if (!public_id) return res.status(400).json({ msg: "No image selected" });
+
+    cloudinary.v2.uploader.destroy(public_id, async (err, result) => {
+      if (err) throw err;
+
+      res.json({ msg: "Image Deleted" });
+    });
   },
 
   // filter listing
