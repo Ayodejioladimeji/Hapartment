@@ -183,7 +183,14 @@ const userCtrl = {
       // create access token
       const access_token = createAccessToken({ id: user.id });
 
-      res.json({ msg: "Login successful!", access_token });
+      const userData = {
+        fullname: user.fullname,
+        username: user.username,
+        email: user.email,
+        isSuspended: user.isSuspended,
+      };
+
+      res.json({ msg: "Login successful!", access_token, userData });
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }
