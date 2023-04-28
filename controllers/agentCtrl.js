@@ -8,7 +8,9 @@ const agentCtrl = {
     try {
       const all_users = await User.find().sort("-createdAt");
 
-      const agents = all_users.filter((item) => item.userType === "agent");
+      const agents = all_users.filter(
+        (item) => item.userType === "agent" && item.isSuspended === false
+      );
 
       res.json(agents);
     } catch (error) {
