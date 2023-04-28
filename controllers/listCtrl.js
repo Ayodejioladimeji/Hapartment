@@ -375,7 +375,7 @@ const listCtrl = {
       const listing = await Listing.find()
         .populate(
           "postedBy",
-          "_id fullname email username image verification isSuspension "
+          "_id fullname email username image verification isSuspended "
         )
         .sort("-createdAt");
 
