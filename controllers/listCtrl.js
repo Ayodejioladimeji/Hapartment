@@ -380,10 +380,14 @@ const listCtrl = {
         .sort("-createdAt");
 
       // filter through not to return declined listings
+      const newlisting = listing.filter(
+        (item) =>
+          item.status !== "declined" && item.postedBy.isSuspended === false
+      );
 
       // shuffle the listings to display randomly
       const shuffle = (arr) => [...arr].sort(() => Math.random() - 0.8);
-      const randomData = shuffle(listing);
+      const randomData = shuffle(newlisting);
 
       res.json(randomData);
     } catch (error) {
