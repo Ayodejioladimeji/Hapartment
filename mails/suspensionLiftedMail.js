@@ -1,9 +1,54 @@
-<html lang="en">
+const nodemailer = require("nodemailer");
+const { google } = require("googleapis");
+const { OAuth2 } = google.auth;
+const OAUTH_PLAYGROUND = "https://developers.google.com/oauthplayground";
+
+//
+const {
+  MAILING_SERVICE_CLIENT_ID,
+  MAILING_SERVICE_CLIENT_SECRET,
+  MAILING_SERVICE_REFRESH_TOKEN,
+  SENDER_EMAIL_ADDRESS,
+  SENDER_EMAIL,
+} = process.env;
+
+const oauth2Client = new OAuth2(
+  MAILING_SERVICE_CLIENT_ID,
+  MAILING_SERVICE_CLIENT_SECRET,
+  MAILING_SERVICE_REFRESH_TOKEN,
+  OAUTH_PLAYGROUND
+);
+
+// send register mail
+const suspensionLiftedMail = (to, fullname) => {
+  oauth2Client.setCredentials({
+    refresh_token: MAILING_SERVICE_REFRESH_TOKEN,
+  });
+
+  const accessToken = oauth2Client.getAccessToken();
+  const smtpTransport = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      type: "OAuth2",
+      user: SENDER_EMAIL_ADDRESS,
+      clientId: MAILING_SERVICE_CLIENT_ID,
+      clientSecret: MAILING_SERVICE_CLIENT_SECRET,
+      refreshToken: MAILING_SERVICE_REFRESH_TOKEN,
+      accessToken,
+    },
+  });
+
+  const mailOptions = {
+    from: `Hapartment Digital Marketplace ${SENDER_EMAIL}`,
+    to: to,
+    subject: "Suspension Lifted",
+    html: `
+    <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Listings Notification</title>
+    <title>Suspension Lifted</title>
 
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
@@ -105,16 +150,12 @@
       .button {
         background: green;
         color: #fff;
-        padding: 15px 25px;
+        padding: 10px 25px;
         border-radius: 5px;
         border: none;
         outline: none;
         margin-bottom: 30px;
         font-size: 15px;
-        display: block;
-        width: 200px;
-        text-align: center;
-        text-decoration: none;
       }
 
       /* responsiveness */
@@ -145,31 +186,23 @@
           <p class="heading"><b>Dear ${fullname},</b></p>
 
           <p class="body">
-            I hope this email finds you well. I am writing to inform you that we
-            have found the apartment that you have been looking for. We
-            understand how important this apartment is to you, and we are
-            thrilled to be able to fulfill your request.
+            We are pleased to inform you that the suspension on your account has
+            been lifted. You can now access your account and resume using our
+            services without any restrictions.
           </p>
 
           <p class="body">
-            We have located the apartment and it is currently available for rent
-            on our app. You can simply visit the app, search for the apartment
-            and reach out to agent in charge of the apartment for further
-            discussion.
-          </p>
-
-          <p><a href="${url}" class="button">View property</a></p>
-
-          <p class="body">
-            We take pride in providing excellent customer service, and we are
-            thrilled to have been able to meet your needs. If you have any
-            questions or concerns, please do not hesitate to contact us via
-            email or phone, and we will be happy to assist you. Thank you for
-            choosing HAPARTMENT.
-          </p>
-
-          <p class="body">
-            We look forward to continuing to serve you in the future.
+            We understand that the suspension may have caused inconvenience to
+            you and we apologize for any inconvenience caused. Our team has
+            thoroughly reviewed your account and found that there was no
+            violation of our terms and conditions. We take these matters
+            seriously and ensure that we only take action when it is necessary
+            to protect our platform and users. We value your trust in our
+            platform and are committed to providing a safe and secure
+            environment for all our users. If you have any questions or
+            concerns, please feel free to contact us at [contact email].
+            <br />
+            Thank you for your understanding and cooperation.
           </p>
 
           <p style="margin-top: 50px; font-size: 13px;">
@@ -239,3 +272,15 @@
     </section>
   </body>
 </html>
+
+  
+    `,
+  };
+
+  smtpTransport.sendMail(mailOptions, (err, infor) => {
+    if (err) return err;
+    return infor;
+  });
+};
+
+module.exports = suspensionLiftedMail;

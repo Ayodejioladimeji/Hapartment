@@ -9,6 +9,7 @@ const listingApprovedMail = require("../mails/listingApprovedMail");
 const declineListingMail = require("../mails/declineListingMail");
 const verificationDeclineMail = require("../mails/verificationDeclineMail");
 const accountSuspendedMail = require("../mails/accountSuspendedMail");
+const suspensionLiftedMail = require("../mails/suspensionLiftedMail");
 
 const CLIENT_URL = process.env.CLIENT_URL;
 
@@ -361,6 +362,32 @@ const adminCtrl = {
       accountSuspendedMail(user.email, user.fullname);
 
       res.json({ msg: "Account suspended successfully" });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
+
+  // Re activate agent account after suspension
+  liftSuspension: async (req, res) => {
+    try {
+      const { id } = req.body;
+
+      const allusers = await User.find();
+
+      const user = allusers.find((user) => user._id.toString() === id);
+
+      await User.findOneAndUpdate(
+        {
+          _id: id,
+        },
+        {
+          isSuspended: false,
+        }
+      );
+
+      suspensionLiftedMail(user.email, user.fullname);
+
+      res.json({ msg: "Suspension Lifted successfully" });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }

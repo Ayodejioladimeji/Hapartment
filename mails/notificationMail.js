@@ -49,7 +49,7 @@ const notificationMail = (url, to, fullname) => {
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Notifications</title>
+    <title>Listings Notification</title>
 
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
@@ -151,12 +151,16 @@ const notificationMail = (url, to, fullname) => {
       .button {
         background: green;
         color: #fff;
-        padding: 10px 25px;
+        padding: 15px 25px;
         border-radius: 5px;
         border: none;
         outline: none;
         margin-bottom: 30px;
         font-size: 15px;
+        display: block;
+        width: 200px;
+        text-align: center;
+        text-decoration: none;
       }
 
       /* responsiveness */
@@ -184,19 +188,35 @@ const notificationMail = (url, to, fullname) => {
         </div>
 
         <main>
-          <p class="heading"><b>Hi, ${fullname}</b></p>
+          <p class="heading"><b>Dear ${fullname},</b></p>
 
           <p class="body">
-            <span style="color: green; font-weight: bold;">
-              Congratulations!
-            </span>
+            I hope this email finds you well. I am writing to inform you that we
+            have found the apartment that you have been looking for. We
+            understand how important this apartment is to you, and we are
+            thrilled to be able to fulfill your request.
           </p>
 
           <p class="body">
-            A property has been found based on your notification criteria
+            We have located the apartment and it is currently available for rent
+            on our app. You can simply visit the app, search for the apartment
+            and reach out to agent in charge of the apartment for further
+            discussion.
           </p>
 
-          <a href="${url}" class="button">View property</a>
+          <p><a href="${url}" class="button">View property</a></p>
+
+          <p class="body">
+            We take pride in providing excellent customer service, and we are
+            thrilled to have been able to meet your needs. If you have any
+            questions or concerns, please do not hesitate to contact us via
+            email or phone, and we will be happy to assist you. Thank you for
+            choosing HAPARTMENT.
+          </p>
+
+          <p class="body">
+            We look forward to continuing to serve you in the future.
+          </p>
 
           <p style="margin-top: 50px; font-size: 13px;">
             Regards,
