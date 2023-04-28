@@ -373,7 +373,10 @@ const listCtrl = {
   allListing: async (req, res) => {
     try {
       const listing = await Listing.find()
-        .populate("postedBy", "_id fullname email username image verification ")
+        .populate(
+          "postedBy",
+          "_id fullname email username image verification isSuspension "
+        )
         .sort("-createdAt");
 
       // filter through not to return declined listings
