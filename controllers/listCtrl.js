@@ -598,7 +598,9 @@ const listCtrl = {
           { cityname: { $regex: req.params.key } },
           { furnishing: { $regex: req.params.key } },
         ],
-      });
+      })
+        .populate("postedBy", "_id fullname email username image verification ")
+        .sort("-createdAt");
 
       res.json(data);
     } catch (error) {
