@@ -447,7 +447,9 @@ const listCtrl = {
       const favorites = await Favorite.find();
 
       const myfav = favorites.find(
-        (item) => item.saved_favorite._id.toString() === list_id
+        (item) =>
+          item.saved_favorite._id.toString() === list_id &&
+          item.savedBy.toString() === req.user.id.toString()
       );
 
       if (myfav)
