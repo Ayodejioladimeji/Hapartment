@@ -26,7 +26,7 @@ router.patch("/acquired_listing/:id", listCtrl.acquiredListing);
 // delete request
 router.delete("/delete_listing/:id", auth, listCtrl.deleteListing);
 router.delete("/delete_favorite/:id", auth, listCtrl.deleteFavorite);
-router.delete("/delete_images", auth, listCtrl.deleteImage);
+router.delete("/delete_images", listCtrl.deleteImage);
 
 //
 module.exports = router;
