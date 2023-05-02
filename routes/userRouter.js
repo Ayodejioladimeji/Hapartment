@@ -20,6 +20,7 @@ router.post("/login", userCtrl.login);
 router.post("/forgotpassword", userCtrl.forgotPassword);
 router.post("/resetpassword", userCtrl.resetPassword);
 router.post("/changepassword", auth, userCtrl.changePassword);
+router.post("/advert", userCtrl.advert);
 
 // patch request
 router.patch("/updateuser", auth, userCtrl.updateUser);
@@ -27,5 +28,6 @@ router.patch("/verifyagent", auth, userCtrl.verifyAgent);
 
 // get request
 router.get("/user", auth, userCtrl.getUser);
+router.get("/get-advert", userCtrl.getAdvert);
 
 module.exports = router;
