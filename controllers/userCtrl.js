@@ -1,4 +1,5 @@
 const User = require("../models/userModel");
+const Advert = require("../models/advertModel");
 const jwt = require("jsonwebtoken");
 const { validationResult } = require("express-validator");
 const bcrypt = require("bcrypt");
@@ -381,6 +382,97 @@ const userCtrl = {
       res.json({ msg: "Identity verification request has been sent" });
     } catch (error) {
       res.status(500).json({ msg: error.message });
+    }
+  },
+
+  // advert
+  advert: async (req, res) => {
+    try {
+      const { fullname, productname, website, email, pricing, image } =
+        req.body;
+
+      if (!fullname || !email || !pricing || !image) {
+        return res
+          .status(400)
+          .json({ msg: "Please provide necessary details" });
+      }
+
+      // check if there is an existing adverts
+      const check = await Advert.findOne({ email });
+
+      // calculate months
+      function addMonths(date, months) {
+        date.setMonth(date.getMonth() + months);
+
+        return date;
+      }
+
+      // created date
+      const dates = new Date(Date.now());
+      const trialEnds = addMonths(dates, 1);
+      const expiryDate = addMonths(
+        dates,
+        pricing === "1" ? 0 : pricing === "6" ? 5 : 11
+      );
+
+      if (!check) {
+        const firstData = new Advert({
+          fullname,
+          email,
+          website,
+          pricing: "2",
+          image,
+          isActive: true,
+          isStarted: new Date(Date.now()),
+          isEnded: trialEnds,
+        });
+
+        await firstData.save();
+        return res.json({ firstData, msg: "Banner advert request successful" });
+      }
+
+      // check if user data exists and active is true
+      if (check && check.isActive === true) {
+        return res
+          .status(400)
+          .json({ msg: "You already created an active banner ads" });
+      }
+      // if check and check.active === false
+      else {
+        const secondData = {
+          fullname,
+          email,
+          website,
+          pricing,
+          image,
+          isActive: true,
+          isStarted: new Date(Date.now()),
+          isEnded: expiryDate,
+        };
+
+        await Advert.findOneAndUpdate(
+          { email: email },
+
+          secondData
+        );
+
+        return res.json({
+          secondData,
+          msg: "Banner advert request successful",
+        });
+      }
+    } catch (error) {
+      res.status(500).json({ msg: error.message });
+    }
+  },
+
+  // get adverts
+  getAdvert: async (req, res) => {
+    try {
+      const result = await Advert.find();
+      res.json(result);
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
     }
   },
 
