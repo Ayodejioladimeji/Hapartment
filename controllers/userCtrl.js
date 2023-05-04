@@ -10,6 +10,7 @@ const registerMail = require("../mails/registerMail");
 const verificationRequestMail = require("../mails/verificationRequestMail");
 const welcomeAgentMail = require("../mails/welcomeAgentMail");
 const welcomeTenantMail = require("../mails/welcomeTenantMail");
+const advertMail = require("../mails/advertMail");
 
 //
 
@@ -428,6 +429,7 @@ const userCtrl = {
         });
 
         await firstData.save();
+        advertMail(email, fullname);
         return res.json({ firstData, msg: "Banner advert request successful" });
       }
 
