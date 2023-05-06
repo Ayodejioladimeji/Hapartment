@@ -14,8 +14,7 @@ const advertSchema = new mongoose.Schema(
     },
     website: {
       type: String,
-      required: true,
-      trim: true,
+      default: "",
     },
     pricing: {
       type: String,
