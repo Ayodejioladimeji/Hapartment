@@ -389,8 +389,7 @@ const userCtrl = {
   // advert
   advert: async (req, res) => {
     try {
-      const { fullname, productname, website, email, pricing, image } =
-        req.body;
+      const { fullname, website, email, pricing, image } = req.body;
 
       if (!fullname || !email || !pricing || !image) {
         return res
@@ -460,7 +459,7 @@ const userCtrl = {
 
         return res.json({
           secondData,
-          msg: "Banner advert request successful",
+          msg: "Banner advert request successful, you will receive a mail once it is approved",
         });
       }
     } catch (error) {
