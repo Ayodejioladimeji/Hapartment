@@ -407,14 +407,6 @@ const userCtrl = {
         return date;
       }
 
-      // created date
-      const dates = new Date(Date.now());
-      const trialEnds = addMonths(dates, 1);
-      const expiryDate = addMonths(
-        dates,
-        pricing === "1" ? 0 : pricing === "6" ? 5 : 11
-      );
-
       if (!check) {
         const firstData = new Advert({
           fullname,
@@ -424,7 +416,7 @@ const userCtrl = {
           image,
           isActive: true,
           isStarted: new Date(Date.now()),
-          isEnded: trialEnds,
+          isEnded: addMonths(new Date(Date.now()), 2),
         });
 
         await firstData.save();
@@ -448,7 +440,10 @@ const userCtrl = {
           image,
           isActive: true,
           isStarted: new Date(Date.now()),
-          isEnded: expiryDate,
+          isEnded: addMonths(
+            new Date(Date.now()),
+            pricing === "1" ? 1 : pricing === "6" ? 6 : 12
+          ),
         };
 
         await Advert.findOneAndUpdate(
@@ -470,7 +465,7 @@ const userCtrl = {
   // get adverts
   getAdvert: async (req, res) => {
     try {
-      const result = await Advert.find();
+      const result = await Advert.find().sort("-createdAt");
       res.json(result);
     } catch (error) {
       return res.status(500).json({ msg: error.message });
