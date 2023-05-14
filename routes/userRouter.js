@@ -25,6 +25,7 @@ router.post("/advert", userCtrl.advert);
 // patch request
 router.patch("/updateuser", auth, userCtrl.updateUser);
 router.patch("/verifyagent", auth, userCtrl.verifyAgent);
+router.patch("/updatephone", auth, userCtrl.updatePhonenumber);
 
 // get request
 router.get("/user", auth, userCtrl.getUser);
