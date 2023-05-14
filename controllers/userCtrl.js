@@ -337,6 +337,48 @@ const userCtrl = {
   },
 
   // verify agent
+  updatePhonenumber: async (req, res) => {
+    try {
+      const { identity_mobile } = req.body;
+
+      if (!identity_mobile) {
+        return res.status(400).json({ msg: "Please provide your number" });
+      }
+
+      const user = await User.findById(req.user.id).select("-password");
+      if (!user) return res.status(400).json({ msg: "User does not exist" });
+
+      const {
+        identity_name,
+        identity_selfie,
+        identity_document,
+        document_type,
+        isVerified,
+      } = user?.verification[0];
+
+      const newData = {
+        identity_name,
+        identity_mobile: identity_mobile,
+        identity_selfie,
+        identity_document,
+        document_type,
+        isVerified,
+      };
+
+      await User.findOneAndUpdate(
+        { _id: req.user.id },
+        {
+          verification: newData,
+        }
+      );
+
+      res.json({ msg: "Phone number updated successfully" });
+    } catch (error) {
+      res.status(500).json({ msg: error.message });
+    }
+  },
+
+  // verify agent
   verifyAgent: async (req, res) => {
     try {
       const {
