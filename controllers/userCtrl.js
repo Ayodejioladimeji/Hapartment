@@ -96,6 +96,10 @@ const userCtrl = {
       if (checkUser)
         return res.status(400).json({ msg: "User already exists" });
 
+      const codes = Array.from(Array(10), () =>
+        Math.floor(Math.random() * 36).toString(36)
+      ).join("");
+
       // Create a new user object to be saved in the user collection
       const newUser = new User({
         fullname,
@@ -103,6 +107,7 @@ const userCtrl = {
         email,
         password,
         userType,
+        agentId: userType === "agent" ? codes : "",
       });
 
       await newUser.save();
