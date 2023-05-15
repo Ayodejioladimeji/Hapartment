@@ -33,7 +33,7 @@ const userSchema = new mongoose.Schema(
     },
     agentId: {
       type: String,
-      default: null,
+      default: "",
     },
     isSuspended: {
       type: Boolean,
