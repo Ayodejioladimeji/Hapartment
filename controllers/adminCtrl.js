@@ -392,6 +392,34 @@ const adminCtrl = {
       return res.status(500).json({ msg: err.message });
     }
   },
+
+  // delete user
+  deleteUser: async (req, res) => {
+    try {
+      // check if the user is logged in
+      // const check = await Admin.findById(req.user.id);
+      // if (check === null)
+      //   return res.status(400).json({ msg: "Login to continue" });
+
+      const listings = await Listing.find();
+
+      // search for all listings created by the user, if Yes throw and error if No delete user
+      const listing = listings.find(
+        (item) => item.postedBy.toString() === req.params.id.toString()
+      );
+
+      if (listing)
+        return res
+          .status(400)
+          .json({ msg: "Delete all user listings before deleting user" });
+
+      await User.findByIdAndDelete(req.params.id);
+
+      res.json({ msg: "User Deleted Successfully" });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
 };
 
 // ===========================
