@@ -19,6 +19,7 @@ router.patch("/decline-agent", admin, adminCtrl.declineAgent);
 router.patch("/decline-listing", admin, adminCtrl.declineListing);
 router.patch("/suspend-agent", admin, adminCtrl.suspendAgent);
 router.patch("/lift-suspension", admin, adminCtrl.liftSuspension);
+router.patch("/suspend-listing", adminCtrl.suspendListing);
 
 // get request
 router.get("/all-users", adminCtrl.getAllUsers);
