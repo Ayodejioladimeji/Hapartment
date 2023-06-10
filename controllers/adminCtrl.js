@@ -10,6 +10,7 @@ const declineListingMail = require("../mails/declineListingMail");
 const verificationDeclineMail = require("../mails/verificationDeclineMail");
 const accountSuspendedMail = require("../mails/accountSuspendedMail");
 const suspensionLiftedMail = require("../mails/suspensionLiftedMail");
+const listingSuspendedMail = require("../mails/listingSuspendMail");
 
 const CLIENT_URL = process.env.CLIENT_URL;
 
@@ -418,6 +419,37 @@ const adminCtrl = {
       res.json({ msg: "User Deleted Successfully" });
     } catch (error) {
       return res.status(500).json({ msg: error.message });
+    }
+  },
+
+  // Suspend listings if reported endpoint
+  suspendListing: async (req, res) => {
+    try {
+      const { id } = req.body;
+
+      const listings = await Listing.find().populate(
+        "postedBy",
+        "_id fullname email username image verification isSuspended"
+      );
+
+      const mainList = listings.find((item) => item._id.toString() === id);
+      const fullname = mainList?.postedBy?.fullname;
+      const email = mainList?.postedBy?.email;
+
+      await Listing.findOneAndUpdate(
+        {
+          _id: id,
+        },
+        {
+          status: "suspended",
+        }
+      );
+
+      listingSuspendedMail(email, fullname);
+
+      res.json({ msg: "Property suspended successfully" });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
     }
   },
 };

@@ -382,7 +382,9 @@ const listCtrl = {
       // filter through not to return declined listings
       const newlisting = listing.filter(
         (item) =>
-          item?.status !== "declined" && item?.postedBy?.isSuspended === false
+          item?.status !== "declined" &&
+          item?.status !== "suspended" &&
+          item?.postedBy?.isSuspended === false
       );
 
       // shuffle the listings to display randomly
