@@ -498,7 +498,14 @@ const listCtrl = {
         (item) => item.postedBy.toString() === req.user.id.toString()
       );
 
-      res.json(get_favourite);
+      const newlisting = get_favourite.filter(
+        (item) =>
+          item?.status !== "declined" &&
+          item?.status !== "suspended" &&
+          item?.postedBy?.isSuspended === false
+      );
+
+      res.json(newlisting);
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }
@@ -557,6 +564,14 @@ const listCtrl = {
           "_id fullname email username image, verification "
         )
         .sort("-createdAt");
+
+      const newlisting = data.filter(
+        (item) =>
+          item?.status !== "declined" &&
+          item?.status !== "suspended" &&
+          item?.postedBy?.isSuspended === false
+      );
+
       const filters = req.query;
 
       const filt = {
@@ -568,7 +583,7 @@ const listCtrl = {
         furnishing: filters.furnishing,
       };
 
-      const filteredListing = data.filter((item) => {
+      const filteredListing = newlisting.filter((item) => {
         let isValid = true;
 
         for (key in filt) {
@@ -606,7 +621,14 @@ const listCtrl = {
         .populate("postedBy", "_id fullname email username image verification ")
         .sort("-createdAt");
 
-      res.json(data);
+      const newlisting = data.filter(
+        (item) =>
+          item?.status !== "declined" &&
+          item?.status !== "suspended" &&
+          item?.postedBy?.isSuspended === false
+      );
+
+      res.json(newlisting);
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }
