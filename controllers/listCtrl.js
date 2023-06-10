@@ -418,7 +418,10 @@ const listCtrl = {
         return res.status(400).json({ msg: "Please login to continue" });
 
       const listing = await Listing.find({ postedBy: req.user.id })
-        .populate("postedBy", "_id fullname email username image verification ")
+        .populate(
+          "postedBy",
+          "_id fullname email username image verification isSuspended "
+        )
         .sort("-createdAt");
 
       if (!listing) return res.status(400).json({ msg: "No properties found" });
@@ -436,7 +439,10 @@ const listCtrl = {
 
       // get all listing
       const listing = await Listing.find()
-        .populate("postedBy", "_id fullname email username image verification ")
+        .populate(
+          "postedBy",
+          "_id fullname email username image verification isSuspended"
+        )
         .sort("-createdAt");
 
       // check if the listing clicked is available
@@ -490,7 +496,10 @@ const listCtrl = {
   getFavorites: async (req, res) => {
     try {
       const favourite = await Favorite.find()
-        .populate("postedBy", "_id fullname email username image verification ")
+        .populate(
+          "postedBy",
+          "_id fullname email username image verification isSuspended"
+        )
         .sort("-createdAt");
 
       // filter through the listing to get the ones created by the logged in user
@@ -561,7 +570,7 @@ const listCtrl = {
       const data = await Listing.find()
         .populate(
           "postedBy",
-          "_id fullname email username image, verification "
+          "_id fullname email username image, verification isSuspended"
         )
         .sort("-createdAt");
 
@@ -618,7 +627,10 @@ const listCtrl = {
           { furnishing: { $regex: req.params.key } },
         ],
       })
-        .populate("postedBy", "_id fullname email username image verification ")
+        .populate(
+          "postedBy",
+          "_id fullname email username image verification isSuspended"
+        )
         .sort("-createdAt");
 
       const newlisting = data.filter(
