@@ -508,10 +508,7 @@ const listCtrl = {
       );
 
       const newlisting = get_favourite.filter(
-        (item) =>
-          item?.status !== "declined" &&
-          item?.status !== "suspended" &&
-          item?.postedBy?.isSuspended === false
+        (item) => item?.status !== "declined" && item?.status !== "suspended"
       );
 
       res.json(newlisting);
