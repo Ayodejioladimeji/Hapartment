@@ -9,7 +9,8 @@ const listingRequestMail = require("../mails/listingRequestMail");
 const notificationMail = require("../mails/notificationMail");
 const cloudinary = require("cloudinary");
 
-const { CLIENT_URL, CLOUD_NAME, CLOUD_API_KEY, CLOUD_API_SECRET } = process.env;
+const { CLIENT_URL, CLOUD_NAME, CLOUD_API_KEY, CLOUD_API_SECRET, KEY } =
+  process.env;
 
 cloudinary.config({
   cloud_name: CLOUD_NAME,
@@ -88,13 +89,27 @@ const listCtrl = {
           map.push(response.data.Results[0]);
         })
         .catch(function (error) {
-          console.error(error);
+          console.error("This is Rapid error - " + error);
         });
+
+      const cord = [];
+      const getCoordinates = async () => {
+        try {
+          const res = await axios.get(
+            `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${KEY}`
+          );
+          // console.log(res.data.results[0].address_components);
+          cord.push(res.data.results[0].geometry.location);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      await getCoordinates();
 
       //   save data in the database
       const newListing = new Listing({
         address: address.toLowerCase(),
-        map,
+        map: cord,
         property_type: property_type.toLowerCase(),
         country,
         state,
@@ -239,28 +254,19 @@ const listCtrl = {
         return res.status(400).json({ msg: "Login to continue" });
 
       // get the latitude and longitude of the address provided by the user
-      let map = [];
-
-      const options = {
-        method: "GET",
-        url: process.env.GEO_URL,
-        params: {
-          address: address,
-        },
-        headers: {
-          "X-RapidAPI-Key": process.env.GEO_KEY,
-          "X-RapidAPI-Host": process.env.GEO_HOST,
-        },
+      const cord = [];
+      const getCoordinates = async () => {
+        try {
+          const res = await axios.get(
+            `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${KEY}`
+          );
+          // console.log(res.data.results[0].address_components);
+          cord.push(res.data.results[0].geometry.location);
+        } catch (error) {
+          console.log(error);
+        }
       };
-
-      await axios
-        .request(options)
-        .then(function (response) {
-          map.push(response.data.Results[0]);
-        })
-        .catch(function (error) {
-          console.error(error);
-        });
+      await getCoordinates();
 
       const newListing = await Listing.find({
         postedBy: req.user.id,
@@ -279,7 +285,7 @@ const listCtrl = {
         { _id: list._id },
         {
           address: address.toLowerCase(),
-          map,
+          map: cord,
           property_type: property_type.toLowerCase(),
           country,
           state,
