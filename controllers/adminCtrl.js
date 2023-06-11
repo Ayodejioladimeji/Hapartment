@@ -11,8 +11,15 @@ const verificationDeclineMail = require("../mails/verificationDeclineMail");
 const accountSuspendedMail = require("../mails/accountSuspendedMail");
 const suspensionLiftedMail = require("../mails/suspensionLiftedMail");
 const listingSuspendedMail = require("../mails/listingSuspendMail");
+const cloudinary = require("cloudinary");
 
-const CLIENT_URL = process.env.CLIENT_URL;
+const { CLIENT_URL, CLOUD_NAME, CLOUD_API_KEY, CLOUD_API_SECRET } = process.env;
+
+cloudinary.config({
+  cloud_name: CLOUD_NAME,
+  api_key: CLOUD_API_KEY,
+  api_secret: CLOUD_API_SECRET,
+});
 
 //
 
@@ -450,6 +457,38 @@ const adminCtrl = {
       res.json({ msg: "Property suspended successfully" });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
+    }
+  },
+
+  // Delete image
+  deleteImages: async (req, res) => {
+    try {
+      const { publicId } = req.body;
+      if (!publicId) return res.status(400).json({ msg: "No images selected" });
+
+      cloudinary.v2.uploader.destroy(publicId[0], (err, result) => {
+        if (err) throw err;
+      });
+      cloudinary.v2.uploader.destroy(publicId[1], (err, result) => {
+        if (err) throw err;
+      });
+      cloudinary.v2.uploader.destroy(publicId[2], (err, result) => {
+        if (err) throw err;
+      });
+      cloudinary.v2.uploader.destroy(publicId[3], (err, result) => {
+        if (err) throw err;
+      });
+      cloudinary.v2.uploader.destroy(publicId[4], (err, result) => {
+        if (err) throw err;
+      });
+      cloudinary.v2.uploader.destroy(publicId[5], (err, result) => {
+        if (err) throw err;
+      });
+      cloudinary.v2.uploader.destroy(publicId[6], (err, result) => {
+        if (err) throw err;
+      });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
     }
   },
 };

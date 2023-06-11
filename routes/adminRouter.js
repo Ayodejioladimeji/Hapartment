@@ -27,6 +27,7 @@ router.get("/admin-user", admin, adminCtrl.getAdmin);
 
 // delete request
 router.delete("/admin-delete-listing/:id", admin, adminCtrl.deleteListing);
+router.delete("/admin-delete-images/:id", admin, adminCtrl.deleteImages);
 router.delete("/delete-user/:id", admin, adminCtrl.deleteUser);
 
 module.exports = router;
