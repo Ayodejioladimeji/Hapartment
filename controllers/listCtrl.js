@@ -610,7 +610,11 @@ const listCtrl = {
           strictRemoveComma(item.price) <= strictRemoveComma(filters.max_price)
       );
 
-      res.json(priceFilter);
+      // display the data randomly
+      const shuffle = (arr) => [...arr].sort(() => Math.random() - 0.8);
+      const randomData = shuffle(priceFilter);
+
+      res.json(randomData);
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }
@@ -640,7 +644,11 @@ const listCtrl = {
           item?.postedBy?.isSuspended === false
       );
 
-      res.json(newlisting);
+      // display the data randomly
+      const shuffle = (arr) => [...arr].sort(() => Math.random() - 0.8);
+      const randomData = shuffle(newlisting);
+
+      res.json(randomData);
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }

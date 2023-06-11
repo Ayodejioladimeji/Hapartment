@@ -12,7 +12,11 @@ const agentCtrl = {
         (item) => item.userType === "agent" && item.isSuspended === false
       );
 
-      res.json(agents);
+      // display the data randomly
+      const shuffle = (arr) => [...arr].sort(() => Math.random() - 0.8);
+      const randomData = shuffle(agents);
+
+      res.json(randomData);
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }
