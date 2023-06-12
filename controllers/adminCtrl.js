@@ -464,6 +464,7 @@ const adminCtrl = {
   deleteImages: async (req, res) => {
     try {
       const { publicId } = req.body;
+
       if (!publicId) return res.status(400).json({ msg: "No images selected" });
 
       cloudinary.v2.uploader.destroy(publicId[0], (err, result) => {
@@ -487,6 +488,8 @@ const adminCtrl = {
       cloudinary.v2.uploader.destroy(publicId[6], (err, result) => {
         if (err) throw err;
       });
+
+      return res.json({ msg: "Images deleted successfully" });
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }

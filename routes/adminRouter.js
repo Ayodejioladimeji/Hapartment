@@ -10,6 +10,7 @@ router.post("/contact", adminCtrl.contactUs);
 router.post("/contact", adminCtrl.contactUs);
 router.post("/create-admin", adminCtrl.createAdmin);
 router.post("/login-admin", adminCtrl.loginAdmin);
+router.post("/admin-delete-images", admin, adminCtrl.deleteImages);
 
 // patch request
 // router.patch("/admin-updateuser", adminCtrl.updateUser);
@@ -27,7 +28,7 @@ router.get("/admin-user", admin, adminCtrl.getAdmin);
 
 // delete request
 router.delete("/admin-delete-listing/:id", admin, adminCtrl.deleteListing);
-router.delete("/admin-delete-images", admin, adminCtrl.deleteImages);
+
 router.delete("/delete-user/:id", admin, adminCtrl.deleteUser);
 
 module.exports = router;
