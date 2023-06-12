@@ -734,6 +734,8 @@ const listCtrl = {
       cloudinary.v2.uploader.destroy(publicId[6], (err, result) => {
         if (err) throw err;
       });
+
+      return res.json({ msg: "Images Deleted Successfully" });
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }

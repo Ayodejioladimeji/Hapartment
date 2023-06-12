@@ -9,6 +9,7 @@ router.post("/create_listing", auth, listCtrl.createListing);
 router.post("/save_favorite", auth, listCtrl.saveFavorite);
 router.post("/report_listing", auth, listCtrl.reportListing);
 router.post("/destroy", listCtrl.destroyImage);
+router.post("/delete_images", auth, listCtrl.deleteImage);
 
 //
 // get request
@@ -26,7 +27,6 @@ router.patch("/acquired_listing/:id", listCtrl.acquiredListing);
 // delete request
 router.delete("/delete_listing/:id", auth, listCtrl.deleteListing);
 router.delete("/delete_favorite/:id", auth, listCtrl.deleteFavorite);
-router.delete("/delete_images", auth, listCtrl.deleteImage);
 
 //
 module.exports = router;
