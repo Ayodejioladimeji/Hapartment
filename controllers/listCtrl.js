@@ -8,6 +8,7 @@ const { strictRemoveComma } = require("comma-separator");
 const listingRequestMail = require("../mails/listingRequestMail");
 const notificationMail = require("../mails/notificationMail");
 const cloudinary = require("cloudinary");
+const AdminMail = require("../mails/admin-mail");
 
 const { CLIENT_URL, CLOUD_NAME, CLOUD_API_KEY, CLOUD_API_SECRET, KEY } =
   process.env;
@@ -131,6 +132,7 @@ const listCtrl = {
       });
 
       listingRequestMail(user.email, user.fullname);
+      AdminMail("Property Notification", user?.fullname, "created a property");
       await newListing.save();
 
       // Create a notification criteria to notify users through mail
@@ -305,6 +307,12 @@ const listCtrl = {
           images,
           status: "pending",
         }
+      );
+
+      AdminMail(
+        "Property Update Notification",
+        user?.fullname,
+        "updated a property"
       );
 
       // Create a notification criteria to notify users through mail

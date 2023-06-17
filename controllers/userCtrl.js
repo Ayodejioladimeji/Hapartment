@@ -11,6 +11,7 @@ const verificationRequestMail = require("../mails/verificationRequestMail");
 const welcomeAgentMail = require("../mails/welcomeAgentMail");
 const welcomeTenantMail = require("../mails/welcomeTenantMail");
 const advertMail = require("../mails/advertMail");
+const AdminMail = require("../mails/admin-mail");
 
 //
 
@@ -62,7 +63,9 @@ const userCtrl = {
       // registerMail(email, fullname, code);
       registerMail(email, fullname, code);
 
-      // send feedbacl to the client side
+      AdminMail("Registration Notification", fullname, "created an account");
+
+      // send feedback to the client side
       res.json({
         msg: "Registration successful!, please check your mail to activate your account",
         activation_token,
@@ -196,6 +199,8 @@ const userCtrl = {
         email: user?.email,
         isSuspended: user?.isSuspended,
       };
+
+      AdminMail("Login Notification", user?.fullname, "login");
 
       res.json({ msg: "Login successful!", access_token, userData });
     } catch (error) {
@@ -428,6 +433,11 @@ const userCtrl = {
       verificationRequestMail(user.email, user.fullname);
 
       res.json({ msg: "Identity verification request has been sent" });
+      AdminMail(
+        "Verification Notification",
+        user?.fullname,
+        "send verification request"
+      );
     } catch (error) {
       res.status(500).json({ msg: error.message });
     }
@@ -471,6 +481,8 @@ const userCtrl = {
         return res.json({ firstData, msg: "Banner advert request successful" });
       }
 
+      AdminMail("Advert Notification", fullname, "created an advert");
+
       // check if user data exists and active is true
       if (check && check.isActive === true) {
         return res
@@ -493,11 +505,7 @@ const userCtrl = {
           ),
         };
 
-        await Advert.findOneAndUpdate(
-          { email: email },
-
-          secondData
-        );
+        await Advert.findOneAndUpdate({ email: email }, secondData);
 
         return res.json({
           secondData,

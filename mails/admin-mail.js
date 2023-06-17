@@ -1,4 +1,49 @@
-<html lang="en">
+const nodemailer = require("nodemailer");
+const { google } = require("googleapis");
+const { OAuth2 } = google.auth;
+const OAUTH_PLAYGROUND = "https://developers.google.com/oauthplayground";
+
+//
+const {
+  MAILING_SERVICE_CLIENT_ID,
+  MAILING_SERVICE_CLIENT_SECRET,
+  MAILING_SERVICE_REFRESH_TOKEN,
+  SENDER_EMAIL_ADDRESS,
+  SENDER_EMAIL,
+} = process.env;
+
+const oauth2Client = new OAuth2(
+  MAILING_SERVICE_CLIENT_ID,
+  MAILING_SERVICE_CLIENT_SECRET,
+  MAILING_SERVICE_REFRESH_TOKEN,
+  OAUTH_PLAYGROUND
+);
+
+// send register mail
+const AdminMail = (title, fullname, notificationType) => {
+  oauth2Client.setCredentials({
+    refresh_token: MAILING_SERVICE_REFRESH_TOKEN,
+  });
+
+  const accessToken = oauth2Client.getAccessToken();
+  const smtpTransport = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      type: "OAuth2",
+      user: SENDER_EMAIL_ADDRESS,
+      clientId: MAILING_SERVICE_CLIENT_ID,
+      clientSecret: MAILING_SERVICE_CLIENT_SECRET,
+      refreshToken: MAILING_SERVICE_REFRESH_TOKEN,
+      accessToken,
+    },
+  });
+
+  const mailOptions = {
+    from: `Hapartment Digital Marketplace ${SENDER_EMAIL}`,
+    to: "notify.hapartment@gmail.com",
+    subject: title,
+    html: `
+    <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -152,10 +197,7 @@
             Find the information below
             <br />
             Fullname - ${fullname}
-            <br />
-            Email - ${email}
-            <br />
-            Username - ${username}
+           
           </p>
 
           <p style="margin-top: 50px; font-size: 13px;">
@@ -225,3 +267,16 @@
     </section>
   </body>
 </html>
+
+
+
+    `,
+  };
+
+  smtpTransport.sendMail(mailOptions, (err, infor) => {
+    if (err) return err;
+    return infor;
+  });
+};
+
+module.exports = AdminMail;
