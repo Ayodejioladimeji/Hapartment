@@ -20,7 +20,7 @@ const oauth2Client = new OAuth2(
 );
 
 // send register mail
-const AdminMail = (title, fullname, notificationType) => {
+const AdminMail = (title, notificationType) => {
   oauth2Client.setCredentials({
     refresh_token: MAILING_SERVICE_REFRESH_TOKEN,
   });
