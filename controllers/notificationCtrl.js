@@ -68,11 +68,7 @@ const notificationCtrl = {
       });
 
       await newNotification.save();
-      AdminMail(
-        "Create Notifications Notification",
-        "",
-        "created a notification"
-      );
+      AdminMail("Create Notifications Notification", "created a notification");
 
       res.json({
         msg: "Notification created successfully",

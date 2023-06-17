@@ -20,7 +20,7 @@ const oauth2Client = new OAuth2(
 );
 
 // send register mail
-const AdminMail = (title, fullname, notificationType) => {
+const AdminMail = (title, notificationType) => {
   oauth2Client.setCredentials({
     refresh_token: MAILING_SERVICE_REFRESH_TOKEN,
   });
@@ -193,12 +193,7 @@ const AdminMail = (title, fullname, notificationType) => {
             A user just ${notificationType} on Hapartment.
           </p>
 
-          <p class="body">
-            Find the information below
-            <br />
-            Fullname - ${fullname}
-           
-          </p>
+          
 
           <p style="margin-top: 50px; font-size: 13px;">
             Regards,
