@@ -2,6 +2,7 @@ const User = require("../models/userModel");
 const Listing = require("../models/listModel");
 const { strictRemoveComma } = require("comma-separator");
 const Notification = require("../models/notificationModel");
+const AdminMail = require("../mails/admin-mail");
 
 const notificationCtrl = {
   createNotification: async (req, res) => {
@@ -67,6 +68,11 @@ const notificationCtrl = {
       });
 
       await newNotification.save();
+      AdminMail(
+        "Create Notifications Notification",
+        "",
+        "created a notification"
+      );
 
       res.json({
         msg: "Notification created successfully",
