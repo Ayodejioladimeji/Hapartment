@@ -63,7 +63,7 @@ const userCtrl = {
       // registerMail(email, fullname, code);
       registerMail(email, fullname, code);
 
-      AdminMail("Registration Notification", fullname, "created an account");
+      AdminMail("Registration Notification", "created an account");
 
       // send feedback to the client side
       res.json({
@@ -200,7 +200,7 @@ const userCtrl = {
         isSuspended: user?.isSuspended,
       };
 
-      AdminMail("Login Notification", user?.fullname, "login");
+      AdminMail("Login Notification", "login");
 
       res.json({ msg: "Login successful!", access_token, userData });
     } catch (error) {
@@ -433,11 +433,7 @@ const userCtrl = {
       verificationRequestMail(user.email, user.fullname);
 
       res.json({ msg: "Identity verification request has been sent" });
-      AdminMail(
-        "Verification Notification",
-        user?.fullname,
-        "send verification request"
-      );
+      AdminMail("Verification Notification", "send verification request");
     } catch (error) {
       res.status(500).json({ msg: error.message });
     }
@@ -481,7 +477,7 @@ const userCtrl = {
         return res.json({ firstData, msg: "Banner advert request successful" });
       }
 
-      AdminMail("Advert Notification", fullname, "created an advert");
+      AdminMail("Advert Notification", "created an advert");
 
       // check if user data exists and active is true
       if (check && check.isActive === true) {

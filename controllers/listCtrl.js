@@ -132,7 +132,7 @@ const listCtrl = {
       });
 
       listingRequestMail(user.email, user.fullname);
-      AdminMail("Property Notification", user?.fullname, "created a property");
+      AdminMail("Property Notification", "created a property");
       await newListing.save();
 
       // Create a notification criteria to notify users through mail
@@ -309,11 +309,7 @@ const listCtrl = {
         }
       );
 
-      AdminMail(
-        "Property Update Notification",
-        user?.fullname,
-        "updated a property"
-      );
+      AdminMail("Property Update Notification", "updated a property");
 
       // Create a notification criteria to notify users through mail
       const filt = {
