@@ -329,13 +329,14 @@ const userCtrl = {
   // update user profile
   updateUser: async (req, res) => {
     try {
-      const { fullname, username, image } = req.body;
+      const { fullname, username, phone, image } = req.body;
 
       await User.findOneAndUpdate(
         { _id: req.user.id },
         {
           fullname,
           username,
+          phone,
           image,
         }
       );
