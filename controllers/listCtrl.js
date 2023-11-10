@@ -72,27 +72,6 @@ const listCtrl = {
       // get the latitude and longitude of the address provided by the user
       let map = [];
 
-      const options = {
-        method: "GET",
-        url: process.env.GEO_URL,
-        params: {
-          address: address,
-        },
-        headers: {
-          "X-RapidAPI-Key": process.env.GEO_KEY,
-          "X-RapidAPI-Host": process.env.GEO_HOST,
-        },
-      };
-
-      await axios
-        .request(options)
-        .then(function (response) {
-          map.push(response.data.Results[0]);
-        })
-        .catch(function (error) {
-          console.error("This is Rapid error - " + error);
-        });
-
       const cord = [];
       const getCoordinates = async () => {
         try {
@@ -147,7 +126,7 @@ const listCtrl = {
 
       // get all notifications
       const notifications = await Notification.find()
-        .populate("postedBy", "_id fullname email username image ")
+        .populate("postedBy", "_id fullname email username image phone")
         .sort("-createdAt");
 
       const filtered = notifications.find((item) => {
@@ -323,7 +302,7 @@ const listCtrl = {
 
       // get all notifications
       const notifications = await Notification.find()
-        .populate("postedBy", "_id fullname email username image ")
+        .populate("postedBy", "_id fullname email username image phone")
         .sort("-createdAt");
 
       const filtered = notifications.find((item) => {
@@ -385,7 +364,7 @@ const listCtrl = {
       const listing = await Listing.find()
         .populate(
           "postedBy",
-          "_id fullname email username image verification isSuspended"
+          "_id fullname email username image phone verification isSuspended"
         )
         .sort("-createdAt");
 
@@ -411,7 +390,10 @@ const listCtrl = {
   listDetails: async (req, res) => {
     try {
       const list_details = await Listing.findById(req.params.id)
-        .populate("postedBy", "_id fullname email username image verification ")
+        .populate(
+          "postedBy",
+          "_id fullname email username image phone verification "
+        )
         .sort("-createdAt");
 
       res.json(list_details);
@@ -430,7 +412,7 @@ const listCtrl = {
       const listing = await Listing.find({ postedBy: req.user.id })
         .populate(
           "postedBy",
-          "_id fullname email username image verification isSuspended "
+          "_id fullname email username image phone verification isSuspended "
         )
         .sort("-createdAt");
 
@@ -451,7 +433,7 @@ const listCtrl = {
       const listing = await Listing.find()
         .populate(
           "postedBy",
-          "_id fullname email username image verification isSuspended"
+          "_id fullname email username image phone verification isSuspended"
         )
         .sort("-createdAt");
 
@@ -508,7 +490,7 @@ const listCtrl = {
       const favourite = await Favorite.find()
         .populate(
           "postedBy",
-          "_id fullname email username image verification isSuspended"
+          "_id fullname email username image phone verification isSuspended"
         )
         .sort("-createdAt");
 
@@ -577,7 +559,7 @@ const listCtrl = {
       const data = await Listing.find()
         .populate(
           "postedBy",
-          "_id fullname email username image, verification isSuspended"
+          "_id fullname email username image phone verification isSuspended"
         )
         .sort("-createdAt");
 
@@ -640,7 +622,7 @@ const listCtrl = {
       })
         .populate(
           "postedBy",
-          "_id fullname email username image verification isSuspended"
+          "_id fullname email username image phone verification isSuspended"
         )
         .sort("-createdAt");
 
